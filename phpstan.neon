@@ -12,3 +12,5 @@ parameters:
     checkMissingIterableValueType: false
 
     reportUnmatchedIgnoredErrors: false
+
+    checkOctaneCompatibility: true
