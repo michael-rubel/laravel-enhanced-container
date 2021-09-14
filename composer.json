@@ -32,10 +32,17 @@
     },
     "autoload": {
         "psr-4": {
-            "MichaelRubel\\ContainerCall\\": "src"
+            "MichaelRubel\\ContainerCall\\": "src",
+            "Illuminate\\Container\\": "src/Overrides"
         },
+        "exclude-from-classmap": [
+            "vendor/laravel/framework/src/Illuminate/Container/Container.php",
+            "vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php"
+        ],
         "files": [
-            "src/Helpers/helpers.php"
+            "src/Helpers/helpers.php",
+            "src/Overrides/Container.php",
+            "src/Overrides/BoundMethod.php"
         ]
     },
     "autoload-dev": {
