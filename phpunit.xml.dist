@@ -32,6 +32,9 @@
             <text outputFile="build/coverage.txt"/>
             <clover outputFile="build/logs/clover.xml"/>
         </report>
+        <exclude>
+            <directory suffix=".php">./src/Overrides</directory>
+        </exclude>
     </coverage>
     <logging>
         <junit outputFile="build/report.junit.xml"/>
