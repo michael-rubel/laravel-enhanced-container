@@ -44,7 +44,7 @@ Then override the method behavior in any place of your app:
 bindMethod(
     Service::class,
     'yourMethod',
-    fn ($service, $app, $params) => $service->yourMethod($parms['count']) + 1
+    fn ($service, $app, $params) => $service->yourMethod($params['count']) + 1
 );
 ```
 
