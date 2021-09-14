@@ -19,7 +19,7 @@ composer require michael-rubel/laravel-container-calls
 ```
 
 ## Usage
-Assume that is your function in the service class:
+Assuming that is your function in the service class:
 ```php
 class Service
 {
@@ -44,7 +44,7 @@ Then override the method behavior in any place of your app:
 bindMethod(
     Service::class,
     'yourMethod',
-    fn ($service, $app) => $service->yourMethod(100) + 1
+    fn ($service, $app, $params) => $service->yourMethod($parms['count']) + 1
 );
 ```
 
@@ -54,7 +54,6 @@ Note: if you rely on interfaces, the call will automatically resolve bound imple
 
 ## ToDo:
 - method forwarding;
-- call parameters intercepting in bindMethod;
 
 ## Testing
 
