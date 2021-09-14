@@ -1,6 +1,7 @@
 <?php
 
 $finder = Symfony\Component\Finder\Finder::create()
+    ->exclude('Overrides')
     ->in([
         __DIR__ . '/src',
         __DIR__ . '/tests',
