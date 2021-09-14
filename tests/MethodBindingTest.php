@@ -53,4 +53,21 @@ class MethodBindingTest extends TestCase
             $call
         );
     }
+
+    /** @test */
+    public function testCanOverrideMethodWithParameters()
+    {
+        bindMethod(
+            BoilerplateService::class,
+            'yourMethod',
+            fn ($service, $app, $params) => $service->yourMethod($params['count']) + 1
+        );
+
+        $call = call(BoilerplateService::class)->yourMethod(100);
+
+        $this->assertEquals(
+            101,
+            $call
+        );
+    }
 }
