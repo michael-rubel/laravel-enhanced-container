@@ -1,0 +1,14 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - src
+
+    # The level 8 is the highest level
+    level: max
+
+    checkMissingIterableValueType: false
+
+    reportUnmatchedIgnoredErrors: false
