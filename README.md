@@ -2,10 +2,10 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-container-calls.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-container-calls)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/run-tests?label=tests)](https://github.com/michael-rubel/laravel-container-calls/actions)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/check%20&%20fix%20styling%20with%20php-codesniffer?label=phpcs)](https://github.com/michael-rubel/laravel-container-calls/actions)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/check%20&%20fix%20styling%20with%20php-codesniffer?label=php-cs-fixer)](https://github.com/michael-rubel/laravel-container-calls/actions)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/psalm?label=psalm)](https://github.com/michael-rubel/laravel-container-calls/actions)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/phpstan?label=phpstan)](https://github.com/michael-rubel/laravel-container-calls/actions)
+[![PHP CS Fixer](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/check%20&%20fix%20styling%20with%20php-codesniffer?label=phpcs)](https://github.com/michael-rubel/laravel-container-calls/actions)
+[![PHP CodeSniffer](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/check%20&%20fix%20styling%20with%20php-cs-fixer?label=php-cs-fixer)](https://github.com/michael-rubel/laravel-container-calls/actions)
+[![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/phpstan?label=phpstan)](https://github.com/michael-rubel/laravel-container-calls/actions)
+[![Psalm](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/psalm?label=psalm)](https://github.com/michael-rubel/laravel-container-calls/actions)
 [![Total Downloads](https://img.shields.io/packagist/dt/michael-rubel/laravel-container-calls.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-container-calls)
 
 This package provides syntax sugar for Laravel container calls.
