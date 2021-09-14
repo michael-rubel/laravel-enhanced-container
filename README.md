@@ -1,13 +1,12 @@
 # Laravel Container Calls
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-container-calls.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-container-calls)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/run-tests?label=tests)](https://github.com/michael-rubel/laravel-container-calls/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/check%20&%20fix%20styling%20with%20php-codesniffer?label=code%20style:%20%20phpcs)](https://github.com/michael-rubel/laravel-container-calls/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/check%20&%20fix%20styling%20with%20php-codesniffer?label=code%20style:%20%20php-cs-fixer)](https://github.com/michael-rubel/laravel-container-calls/actions?query=workflow%3A"check+%26+fix+styling"+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/run-tests?label=tests)](https://github.com/michael-rubel/laravel-container-calls/actions)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/check%20&%20fix%20styling%20with%20php-codesniffer?label=phpcs)](https://github.com/michael-rubel/laravel-container-calls/actions)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/check%20&%20fix%20styling%20with%20php-codesniffer?label=php-cs-fixer)](https://github.com/michael-rubel/laravel-container-calls/actions)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/psalm?label=psalm)](https://github.com/michael-rubel/laravel-container-calls/actions)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/phpstan?label=phpstan)](https://github.com/michael-rubel/laravel-container-calls/actions)
 [![Total Downloads](https://img.shields.io/packagist/dt/michael-rubel/laravel-container-calls.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-container-calls)
-
-[![Laravel Version](https://img.shields.io/badge/Laravel-8.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com)
-[![PHP Version](https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php)](https://php.net)
 
 This package provides syntax sugar for Laravel container calls.
 
@@ -53,7 +52,7 @@ bindMethod(
 
 Note: if you rely on interfaces, the call will automatically resolve bound implementation for you, no need to do it manually.
 
-### ToDo:
+## ToDo:
 - method forwarding;
 - call parameters intercepting in bindMethod;
 
