@@ -12,6 +12,9 @@ parameters:
     excludePaths:
         - ./src/Overrides
 
+    ignoreErrors:
+        - '#Parameter (\#)(\d) \$callback of method Illuminate\\Container\\Container::call\(\) expects \(callable\(\): (.*)#'
+
     checkMissingIterableValueType: false
 
     reportUnmatchedIgnoredErrors: false
