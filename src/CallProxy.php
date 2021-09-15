@@ -14,9 +14,11 @@ class CallProxy implements Call
      * CallProxy constructor.
      *
      * @param object|string $service
+     * @param array         $parameters
      */
     public function __construct(
-        private object | string $service
+        private object | string $service,
+        private array $parameters = []
     ) {
     }
 
@@ -31,16 +33,18 @@ class CallProxy implements Call
      */
     public function __call(string $method, array $parameters): mixed
     {
-        $service = $this->resolvePassedService($this->service);
+        $service = $this->resolvePassedService(
+            $this->service,
+            $this->parameters
+        );
 
         return app()->call(
-            $service::class,
+            [$service, $method],
             $this->getPassedParameters(
                 $service,
                 $method,
                 $parameters
-            ),
-            $method
+            )
         );
     }
 }

@@ -32,9 +32,10 @@ class CallServiceProvider extends PackageServiceProvider
      */
     public function packageBooted(): void
     {
-        $this->app->bind(Call::class, function ($_app, $service) {
+        $this->app->bind(Call::class, function ($_app, $params) {
             return new CallProxy(
-                current($service)
+                current($params),
+                last($params)
             );
         });
 

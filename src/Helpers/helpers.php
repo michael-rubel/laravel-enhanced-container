@@ -8,12 +8,13 @@ use MichaelRubel\ContainerCall\Concerns\MethodBinding;
 if (! function_exists('call')) {
     /**
      * @param string|object $service
+     * @param array         $parameters
      *
      * @return mixed
      */
-    function call(string|object $service): mixed
+    function call(string|object $service, array $parameters = []): mixed
     {
-        return app(Call::class, [$service]);
+        return app(Call::class, [$service, $parameters]);
     }
 }
 
