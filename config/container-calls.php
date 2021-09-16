@@ -14,5 +14,31 @@ return [
     |
     */
 
+    /*
+     | Determine if you want to use method forwarding.
+     */
+    'forwarding_enabled' => false,
+
+    /*
+     | "App"
+     |
+     | Root application folder.
+     | Change this if you don't have the default Laravel project structure.
+     */
+    'app' => 'App',
+
+    /*
+     | "From"
+     |
+     | The layer from whom the call forwarded.
+     */
+    'from' => 'Service',
+
+    /*
+     | "To"
+     |
+     | The layer where the call is forwarded.
+     */
+    'to' => 'Repository',
 
 ];

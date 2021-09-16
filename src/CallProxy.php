@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\ContainerCall;
 
+use MichaelRubel\ContainerCall\Concerns\MethodForwarding;
 use MichaelRubel\ContainerCall\Traits\HelpsContainerCalls;
 
 class CallProxy implements Call
@@ -14,11 +15,11 @@ class CallProxy implements Call
      * CallProxy constructor.
      *
      * @param object|string $service
-     * @param array         $parameters
+     * @param array         $dependencies
      */
     public function __construct(
         private object | string $service,
-        private array $parameters = []
+        private array $dependencies = []
     ) {
     }
 
@@ -35,16 +36,37 @@ class CallProxy implements Call
     {
         $service = $this->resolvePassedService(
             $this->service,
-            $this->parameters
+            $this->dependencies
         );
 
-        return app()->call(
-            [$service, $method],
-            $this->getPassedParameters(
-                $service,
-                $method,
-                $parameters
-            )
-        );
+        $call = function () use ($service, $method, $parameters) {
+            return app()->call(
+                [$service, $method],
+                $this->getPassedParameters(
+                    $service,
+                    $method,
+                    $parameters
+                )
+            );
+        };
+
+        if (config('container-calls.forwarding_enabled')) {
+            return rescue(
+                fn () => $call(),
+                fn () => app()->call(
+                    [resolve(
+                        MethodForwarding::class,
+                        [$service, $this->dependencies]
+                    ), $method],
+                    $this->getPassedParameters(
+                        $service,
+                        $method,
+                        $parameters
+                    )
+                )
+            );
+        }
+
+        return $call();
     }
 }

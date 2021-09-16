@@ -6,6 +6,8 @@ namespace MichaelRubel\ContainerCall;
 
 use MichaelRubel\ContainerCall\Concerns\MethodBinder;
 use MichaelRubel\ContainerCall\Concerns\MethodBinding;
+use MichaelRubel\ContainerCall\Concerns\MethodForwarder;
+use MichaelRubel\ContainerCall\Concerns\MethodForwarding;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -48,6 +50,15 @@ class CallServiceProvider extends PackageServiceProvider
                 next($params),
                 last($params)
             );
+        });
+
+        $this->app->bind(MethodForwarding::class, function ($_app, $params) {
+            return (
+                new MethodForwarder(
+                    current($params),
+                    last($params)
+                )
+            )->forward();
         });
     }
 }

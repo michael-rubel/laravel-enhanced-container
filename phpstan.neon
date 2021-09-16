@@ -14,6 +14,7 @@ parameters:
 
     ignoreErrors:
         - '#Parameter (\#)(\d) \$callback of method Illuminate\\Container\\Container::call\(\) expects \(callable\(\): (.*)#'
+        - '#Call to an undefined method SebastiaanLuca\\PipeOperator\\Pipe\|SebastiaanLuca\\PipeOperator\\PipeProxy(.*)#'
 
     checkMissingIterableValueType: false
 

@@ -10,17 +10,17 @@ trait HelpsContainerCalls
 {
     /**
      * @param object|string $service
-     * @param array         $parameters
+     * @param array         $dependencies
      *
      * @return object
      */
-    public function resolvePassedService(object|string $service, array $parameters = []): object
+    public function resolvePassedService(object|string $service, array $dependencies = []): object
     {
         return is_object($service)
             ? $service
             : rescue(
-                fn () => resolve($service, $parameters),
-                fn () => new $service(...$parameters)
+                fn () => resolve($service, $dependencies),
+                fn () => new $service(...$dependencies)
             );
     }
 

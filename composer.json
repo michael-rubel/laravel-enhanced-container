@@ -17,7 +17,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/contracts": "^8.37",
+        "laravel/framework": "^8.0",
+        "sebastiaanluca/php-pipe-operator": "^4.0",
         "spatie/laravel-package-tools": "^1.4.3"
     },
     "require-dev": {
