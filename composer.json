@@ -32,8 +32,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MichaelRubel\\ContainerCall\\": "src",
-            "Illuminate\\Container\\": "src/Overrides"
+            "MichaelRubel\\ContainerCall\\": "src"
         },
         "exclude-from-classmap": [
             "vendor/laravel/framework/src/Illuminate/Container/Container.php",
@@ -51,7 +50,6 @@
         }
     },
     "scripts": {
-        "psalm": "vendor/bin/psalm",
         "test": "./vendor/bin/testbench package:test --no-coverage",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
