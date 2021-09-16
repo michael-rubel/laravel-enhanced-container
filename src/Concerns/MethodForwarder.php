@@ -27,7 +27,7 @@ class MethodForwarder implements MethodForwarding
             take($this->class)
                 ->pipe(fn ($class) => explode('\\', $class::class))
                 ->pipe(fn ($delimited) => [
-                    'class' => Str::replace(
+                    'class' => str_replace(
                         config('container-calls.from'),
                         '',
                         end($delimited)
