@@ -22,7 +22,7 @@ class MethodForwardingTest extends TestCase
     /** @test */
     public function testMethodNotForwardedWhenForwardingIsDisabled()
     {
-        $this->expectError();
+        $this->expectException(\Error::class);
 
         config([
             'container-calls.forwarding_enabled' => false,
