@@ -15,7 +15,7 @@ class MethodForwardingTest extends TestCase
 
         config([
             'container-calls.forwarding_enabled' => true,
-            'container-calls.app'                => 'MichaelRubel\ContainerCall\Tests\Boilerplate',
+            'container-calls.app' => 'MichaelRubel\ContainerCall\Tests\Boilerplate',
         ]);
     }
 

@@ -27,7 +27,7 @@ class MethodForwarder implements MethodForwarding
             take($this->class)
                 ->pipe(fn ($class) => explode('\\', $class::class))
                 ->pipe(fn ($delimited) => [
-                    'class'  => Str::replace(
+                    'class' => Str::replace(
                         config('container-calls.from'),
                         '',
                         end($delimited)
@@ -49,8 +49,8 @@ class MethodForwarder implements MethodForwarding
      */
     public function resolveClass(string $class, array $dependencies): object
     {
-        $app    = config('container-calls.app');
-        $to     = config('container-calls.to');
+        $app = config('container-calls.app');
+        $to = config('container-calls.to');
         $folder = Str::plural($to);
 
         $interfaces = collect([
