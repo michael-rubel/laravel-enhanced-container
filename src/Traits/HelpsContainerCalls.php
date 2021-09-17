@@ -19,19 +19,23 @@ trait HelpsContainerCalls
     {
         return is_object($service)
             ? $service
-            : rescue(function () use ($service, $dependencies): mixed {
-                if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
-                    $constructor = (new \ReflectionClass($service))->getConstructor();
+            : rescue(
+                function () use ($service, $dependencies): mixed {
+                    if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
+                        $constructor = (new \ReflectionClass($service))->getConstructor();
 
-                    if ($constructor) {
-                        $dependencies = collect($constructor->getParameters())->map(
-                            fn ($parameter) => $parameter->getName()
-                        )->combine($dependencies)->all();
+                        if ($constructor) {
+                            $dependencies = collect($constructor->getParameters())->map(
+                                fn ($parameter) => $parameter->getName()
+                            )->combine($dependencies)->all();
+                        }
                     }
-                }
 
-                return resolve($service, $dependencies);
-            });
+                    return resolve($service, $dependencies);
+                },
+                fn ($e) => throw new \BadMethodCallException($e->getMessage()),
+                false
+            );
     }
 
     /**

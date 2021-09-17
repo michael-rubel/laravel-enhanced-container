@@ -29,7 +29,8 @@ class MethodForwarder implements MethodForwarding
     {
         return rescue(
             fn () => $this->resolvePassedService($this->forwardsTo(), $this->dependencies),
-            fn () => throw new \BadMethodCallException('Unable to forward the method. Check if your call is valid.')
+            fn ($e) => throw new \BadMethodCallException($e->getMessage()),
+            false
         );
     }
 

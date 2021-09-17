@@ -45,7 +45,7 @@ class CallProxy implements Call
 
         return rescue(
             fn () => $call(),
-            function () use ($method, $parameters) {
+            function ($e) use ($method, $parameters) {
                 if (config('container-calls.forwarding_enabled')) {
                     $service = resolve(
                         MethodForwarding::class,
@@ -55,11 +55,7 @@ class CallProxy implements Call
                     return $this->containerCall($service, $method, $parameters);
                 }
 
-                throw new \BadMethodCallException(sprintf(
-                    'Call to undefined method %s::%s()',
-                    $this->service,
-                    $method
-                ));
+                throw new \BadMethodCallException($e->getMessage());
             }
         );
     }
