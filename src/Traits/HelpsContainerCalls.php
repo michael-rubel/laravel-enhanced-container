@@ -20,9 +20,9 @@ trait HelpsContainerCalls
     {
         return is_object($service)
             ? $service
-            : rescue(function () use ($service, $dependencies) {
+            : rescue(function () use ($service, $dependencies): mixed {
                 if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
-                    $constructor = (new \ReflectionClass($this->service))->getConstructor();
+                    $constructor = (new \ReflectionClass($service))->getConstructor();
 
                     if ($constructor) {
                         $dependencies = collect($constructor->getParameters())->map(

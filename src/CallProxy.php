@@ -70,7 +70,9 @@ class CallProxy implements Call
                 }
 
                 throw new \BadMethodCallException(sprintf(
-                    'Call to undefined method %s::%s()', $this->service, $method
+                    'Call to undefined method %s::%s()',
+                    $this->service,
+                    $method
                 ));
             }
         );
