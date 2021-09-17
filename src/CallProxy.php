@@ -34,12 +34,12 @@ class CallProxy implements Call
      */
     public function __call(string $method, array $parameters): mixed
     {
-        $service = $this->resolvePassedService(
-            $this->service,
-            $this->dependencies
-        );
+        $call = function () use ($method, $parameters) {
+            $service = $this->resolvePassedService(
+                $this->service,
+                $this->dependencies
+            );
 
-        $call = function () use ($service, $method, $parameters) {
             return app()->call(
                 [$service, $method],
                 $this->getPassedParameters(
@@ -53,17 +53,21 @@ class CallProxy implements Call
         if (config('container-calls.forwarding_enabled')) {
             return rescue(
                 fn () => $call(),
-                fn () => app()->call(
-                    [resolve(
+                function () use ($method, $parameters) {
+                    $service = resolve(
                         MethodForwarding::class,
-                        [$service, $this->dependencies]
-                    ), $method],
-                    $this->getPassedParameters(
-                        $service,
-                        $method,
-                        $parameters
-                    )
-                )
+                        [$this->service, $this->dependencies]
+                    );
+
+                    return app()->call(
+                        [$service, $method],
+                        $this->getPassedParameters(
+                            $service,
+                            $method,
+                            $parameters
+                        )
+                    );
+                }
             );
         }
 
