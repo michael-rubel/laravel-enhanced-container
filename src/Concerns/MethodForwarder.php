@@ -33,10 +33,10 @@ class MethodForwarder implements MethodForwarding
                         end($delimited)
                     ),
                     'folder' => '\\' . str_replace(
-                            Str::plural(config('container-calls.from')),
-                            Str::plural(config('container-calls.to')),
-                            prev($delimited)
-                        ),
+                        Str::plural(config('container-calls.from')),
+                        Str::plural(config('container-calls.to')),
+                        prev($delimited)
+                    ),
                 ])->get()
         );
 
