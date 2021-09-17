@@ -2,8 +2,6 @@
 
 namespace MichaelRubel\ContainerCall\Tests;
 
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Repositories\TestRepository;
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Repositories\TestRepositoryInterface;
 use MichaelRubel\ContainerCall\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\ContainerCall\Tests\Boilerplate\Services\Users\UserService;
 
