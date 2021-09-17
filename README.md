@@ -8,7 +8,7 @@
 [![Psalm](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/psalm?label=psalm)](https://github.com/michael-rubel/laravel-container-calls/actions)
 [![Total Downloads](https://img.shields.io/packagist/dt/michael-rubel/laravel-container-calls.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-container-calls)
 
-This package provides syntax sugar for the Laravel container calls,  method forwarding, and an enhanced version of Laravel's method binding feature.
+This package provides syntax sugar for the Laravel container calls, automatic interface implementation resolution, method forwarding, and an enhanced version of Laravel's method binding feature.
 
 ## Installation
 
