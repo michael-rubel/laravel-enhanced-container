@@ -40,14 +40,7 @@ class CallProxy implements Call
                 $this->dependencies
             );
 
-            return app()->call(
-                [$service, $method],
-                $this->getPassedParameters(
-                    $service,
-                    $method,
-                    $parameters
-                )
-            );
+            return $this->containerCall($service, $method, $parameters);
         };
 
         return rescue(
@@ -59,14 +52,7 @@ class CallProxy implements Call
                         [$this->service, $this->dependencies]
                     );
 
-                    return app()->call(
-                        [$service, $method],
-                        $this->getPassedParameters(
-                            $service,
-                            $method,
-                            $parameters
-                        )
-                    );
+                    return $this->containerCall($service, $method, $parameters);
                 }
 
                 throw new \BadMethodCallException(sprintf(
@@ -75,6 +61,28 @@ class CallProxy implements Call
                     $method
                 ));
             }
+        );
+    }
+
+    /**
+     * Perform the container call.
+     *
+     * @param object $service
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    public function containerCall(object $service, string $method, array $parameters): mixed
+    {
+        return app()->call(
+            [$service, $method],
+            $this->getPassedParameters(
+                $service,
+                $method,
+                $parameters
+            )
         );
     }
 }
