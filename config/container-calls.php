@@ -17,6 +17,7 @@ return [
     /*
      | Determine if you want to use method forwarding.
      */
+
     'forwarding_enabled' => false,
 
     /*
@@ -24,6 +25,7 @@ return [
      |
      | The layer from whom the call forwarded.
      */
+
     'from' => 'Service',
 
     /*
@@ -31,6 +33,7 @@ return [
      |
      | The layer where the call is forwarded.
      */
+
     'to' => 'Repository',
 
 ];
