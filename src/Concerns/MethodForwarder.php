@@ -25,47 +25,33 @@ class MethodForwarder implements MethodForwarding
     {
         $path = collect(
             take($this->class)
-                ->pipe(fn ($class) => explode('\\', $class))
-                ->pipe(fn ($delimited) => [
-                    'class' => str_replace(
+                ->pipe(fn ($class) => explode(self::CLASS_SEPARATOR, $class))
+                ->pipe(function ($delimited) {
+                    $structure = collect($delimited)->map(
+                        fn ($item) => str_replace(
+                            Str::plural(config('container-calls.from')),
+                            Str::plural(config('container-calls.to')),
+                            $item
+                        )
+                    );
+
+                    $last = str_replace(
                         config('container-calls.from'),
                         config('container-calls.to'),
-                        end($delimited)
-                    ),
-                    'folder' => '\\' . str_replace(
-                        Str::plural(config('container-calls.from')),
-                        Str::plural(config('container-calls.to')),
-                        prev($delimited)
-                    ),
-                ])->get()
-        );
+                        $structure->last()
+                    );
 
-        if ('\\' . Str::plural(config('container-calls.to')) === $path->get('folder')) {
-            $path->put('folder', '');
-        }
-
-        return $this->resolveClass(
-            $path->get('class'),
-            $path->get('folder'),
-            $this->dependencies
-        );
-    }
-
-    /**
-     * @param string $class
-     * @param string $folder
-     * @param array  $dependencies
-     *
-     * @return object
-     */
-    public function resolveClass(string $class, string $folder, array $dependencies): object
-    {
-        $app = config('container-calls.app');
-        $to = config('container-calls.to');
-        $to_plural = Str::plural($to);
+                    return implode(
+                        self::CLASS_SEPARATOR,
+                        collect(
+                            $structure->put($structure->keys()->last(), $last)
+                        )->toArray()
+                    );
+                })->get()
+        )->first();
 
         return rescue(
-            fn () => resolve("$app\\$to_plural$folder\\$class", $dependencies)
+            fn () => resolve($path, $this->dependencies)
         );
     }
 }

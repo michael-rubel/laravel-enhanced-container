@@ -6,6 +6,8 @@ namespace MichaelRubel\ContainerCall\Concerns;
 
 interface MethodForwarding
 {
+    public const CLASS_SEPARATOR = '\\';
+
     /**
      * Forward the method.
      *
