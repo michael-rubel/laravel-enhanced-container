@@ -63,6 +63,6 @@ class BindingBuilder implements BindingBuilding
      */
     public function to(Closure|string $concrete = null, bool $shared = false): void
     {
-        app()->bind($this->getClassToBaseBinding($this->class), $concrete, $shared);
+        app()->bind($this->class, $concrete, $shared);
     }
 }

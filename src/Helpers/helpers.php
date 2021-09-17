@@ -29,15 +29,3 @@ if (! function_exists('bind')) {
         return app(BindingBuilding::class, [$class]);
     }
 }
-
-if (! function_exists('singleton')) {
-    /**
-     * @param string|object $class
-     *
-     * @return mixed
-     */
-    function singleton(string|object $class): mixed
-    {
-        return app(BindingBuilding::class, [$class]);
-    }
-}

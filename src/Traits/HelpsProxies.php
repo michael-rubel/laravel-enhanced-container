@@ -60,18 +60,4 @@ trait HelpsProxies
             fn ($param) => $param->getName()
         )->combine($parameters)->all();
     }
-
-    /**
-     * Examine if it is object or not.
-     *
-     * @param string|object $class
-     *
-     * @return string|object
-     */
-    public function getClassToBaseBinding(string|object $class): string|object
-    {
-        return is_object($class)
-            ? $class::class
-            : $class;
-    }
 }
