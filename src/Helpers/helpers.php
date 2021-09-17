@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use MichaelRubel\EnhancedContainer\Call;
-use MichaelRubel\EnhancedContainer\Concerns\BindingBuilding;
+use MichaelRubel\EnhancedContainer\Concerns\Binding;
 
 if (! function_exists('call')) {
     /**
@@ -26,6 +26,6 @@ if (! function_exists('bind')) {
      */
     function bind(string|object $class): mixed
     {
-        return app(BindingBuilding::class, [$class]);
+        return app(Binding::class, [$class]);
     }
 }

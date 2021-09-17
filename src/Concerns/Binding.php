@@ -6,7 +6,7 @@ namespace MichaelRubel\EnhancedContainer\Concerns;
 
 use Closure;
 
-interface BindingBuilding
+interface Binding
 {
     /**
      * Syntax sugar.

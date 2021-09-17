@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer;
 
 use MichaelRubel\EnhancedContainer\Concerns\BindingBuilder;
-use MichaelRubel\EnhancedContainer\Concerns\BindingBuilding;
+use MichaelRubel\EnhancedContainer\Concerns\Binding;
 use MichaelRubel\EnhancedContainer\Concerns\MethodForwarder;
-use MichaelRubel\EnhancedContainer\Concerns\MethodForwarding;
+use MichaelRubel\EnhancedContainer\Concerns\Forwarding;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -41,13 +41,13 @@ class CallServiceProvider extends PackageServiceProvider
             );
         });
 
-        $this->app->bind(BindingBuilding::class, function ($_app, $class) {
+        $this->app->bind(Binding::class, function ($_app, $class) {
             return new BindingBuilder(
                 current($class)
             );
         });
 
-        $this->app->bind(MethodForwarding::class, function ($_app, $params) {
+        $this->app->bind(Forwarding::class, function ($_app, $params) {
             $forwarder = new MethodForwarder(
                 current($params),
                 last($params)

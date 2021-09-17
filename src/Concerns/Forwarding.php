@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Concerns;
 
-interface MethodForwarding
+interface Forwarding
 {
     public const CLASS_SEPARATOR = '\\';
 

@@ -5,7 +5,7 @@ namespace MichaelRubel\EnhancedContainer\Concerns;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
-class MethodForwarder implements MethodForwarding
+class MethodForwarder implements Forwarding
 {
     use HelpsProxies;
 

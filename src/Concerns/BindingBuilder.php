@@ -7,7 +7,7 @@ namespace MichaelRubel\EnhancedContainer\Concerns;
 use Closure;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
-class BindingBuilder implements BindingBuilding
+class BindingBuilder implements Binding
 {
     use HelpsProxies;
 
