@@ -6,5 +6,15 @@ namespace MichaelRubel\ContainerCall;
 
 interface Call
 {
-    // if something in your code is temporary, it stays forever. - olsza
+    /**
+     * Perform the container call.
+     *
+     * @param object $service
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    public function containerCall(object $service, string $method, array $parameters): mixed;
 }
