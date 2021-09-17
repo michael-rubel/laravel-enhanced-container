@@ -1,6 +1,6 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate\Builder\Best;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Builder\Best;
 
 use Illuminate\Database\Query\Builder;
 

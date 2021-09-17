@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\ContainerCall\Concerns;
+namespace MichaelRubel\EnhancedContainer\Concerns;
 
 use Closure;
 

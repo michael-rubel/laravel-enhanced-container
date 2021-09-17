@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\ContainerCall\Concerns;
+namespace MichaelRubel\EnhancedContainer\Concerns;
 
 use Closure;
-use MichaelRubel\ContainerCall\Traits\HelpsProxies;
+use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
 class BindingBuilder implements BindingBuilding
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate\Services;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services;
 
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Repositories\TestRepository;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
 
 class TestService
 {

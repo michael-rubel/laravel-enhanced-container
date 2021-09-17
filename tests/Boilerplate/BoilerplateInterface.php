@@ -1,6 +1,6 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 
 interface BoilerplateInterface
 {

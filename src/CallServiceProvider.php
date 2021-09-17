@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\ContainerCall;
+namespace MichaelRubel\EnhancedContainer;
 
-use MichaelRubel\ContainerCall\Concerns\BindingBuilder;
-use MichaelRubel\ContainerCall\Concerns\BindingBuilding;
-use MichaelRubel\ContainerCall\Concerns\MethodForwarder;
-use MichaelRubel\ContainerCall\Concerns\MethodForwarding;
+use MichaelRubel\EnhancedContainer\Concerns\BindingBuilder;
+use MichaelRubel\EnhancedContainer\Concerns\BindingBuilding;
+use MichaelRubel\EnhancedContainer\Concerns\MethodForwarder;
+use MichaelRubel\EnhancedContainer\Concerns\MethodForwarding;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -23,7 +23,7 @@ class CallServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('laravel-container-calls')
+            ->name('laravel-enhanced-container')
             ->hasConfigFile();
     }
 

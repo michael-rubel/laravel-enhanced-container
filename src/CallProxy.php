@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\ContainerCall;
+namespace MichaelRubel\EnhancedContainer;
 
-use MichaelRubel\ContainerCall\Concerns\MethodForwarding;
-use MichaelRubel\ContainerCall\Traits\HelpsProxies;
+use MichaelRubel\EnhancedContainer\Concerns\MethodForwarding;
+use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
 class CallProxy implements Call
 {
@@ -46,7 +46,7 @@ class CallProxy implements Call
         return rescue(
             fn () => $call(),
             function ($e) use ($method, $parameters) {
-                if (config('container-calls.forwarding_enabled')) {
+                if (config('enhanced-container.forwarding_enabled')) {
                     $service = resolve(
                         MethodForwarding::class,
                         [$this->class, $this->dependencies]

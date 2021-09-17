@@ -1,9 +1,9 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate\Services\Users;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users;
 
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Repositories\TestRepository;
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Services\TestServiceInterface;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestServiceInterface;
 
 class UserService implements TestServiceInterface
 {

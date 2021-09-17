@@ -1,9 +1,9 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate\Repositories\Users;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users;
 
 use Illuminate\Database\Query\Builder;
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Repositories\TestRepositoryInterface;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepositoryInterface;
 
 class UserRepository implements TestRepositoryInterface
 {

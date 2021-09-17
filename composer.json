@@ -1,18 +1,18 @@
 {
-    "name": "michael-rubel/laravel-container-calls",
+    "name": "michael-rubel/laravel-enhanced-container",
     "description": "Provides syntax sugar for Laravel container calls",
     "keywords": [
         "michael-rubel",
         "laravel",
-        "laravel-container-calls"
+        "laravel-enhanced-container"
     ],
-    "homepage": "https://github.com/michael-rubel/laravel-container-calls",
+    "homepage": "https://github.com/michael-rubel/laravel-enhanced-container",
     "license": "MIT",
     "authors": [
         {
             "name": "Michael Rubel",
             "email": "contact@observer.name",
-            "role": "Developer"
+            "role": "Maintainer"
         }
     ],
     "require": {
@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MichaelRubel\\ContainerCall\\": "src"
+            "MichaelRubel\\EnhancedContainer\\": "src"
         },
         "exclude-from-classmap": [
             "vendor/laravel/framework/src/Illuminate/Container/Container.php",
@@ -47,7 +47,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "MichaelRubel\\ContainerCall\\Tests\\": "tests"
+            "MichaelRubel\\EnhancedContainer\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -60,7 +60,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MichaelRubel\\ContainerCall\\CallServiceProvider"
+                "MichaelRubel\\EnhancedContainer\\CallServiceProvider"
             ]
         }
     },

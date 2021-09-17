@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 
 class BoilerplateService
 {

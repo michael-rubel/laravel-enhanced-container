@@ -1,6 +1,6 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate\Services;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services;
 
 interface TestServiceInterface
 {

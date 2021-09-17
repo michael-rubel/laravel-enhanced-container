@@ -1,10 +1,10 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests;
+namespace MichaelRubel\EnhancedContainer\Tests;
 
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Domain\Best\BestDomain;
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Services\TestService;
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Services\Users\UserService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
 class MethodForwardingTest extends TestCase
 {
@@ -14,7 +14,7 @@ class MethodForwardingTest extends TestCase
         parent::setUp();
 
         config([
-            'container-calls.forwarding_enabled' => true,
+            'enhanced-container.forwarding_enabled' => true,
         ]);
     }
 
@@ -24,7 +24,7 @@ class MethodForwardingTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
 
         config([
-            'container-calls.forwarding_enabled' => false,
+            'enhanced-container.forwarding_enabled' => false,
         ]);
 
         call(TestService::class)->nonExistingMethod();
@@ -74,9 +74,9 @@ class MethodForwardingTest extends TestCase
     public function testCanForwardDomainToBuilder()
     {
         config([
-            'container-calls.naming' => 'singular',
-            'container-calls.from' => 'Domain',
-            'container-calls.to' => 'Builder',
+            'enhanced-container.naming' => 'singular',
+            'enhanced-container.from' => 'Domain',
+            'enhanced-container.to' => 'Builder',
         ]);
 
         $call = call(BestDomain::class)->builderMethod();
@@ -90,9 +90,9 @@ class MethodForwardingTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
 
         config([
-            'container-calls.naming' => 'plural',
-            'container-calls.from' => 'Domain',
-            'container-calls.to' => 'Builder',
+            'enhanced-container.naming' => 'plural',
+            'enhanced-container.from' => 'Domain',
+            'enhanced-container.to' => 'Builder',
         ]);
 
         call(BestDomain::class)->builderMethod();

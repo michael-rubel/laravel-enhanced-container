@@ -1,10 +1,10 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests;
+namespace MichaelRubel\EnhancedContainer\Tests;
 
-use MichaelRubel\ContainerCall\Tests\Boilerplate\BoilerplateInterface;
-use MichaelRubel\ContainerCall\Tests\Boilerplate\BoilerplateService;
-use MichaelRubel\ContainerCall\Tests\Boilerplate\BoilerplateServiceWithConstructor;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 
 class ContainerCallTest extends TestCase
 {

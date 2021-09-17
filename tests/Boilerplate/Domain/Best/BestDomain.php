@@ -1,8 +1,8 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate\Domain\Best;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best;
 
-use MichaelRubel\ContainerCall\Tests\Boilerplate\Builders\Best\BestBuilder;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Builders\Best\BestBuilder;
 
 class BestDomain
 {

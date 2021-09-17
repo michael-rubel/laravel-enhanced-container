@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `laravel-container-calls` will be documented in this file.
+All notable changes to `laravel-enhanced-container` will be documented in this file.
 
 ## 1.0.0 - 2021-09-15
 

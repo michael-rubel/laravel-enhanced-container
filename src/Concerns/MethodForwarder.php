@@ -1,9 +1,9 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Concerns;
+namespace MichaelRubel\EnhancedContainer\Concerns;
 
 use Illuminate\Support\Str;
-use MichaelRubel\ContainerCall\Traits\HelpsProxies;
+use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
 class MethodForwarder implements MethodForwarding
 {
@@ -47,8 +47,8 @@ class MethodForwarder implements MethodForwarding
                 ->pipe(
                     fn ($delimited) => collect($delimited)->map(
                         fn ($item) => str_replace(
-                            Str::{config('container-calls.naming')}(config('container-calls.from')),
-                            Str::{config('container-calls.naming')}(config('container-calls.to')),
+                            Str::{config('enhanced-container.naming')}(config('enhanced-container.from')),
+                            Str::{config('enhanced-container.naming')}(config('enhanced-container.to')),
                             $item
                         )
                     )
@@ -59,8 +59,8 @@ class MethodForwarder implements MethodForwarding
                             $structure->put(
                                 $structure->keys()->last(),
                                 str_replace(
-                                    config('container-calls.from'),
-                                    config('container-calls.to'),
+                                    config('enhanced-container.from'),
+                                    config('enhanced-container.to'),
                                     $structure->last() ?? ''
                                 )
                             )

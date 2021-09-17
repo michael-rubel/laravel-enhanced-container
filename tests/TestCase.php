@@ -1,8 +1,8 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests;
+namespace MichaelRubel\EnhancedContainer\Tests;
 
-use MichaelRubel\ContainerCall\CallServiceProvider;
+use MichaelRubel\EnhancedContainer\CallServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

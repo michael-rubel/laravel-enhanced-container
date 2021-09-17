@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\ContainerCall\Traits;
+namespace MichaelRubel\EnhancedContainer\Traits;
 
 use Illuminate\Support\Arr;
 

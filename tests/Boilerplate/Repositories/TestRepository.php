@@ -1,6 +1,6 @@
 <?php
 
-namespace MichaelRubel\ContainerCall\Tests\Boilerplate\Repositories;
+namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories;
 
 use Illuminate\Database\Query\Builder;
 
