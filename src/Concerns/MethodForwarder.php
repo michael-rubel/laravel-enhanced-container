@@ -38,7 +38,7 @@ class MethodForwarder implements MethodForwarding
                     $last = str_replace(
                         config('container-calls.from'),
                         config('container-calls.to'),
-                        $structure->last()
+                        $structure->last() ?? ''
                     );
 
                     return implode(
