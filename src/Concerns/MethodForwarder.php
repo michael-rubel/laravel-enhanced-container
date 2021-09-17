@@ -52,7 +52,8 @@ class MethodForwarder implements MethodForwarding
         )->first();
 
         return rescue(
-            fn () => resolve($path, $this->dependencies)
+            fn () => resolve($path, $this->dependencies),
+            fn () => throw new \BadMethodCallException('Unable to forward the method. Check if your call is valid.')
         );
     }
 }
