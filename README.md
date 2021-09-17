@@ -19,6 +19,8 @@ composer require michael-rubel/laravel-container-calls
 ```
 
 ## Usage
+
+### Method binding
 Assuming that is your function in the service class:
 ```php
 class Service
@@ -50,10 +52,52 @@ bindMethod(
 
 #### The result next call: 101
 
-Note: if you rely on interfaces, the call will automatically resolve bound implementation for you, no need to do it manually.
+- Note: if you rely on interfaces, the call will automatically resolve bound implementation for you, no need to do it manually.
 
-## ToDo:
-- method forwarding;
+### Method forwarding
+This feature automatically forwards the method that doesn't exist in your class to another class if the namespace structure is met.
+
+For example: you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to just fetch the data without any additional operations.
+
+To enable this feature, publish the config and set appropriate singular names that meet your plural folder structure:
+```bash
+php artisan vendor:publish --tag="container-calls-config"
+```
+
+Assuming your project structure is:
+```php
+Logic: App/Services/Users/UserService
+Queries: App/Repositories/Users/UserRepository
+```
+
+Then your methods in classes:
+```php
+class UserService
+{
+    public function someMethod(): bool
+    {
+        return true;
+    }
+}
+
+class UserRepository
+{
+    public function yourUser(): bool
+    {
+        return true;
+    }
+}
+```
+
+Then call the method to fetch the user:
+```php
+call(UserService::class)->yourUser()
+```
+
+The result will be `true` despite the method is missing in `UserService`.
+If you put the same method in the `UserService`, it will fetch the result from the service itself.
+
+- Note: if you use `PHPStan/Larastan` you'll need to add the `@method` docblock to the service to make it static-analyzable, otherwise it will return the error that the method doesn't exist in the class.
 
 ## Testing
 
@@ -64,7 +108,3 @@ composer test
 ## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
