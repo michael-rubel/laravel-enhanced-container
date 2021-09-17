@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MichaelRubel\ContainerCall\Traits;
 
 use Illuminate\Support\Arr;
-use ReflectionMethod;
 
 trait HelpsContainerCalls
 {
@@ -49,7 +48,7 @@ trait HelpsContainerCalls
             return [];
         }
 
-        $reflectionMethod = new ReflectionMethod($service, $method);
+        $reflectionMethod = new \ReflectionMethod($service, $method);
 
         return collect(
             $reflectionMethod->getParameters()

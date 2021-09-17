@@ -2,7 +2,6 @@
 
 namespace MichaelRubel\ContainerCall\Concerns;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use MichaelRubel\ContainerCall\Traits\HelpsContainerCalls;
 
