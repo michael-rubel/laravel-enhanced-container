@@ -39,7 +39,7 @@ class MethodForwardingTest extends TestCase
     }
 
     /** @test */
-    public function testServiceMethodForwardsToRepositoryWithContainerResolving()
+    public function testServiceMethodForwardsToRepositoryWithContainerResolution()
     {
         $call = call(TestService::class)->nonExistingMethod();
 

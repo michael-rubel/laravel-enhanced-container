@@ -7,7 +7,7 @@ use MichaelRubel\ContainerCall\Tests\Boilerplate\BoilerplateService;
 class MethodBindingTest extends TestCase
 {
     /** @test */
-    public function testCanProperlyOverrideMethodAsString()
+    public function testCanOverrideMethodAsString()
     {
         bindMethod(
             BoilerplateService::class,
@@ -21,7 +21,7 @@ class MethodBindingTest extends TestCase
     }
 
     /** @test */
-    public function testCanProperlyOverrideMethodAsObject()
+    public function testCanOverrideMethodAsObject()
     {
         bindMethod(
             new BoilerplateService(),

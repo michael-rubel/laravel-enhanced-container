@@ -9,7 +9,7 @@ use MichaelRubel\ContainerCall\Tests\Boilerplate\BoilerplateServiceWithConstruct
 class ContainerCallTest extends TestCase
 {
     /** @test */
-    public function testCanProperlyCallTheServiceAsString()
+    public function testCanCallTheServiceAsString()
     {
         $test = call(BoilerplateService::class)->test('test', 1);
 
@@ -17,7 +17,7 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testCanProperlyCallTheServiceAsObject()
+    public function testCanCallTheServiceAsObject()
     {
         $test = call(new BoilerplateService())->test('test', 1);
 
@@ -25,7 +25,7 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testCanProperlyCallTheServiceUsingInterface()
+    public function testCanCallTheServiceUsingInterface()
     {
         app()->singleton(BoilerplateInterface::class, BoilerplateService::class);
 
@@ -35,7 +35,7 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testCanProperlyCallTheServiceWithoutParameters()
+    public function testCanCallTheServiceWithoutParameters()
     {
         $test = call(BoilerplateService::class)->test();
 
@@ -43,7 +43,7 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testCanProperlyCallTheServiceWithRequiredConstructorParams()
+    public function testCanCallTheServiceWithRequiredConstructorParams()
     {
         $call = call(BoilerplateServiceWithConstructor::class, [true])->yourMethod(100);
 
@@ -54,7 +54,7 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testCanProperlyCallTheServiceWithRequiredConstructorNamedParams()
+    public function testCanCallTheServiceWithRequiredConstructorNamedParams()
     {
         $call = call(BoilerplateServiceWithConstructor::class, ['param' => true])->yourMethod(100);
 
