@@ -2,8 +2,18 @@
 
 namespace MichaelRubel\ContainerCall\Tests\Boilerplate\Repositories;
 
+use Illuminate\Database\Query\Builder;
+
 class TestRepository implements TestRepositoryInterface
 {
+    /**
+     * @param Builder $builder
+     */
+    public function __construct(
+        public Builder $builder
+    ) {
+    }
+
     /**
      * @return bool
      */

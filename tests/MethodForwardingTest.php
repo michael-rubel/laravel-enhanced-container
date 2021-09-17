@@ -15,14 +15,13 @@ class MethodForwardingTest extends TestCase
 
         config([
             'container-calls.forwarding_enabled' => true,
-            'container-calls.app' => 'MichaelRubel\ContainerCall\Tests\Boilerplate',
         ]);
     }
 
     /** @test */
     public function testMethodNotForwardedWhenForwardingIsDisabled()
     {
-        $this->expectException(\Error::class);
+        $this->expectException(\BadMethodCallException::class);
 
         config([
             'container-calls.forwarding_enabled' => false,
@@ -42,8 +41,6 @@ class MethodForwardingTest extends TestCase
     /** @test */
     public function testServiceMethodForwardsToRepositoryWithContainerResolving()
     {
-        app()->singleton(TestRepositoryInterface::class, TestRepository::class);
-
         $call = call(TestService::class)->nonExistingMethod();
 
         $this->assertTrue($call);

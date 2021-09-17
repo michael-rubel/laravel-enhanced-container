@@ -50,10 +50,10 @@ class CallProxy implements Call
             );
         };
 
-        if (config('container-calls.forwarding_enabled')) {
-            return rescue(
-                fn () => $call(),
-                function () use ($method, $parameters) {
+        return rescue(
+            fn () => $call(),
+            function () use ($method, $parameters) {
+                if (config('container-calls.forwarding_enabled')) {
                     $service = resolve(
                         MethodForwarding::class,
                         [$this->service, $this->dependencies]
@@ -68,9 +68,11 @@ class CallProxy implements Call
                         )
                     );
                 }
-            );
-        }
 
-        return $call();
+                throw new \BadMethodCallException(sprintf(
+                    'Call to undefined method %s::%s()', $this->service, $method
+                ));
+            }
+        );
     }
 }

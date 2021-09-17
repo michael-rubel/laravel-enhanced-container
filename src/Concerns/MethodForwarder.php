@@ -2,10 +2,14 @@
 
 namespace MichaelRubel\ContainerCall\Concerns;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use MichaelRubel\ContainerCall\Traits\HelpsContainerCalls;
 
 class MethodForwarder implements MethodForwarding
 {
+    use HelpsContainerCalls;
+
     /**
      * @param string $class
      * @param array  $dependencies
@@ -20,11 +24,12 @@ class MethodForwarder implements MethodForwarding
      * Forward the method.
      *
      * @return object
+     * @throws \ReflectionException
      */
     public function forward(): object
     {
         return rescue(
-            fn () => resolve($this->forwardsTo(), $this->dependencies),
+            fn () => $this->resolvePassedService($this->forwardsTo(), $this->dependencies),
             fn () => throw new \BadMethodCallException('Unable to forward the method. Check if your call is valid.')
         );
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\ContainerCall\Traits;
 
+use Illuminate\Support\Arr;
 use ReflectionMethod;
 
 trait HelpsContainerCalls
@@ -13,15 +14,25 @@ trait HelpsContainerCalls
      * @param array         $dependencies
      *
      * @return object
+     * @throws \ReflectionException
      */
     public function resolvePassedService(object|string $service, array $dependencies = []): object
     {
         return is_object($service)
             ? $service
-            : rescue(
-                fn () => resolve($service, $dependencies),
-                fn () => new $service(...$dependencies)
-            );
+            : rescue(function () use ($service, $dependencies) {
+                if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
+                    $constructor = (new \ReflectionClass($this->service))->getConstructor();
+
+                    if ($constructor) {
+                        $dependencies = collect($constructor->getParameters())->map(
+                            fn ($parameter) => $parameter->getName()
+                        )->combine($dependencies)->all();
+                    }
+                }
+
+                return resolve($service, $dependencies);
+            });
     }
 
     /**

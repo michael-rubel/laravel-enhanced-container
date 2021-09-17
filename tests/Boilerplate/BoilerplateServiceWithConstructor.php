@@ -7,7 +7,7 @@ namespace MichaelRubel\ContainerCall\Tests\Boilerplate;
 class BoilerplateServiceWithConstructor
 {
     /**
-     * @param int $param
+     * @param bool $param
      */
     public function __construct(
         private bool $param
