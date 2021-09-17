@@ -53,12 +53,12 @@ class CallServiceProvider extends PackageServiceProvider
         });
 
         $this->app->bind(MethodForwarding::class, function ($_app, $params) {
-            return (
-                new MethodForwarder(
-                    current($params),
-                    last($params)
-                )
-            )->forward();
+            $forwarder = new MethodForwarder(
+                current($params),
+                last($params)
+            );
+
+            return $forwarder->forward();
         });
     }
 }
