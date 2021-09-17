@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MichaelRubel\ContainerCall;
 
-use MichaelRubel\ContainerCall\Concerns\MethodBinder;
-use MichaelRubel\ContainerCall\Concerns\MethodBinding;
+use MichaelRubel\ContainerCall\Concerns\BindingBuilder;
+use MichaelRubel\ContainerCall\Concerns\BindingBuilding;
 use MichaelRubel\ContainerCall\Concerns\MethodForwarder;
 use MichaelRubel\ContainerCall\Concerns\MethodForwarding;
 use Spatie\LaravelPackageTools\Package;
@@ -41,14 +41,9 @@ class CallServiceProvider extends PackageServiceProvider
             );
         });
 
-        $this->app->bind(MethodBinding::class, function ($_app, $params) {
-            $binder = new MethodBinder(
-                current($params)
-            );
-
-            $binder->bind(
-                next($params),
-                last($params)
+        $this->app->bind(BindingBuilding::class, function ($_app, $class) {
+            return new BindingBuilder(
+                current($class)
             );
         });
 

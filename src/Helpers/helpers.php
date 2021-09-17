@@ -3,31 +3,41 @@
 declare(strict_types=1);
 
 use MichaelRubel\ContainerCall\Call;
-use MichaelRubel\ContainerCall\Concerns\MethodBinding;
+use MichaelRubel\ContainerCall\Concerns\BindingBuilding;
 
 if (! function_exists('call')) {
     /**
-     * @param string|object $service
+     * @param string|object $class
      * @param array         $parameters
      *
      * @return mixed
      */
-    function call(string|object $service, array $parameters = []): mixed
+    function call(string|object $class, array $parameters = []): mixed
     {
-        return app(Call::class, [$service, $parameters]);
+        return app(Call::class, [$class, $parameters]);
     }
 }
 
-if (! function_exists('bindMethod')) {
+if (! function_exists('bind')) {
     /**
-     * @param string|object $service
-     * @param string        $method
-     * @param Closure       $callback
+     * @param string|object $class
      *
      * @return mixed
      */
-    function bindMethod(string|object $service, string $method, Closure $callback): mixed
+    function bind(string|object $class): mixed
     {
-        return app(MethodBinding::class, [$service, $method, $callback]);
+        return app(BindingBuilding::class, [$class]);
+    }
+}
+
+if (! function_exists('singleton')) {
+    /**
+     * @param string|object $class
+     *
+     * @return mixed
+     */
+    function singleton(string|object $class): mixed
+    {
+        return app(BindingBuilding::class, [$class]);
     }
 }

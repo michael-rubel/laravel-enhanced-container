@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\ContainerCall\Tests;
 
+use MichaelRubel\ContainerCall\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\ContainerCall\Tests\Boilerplate\BoilerplateService;
 
 class MethodBindingTest extends TestCase
@@ -9,11 +10,7 @@ class MethodBindingTest extends TestCase
     /** @test */
     public function testCanOverrideMethodAsString()
     {
-        bindMethod(
-            BoilerplateService::class,
-            'test',
-            fn () => 'overridden'
-        );
+        bind(BoilerplateService::class)->method()->test(fn () => 'overridden');
 
         $call = call(BoilerplateService::class)->test('test', 1);
 
@@ -23,11 +20,7 @@ class MethodBindingTest extends TestCase
     /** @test */
     public function testCanOverrideMethodAsObject()
     {
-        bindMethod(
-            new BoilerplateService(),
-            'test',
-            fn () => collect('illuminate')
-        );
+        bind(new BoilerplateService())->method()->test(fn () => collect('illuminate'));
 
         $call = call(BoilerplateService::class)->test('test', 1);
 
@@ -40,9 +33,7 @@ class MethodBindingTest extends TestCase
     /** @test */
     public function testCanOverrideMethodUsingService()
     {
-        bindMethod(
-            new BoilerplateService(),
-            'yourMethod',
+        bind(new BoilerplateService())->method()->yourMethod(
             fn ($service, $app) => $service->yourMethod(100) + 1
         );
 
@@ -57,9 +48,7 @@ class MethodBindingTest extends TestCase
     /** @test */
     public function testCanOverrideMethodWithParameters()
     {
-        bindMethod(
-            BoilerplateService::class,
-            'yourMethod',
+        bind(BoilerplateService::class)->method()->yourMethod(
             fn ($service, $app, $params) => $service->yourMethod($params['count']) + 1
         );
 
@@ -69,5 +58,29 @@ class MethodBindingTest extends TestCase
             101,
             $call
         );
+    }
+
+    /** @test */
+    public function testCanBindAnAbstractToConcrete()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+
+        app()->bound(BoilerplateInterface::class);
+
+        $instance = resolve(BoilerplateInterface::class);
+
+        $this->assertInstanceOf(BoilerplateService::class, $instance);
+    }
+
+    /** @test */
+    public function testCanBindAnAbstractToConcreteAsSingleton()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class, true);
+
+        app()->bound(BoilerplateInterface::class);
+
+        $instance = resolve(BoilerplateInterface::class);
+
+        $this->assertInstanceOf(BoilerplateService::class, $instance);
     }
 }

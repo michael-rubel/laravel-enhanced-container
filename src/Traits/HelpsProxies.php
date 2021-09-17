@@ -6,23 +6,23 @@ namespace MichaelRubel\ContainerCall\Traits;
 
 use Illuminate\Support\Arr;
 
-trait HelpsContainerCalls
+trait HelpsProxies
 {
     /**
-     * @param object|string $service
+     * @param object|string $class
      * @param array         $dependencies
      *
      * @return object
      * @throws \ReflectionException
      */
-    public function resolvePassedService(object|string $service, array $dependencies = []): object
+    public function resolvePassedClass(object|string $class, array $dependencies = []): object
     {
-        return is_object($service)
-            ? $service
+        return is_object($class)
+            ? $class
             : rescue(
-                function () use ($service, $dependencies): mixed {
+                function () use ($class, $dependencies): mixed {
                     if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
-                        $constructor = (new \ReflectionClass($service))->getConstructor();
+                        $constructor = (new \ReflectionClass($class))->getConstructor();
 
                         if ($constructor) {
                             $dependencies = collect($constructor->getParameters())->map(
@@ -31,7 +31,7 @@ trait HelpsContainerCalls
                         }
                     }
 
-                    return resolve($service, $dependencies);
+                    return resolve($class, $dependencies);
                 },
                 fn ($e) => throw new \BadMethodCallException($e->getMessage()),
                 false
@@ -39,25 +39,39 @@ trait HelpsContainerCalls
     }
 
     /**
-     * @param object       $service
+     * @param object       $class
      * @param string       $method
      * @param string|array $parameters
      *
      * @return array
      * @throws \ReflectionException
      */
-    public function getPassedParameters(object $service, string $method, string|array $parameters): array
+    public function getPassedParameters(object $class, string $method, string|array $parameters): array
     {
         if (empty($parameters)) {
             return [];
         }
 
-        $reflectionMethod = new \ReflectionMethod($service, $method);
+        $reflectionMethod = new \ReflectionMethod($class, $method);
 
         return collect(
             $reflectionMethod->getParameters()
         )->map(
             fn ($param) => $param->getName()
         )->combine($parameters)->all();
+    }
+
+    /**
+     * Examine if it is object or not.
+     *
+     * @param string|object $class
+     *
+     * @return string|object
+     */
+    public function getClassToBaseBinding(string|object $class): string|object
+    {
+        return is_object($class)
+            ? $class::class
+            : $class;
     }
 }

@@ -3,11 +3,11 @@
 namespace MichaelRubel\ContainerCall\Concerns;
 
 use Illuminate\Support\Str;
-use MichaelRubel\ContainerCall\Traits\HelpsContainerCalls;
+use MichaelRubel\ContainerCall\Traits\HelpsProxies;
 
 class MethodForwarder implements MethodForwarding
 {
-    use HelpsContainerCalls;
+    use HelpsProxies;
 
     /**
      * @param string $class
@@ -28,7 +28,7 @@ class MethodForwarder implements MethodForwarding
     public function forward(): object
     {
         return rescue(
-            fn () => $this->resolvePassedService($this->forwardsTo(), $this->dependencies),
+            fn () => $this->resolvePassedClass($this->forwardsTo(), $this->dependencies),
             fn ($e) => throw new \BadMethodCallException($e->getMessage()),
             false
         );
