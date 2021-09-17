@@ -26,28 +26,29 @@ class MethodForwarder implements MethodForwarding
         $path = collect(
             take($this->class)
                 ->pipe(fn ($class) => explode(self::CLASS_SEPARATOR, $class))
-                ->pipe(function ($delimited) {
-                    $structure = collect($delimited)->map(
+                ->pipe(
+                    fn ($delimited) => collect($delimited)->map(
                         fn ($item) => str_replace(
                             Str::plural(config('container-calls.from')),
                             Str::plural(config('container-calls.to')),
                             $item
                         )
-                    );
-
-                    $last = str_replace(
-                        config('container-calls.from'),
-                        config('container-calls.to'),
-                        $structure->last() ?? ''
-                    );
-
-                    return implode(
+                    )
+                )->pipe(
+                    fn ($structure) => implode(
                         self::CLASS_SEPARATOR,
                         collect(
-                            $structure->put($structure->keys()->last(), $last)
+                            $structure->put(
+                                $structure->keys()->last(),
+                                str_replace(
+                                    config('container-calls.from'),
+                                    config('container-calls.to'),
+                                    $structure->last() ?? ''
+                                )
+                            )
                         )->toArray()
-                    );
-                })->get()
+                    )
+                )->get()
         )->first();
 
         return rescue(
