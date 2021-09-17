@@ -8,7 +8,7 @@
 [![Psalm](https://img.shields.io/github/workflow/status/michael-rubel/laravel-container-calls/psalm?label=psalm)](https://github.com/michael-rubel/laravel-container-calls/actions)
 [![Total Downloads](https://img.shields.io/packagist/dt/michael-rubel/laravel-container-calls.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-container-calls)
 
-This package provides syntax sugar for Laravel container calls.
+This package provides syntax sugar for the Laravel container calls,  method forwarding, and an enhanced version of Laravel's method binding feature.
 
 ## Installation
 
@@ -57,7 +57,7 @@ bindMethod(
 ### Method forwarding
 This feature automatically forwards the method that doesn't exist in your class to another class if the namespace structure is met.
 
-For example: you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to just fetch the data without any additional operations.
+Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to just fetch the data without any additional operations.
 
 To enable this feature, publish the config and set appropriate singular names that meet your plural folder structure:
 ```bash
