@@ -7,11 +7,11 @@ use Illuminate\Support\Str;
 class MethodForwarder implements MethodForwarding
 {
     /**
-     * @param object $class
+     * @param string $class
      * @param array  $dependencies
      */
     public function __construct(
-        private object | string $class,
+        private string $class,
         private array $dependencies
     ) {
     }
