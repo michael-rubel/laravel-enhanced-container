@@ -14,4 +14,11 @@ interface MethodForwarding
      * @return object
      */
     public function forward(): object;
+
+    /**
+     * Parse the class where to forward the call.
+     *
+     * @return string
+     */
+    public function forwardsTo(): string;
 }

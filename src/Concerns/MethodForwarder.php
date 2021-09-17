@@ -23,7 +23,20 @@ class MethodForwarder implements MethodForwarding
      */
     public function forward(): object
     {
-        $path = collect(
+        return rescue(
+            fn () => resolve($this->forwardsTo(), $this->dependencies),
+            fn () => throw new \BadMethodCallException('Unable to forward the method. Check if your call is valid.')
+        );
+    }
+
+    /**
+     * Parse the class where to forward the call.
+     *
+     * @return string
+     */
+    public function forwardsTo(): string
+    {
+        return collect(
             take($this->class)
                 ->pipe(fn ($class) => explode(self::CLASS_SEPARATOR, $class))
                 ->pipe(
@@ -50,10 +63,5 @@ class MethodForwarder implements MethodForwarding
                     )
                 )->get()
         )->first();
-
-        return rescue(
-            fn () => resolve($path, $this->dependencies),
-            fn () => throw new \BadMethodCallException('Unable to forward the method. Check if your call is valid.')
-        );
     }
 }
