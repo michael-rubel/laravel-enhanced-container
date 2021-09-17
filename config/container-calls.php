@@ -21,6 +21,12 @@ return [
     'forwarding_enabled' => false,
 
     /*
+     | Determine if you want to use plural or singular folder names.
+     */
+
+    'naming' => 'plural', // second option: singular
+
+    /*
      | "From"
      |
      | The layer from whom the call forwarded.

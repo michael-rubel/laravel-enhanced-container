@@ -59,7 +59,7 @@ This feature automatically forwards the method that doesn't exist in your class 
 
 Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to just fetch the data without any additional operations.
 
-To enable this feature, publish the config and set appropriate singular names that meet your plural folder structure:
+To enable this feature, publish the config and set appropriate names that meet your namespace:
 ```bash
 php artisan vendor:publish --tag="container-calls-config"
 ```

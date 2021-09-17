@@ -46,8 +46,8 @@ class MethodForwarder implements MethodForwarding
                 ->pipe(
                     fn ($delimited) => collect($delimited)->map(
                         fn ($item) => str_replace(
-                            Str::plural(config('container-calls.from')),
-                            Str::plural(config('container-calls.to')),
+                            Str::{config('container-calls.naming')}(config('container-calls.from')),
+                            Str::{config('container-calls.naming')}(config('container-calls.to')),
                             $item
                         )
                     )

@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\ContainerCall\Tests;
 
+use MichaelRubel\ContainerCall\Tests\Boilerplate\Domain\Best\BestDomain;
 use MichaelRubel\ContainerCall\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\ContainerCall\Tests\Boilerplate\Services\Users\UserService;
 
@@ -67,5 +68,33 @@ class MethodForwardingTest extends TestCase
         $call = call(UserService::class)->nonExistingMethod();
 
         $this->assertTrue($call);
+    }
+
+    /** @test */
+    public function testCanForwardDomainToBuilder()
+    {
+        config([
+            'container-calls.naming' => 'singular',
+            'container-calls.from' => 'Domain',
+            'container-calls.to' => 'Builder',
+        ]);
+
+        $call = call(BestDomain::class)->builderMethod();
+
+        $this->assertTrue($call);
+    }
+
+    /** @test */
+    public function testFailToForwardDomainToBuilderWithPluralNames()
+    {
+        $this->expectException(\BadMethodCallException::class);
+
+        config([
+            'container-calls.naming' => 'plural',
+            'container-calls.from' => 'Domain',
+            'container-calls.to' => 'Builder',
+        ]);
+
+        call(BestDomain::class)->builderMethod();
     }
 }
