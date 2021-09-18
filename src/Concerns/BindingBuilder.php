@@ -56,7 +56,7 @@ class BindingBuilder implements Binding
     }
 
     /**
-     * Syntax sugar.
+     * Syntax sugar - basic "bind".
      *
      * @param Closure|string|null $concrete
      * @param bool                $shared
@@ -69,7 +69,7 @@ class BindingBuilder implements Binding
     }
 
     /**
-     * Syntax sugar.
+     * Syntax sugar - singleton.
      *
      * @param Closure|string|null $concrete
      *
@@ -78,5 +78,17 @@ class BindingBuilder implements Binding
     public function singleton(Closure|string $concrete = null): void
     {
         app()->singleton($this->class, $concrete);
+    }
+
+    /**
+     * Syntax sugar - scoped instance.
+     *
+     * @param Closure|string|null $concrete
+     *
+     * @return void
+     */
+    public function scoped(Closure|string $concrete = null): void
+    {
+        app()->scoped($this->class, $concrete);
     }
 }

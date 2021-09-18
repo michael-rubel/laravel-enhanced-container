@@ -130,4 +130,16 @@ class MethodBindingTest extends TestCase
 
         $this->assertInstanceOf(BoilerplateService::class, $instance);
     }
+
+    /** @test */
+    public function testCanBindAnAbstractToConcreteAsScopedInstance()
+    {
+        bind(BoilerplateInterface::class)->scoped(BoilerplateService::class);
+
+        app()->bound(BoilerplateInterface::class);
+
+        $instance = resolve(BoilerplateInterface::class);
+
+        $this->assertInstanceOf(BoilerplateService::class, $instance);
+    }
 }
