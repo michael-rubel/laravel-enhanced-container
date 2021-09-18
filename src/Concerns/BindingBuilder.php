@@ -12,11 +12,6 @@ class BindingBuilder implements Binding
     use HelpsProxies;
 
     /**
-     * @var Closure|string|null
-     */
-    private Closure|string|null $concrete = null;
-
-    /**
      * BindingBuilder constructor.
      *
      * @param object|string $class
@@ -48,9 +43,13 @@ class BindingBuilder implements Binding
      *
      * @return $this
      */
-    public function method(): self
+    public function method(string $method = null, Closure $override = null): mixed
     {
-        return $this;
+        if (is_null($method) || is_null($override)) {
+            return $this;
+        }
+
+        return $this->{$method}($override);
     }
 
     /**
@@ -64,5 +63,17 @@ class BindingBuilder implements Binding
     public function to(Closure|string $concrete = null, bool $shared = false): void
     {
         app()->bind($this->class, $concrete, $shared);
+    }
+
+    /**
+     * Syntax sugar.
+     *
+     * @param Closure|string|null $concrete
+     *
+     * @return void
+     */
+    public function singleton(Closure|string $concrete = null): void
+    {
+        app()->singleton($this->class, $concrete);
     }
 }

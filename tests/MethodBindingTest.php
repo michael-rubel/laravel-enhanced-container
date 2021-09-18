@@ -46,6 +46,41 @@ class MethodBindingTest extends TestCase
     }
 
     /** @test */
+    public function testBindMethodReturnsItselfIfOnlyMethodPassed()
+    {
+        bind(BoilerplateService::class)->method();
+
+        $call = call(BoilerplateService::class)->yourMethod(100);
+
+        $this->assertEquals(100, $call);
+    }
+
+    /** @test */
+    public function testBindMethodReturnsItselfIfOnlyMethodPassedWithString()
+    {
+        bind(BoilerplateService::class)->method('yourMethod');
+
+        $call = call(BoilerplateService::class)->yourMethod(100);
+
+        $this->assertEquals(100, $call);
+    }
+
+    /** @test */
+    public function testCanOverrideMethodUsingAnotherSyntax()
+    {
+        bind(BoilerplateService::class)->method('yourMethod', function ($service, $app, $params) {
+            return $service->yourMethod($params['count']) + 1;
+        });
+
+        $call = call(BoilerplateService::class)->yourMethod(100);
+
+        $this->assertEquals(
+            101,
+            $call
+        );
+    }
+
+    /** @test */
     public function testCanOverrideMethodWithParameters()
     {
         bind(BoilerplateService::class)->method()->yourMethod(
@@ -76,6 +111,18 @@ class MethodBindingTest extends TestCase
     public function testCanBindAnAbstractToConcreteAsSingleton()
     {
         bind(BoilerplateInterface::class)->to(BoilerplateService::class, true);
+
+        app()->bound(BoilerplateInterface::class);
+
+        $instance = resolve(BoilerplateInterface::class);
+
+        $this->assertInstanceOf(BoilerplateService::class, $instance);
+    }
+
+    /** @test */
+    public function testCanBindAnAbstractToConcreteAsSingletonWithAnotherSyntax()
+    {
+        bind(BoilerplateInterface::class)->singleton(BoilerplateService::class);
 
         app()->bound(BoilerplateInterface::class);
 

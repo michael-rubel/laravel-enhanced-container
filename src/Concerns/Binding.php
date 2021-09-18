@@ -13,7 +13,7 @@ interface Binding
      *
      * @return $this
      */
-    public function method(): self;
+    public function method(string $method = null, Closure $override = null): mixed;
 
     /**
      * Syntax sugar.
