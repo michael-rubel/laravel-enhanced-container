@@ -11,9 +11,12 @@ interface Binding
     /**
      * Syntax sugar.
      *
-     * @return $this
+     * @param string|null  $method
+     * @param Closure|null $override
+     *
+     * @return self|null
      */
-    public function method(string $method = null, Closure $override = null): mixed;
+    public function method(string $method = null, Closure $override = null): self|null;
 
     /**
      * Syntax sugar.

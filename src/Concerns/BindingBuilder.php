@@ -41,9 +41,12 @@ class BindingBuilder implements Binding
     /**
      * Syntax sugar.
      *
-     * @return $this
+     * @param string|null  $method
+     * @param Closure|null $override
+     *
+     * @return $this|null
      */
-    public function method(string $method = null, Closure $override = null): mixed
+    public function method(string $method = null, Closure $override = null): self|null
     {
         if (is_null($method) || is_null($override)) {
             return $this;
