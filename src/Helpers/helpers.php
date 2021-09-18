@@ -20,12 +20,12 @@ if (! function_exists('call')) {
 
 if (! function_exists('bind')) {
     /**
-     * @param string|object $class
+     * @param string|object $abstract
      *
      * @return mixed
      */
-    function bind(string|object $class): mixed
+    function bind(string|object $abstract): mixed
     {
-        return app(Binding::class, [$class]);
+        return app(Binding::class, [$abstract]);
     }
 }
