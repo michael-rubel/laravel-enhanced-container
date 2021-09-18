@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
-use MichaelRubel\EnhancedContainer\Concerns\BindingBuilder;
 use MichaelRubel\EnhancedContainer\Concerns\Binding;
-use MichaelRubel\EnhancedContainer\Concerns\MethodForwarder;
+use MichaelRubel\EnhancedContainer\Concerns\BindingBuilder;
 use MichaelRubel\EnhancedContainer\Concerns\Forwarding;
+use MichaelRubel\EnhancedContainer\Concerns\MethodForwarder;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
