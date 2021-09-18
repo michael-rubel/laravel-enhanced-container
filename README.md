@@ -10,6 +10,10 @@
 
 This package provides syntax sugar for the Laravel container calls and bindings, automatic resolution of bound implementation, method forwarding, and an enhanced version of the Laravel method binding feature.
 
+The package was tested with Laravel 8 nad PHP 8. No guarantee it will work with legacy versions of Laravel, so I've locked the versions in composer.
+Since I'm an evangelist of the fresh software, Future versions of PHP and Laravel will be maintained.
+If you want to make it backwards compatible, PRs are welcomed.
+
 ## Installation
 
 You can install the package via composer:
@@ -48,9 +52,26 @@ bind(Service::class)->method()->yourMethod(function ($service, $app, $params) {
 });
 ```
 
+Alternative syntax:
+```php
+bind(Service::class)->method('yourMethod', function ($service, $app, $params) {
+    return $service->yourMethod($params['count']) + 1;
+});
+```
+
 #### The result next call: 101
 
 - Note: if you rely on interfaces, the call will automatically resolve bound implementation for you, no need to do it manually.
+
+### Regular Laravel binding with new syntax
+```php
+bind(ServiceInterface::class)->to(Service::class);
+```
+
+As singleton:
+```php
+bind(ServiceInterface::class)->singleton(Service::class);
+```
 
 ### Method forwarding
 This feature automatically forwards the method that doesn't exist in your class to another class if the namespace structure is met.
