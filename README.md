@@ -10,9 +10,8 @@
 
 This package provides syntax sugar for the Laravel container calls and bindings, automatic resolution of bound implementation, method forwarding, and an enhanced version of the Laravel method binding feature.
 
-The package was tested with Laravel 8 nad PHP 8. No guarantee it will work with legacy versions of Laravel, so I've locked the versions in composer.
-Since I'm an evangelist of the fresh software, Future versions of PHP and Laravel will be maintained.
-If you want to make it backwards compatible, PRs are welcomed.
+The package requires Laravel 8 and PHP 8.
+Future versions of PHP and Laravel will be maintained.
 
 ## Installation
 
@@ -23,6 +22,22 @@ composer require michael-rubel/laravel-enhanced-container
 ```
 
 ## Usage
+
+### Basic binding with new syntax
+```php
+bind(ServiceInterface::class)->to(Service::class);
+```
+
+As singleton:
+```php
+bind(ServiceInterface::class)->singleton(Service::class);
+```
+
+As scoped instance:
+```php
+bind(ServiceInterface::class)->scoped(Service::class);
+```
+
 
 ### Method binding
 Assuming that is your function in the service class:
@@ -61,35 +76,30 @@ bind(Service::class)->method('yourMethod', function ($service, $app, $params) {
 
 #### The result next call: 101
 
-- Note: if you rely on interfaces, the call will automatically resolve bound implementation for you, no need to do it manually.
-
-### Regular Laravel binding with new syntax
-```php
-bind(ServiceInterface::class)->to(Service::class);
-```
-
-As singleton:
-```php
-bind(ServiceInterface::class)->singleton(Service::class);
-```
+Remember that you need to use `call()` to method binding to work.
+If you rely on interfaces, the call will automatically resolve bound implementation for you, no need to do it manually.
 
 ### Method forwarding
-This feature automatically forwards the method that doesn't exist in your class to another class if the namespace structure is met.
+This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met.
 
 Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to just fetch the data without any additional operations.
 
-To enable this feature, publish the config and set appropriate names that meet your namespace:
+To enable this feature, publish the config:
 ```bash
 php artisan vendor:publish --tag="enhanced-container-config"
 ```
 
-Assuming your project structure is:
+Then turn `forwarding_enabled` option on and set the class names that met your application structure.
+
+Assuming your structure is:
 ```php
-Logic: App/Services/Users/UserService
-Queries: App/Repositories/Users/UserRepository
+Logic:
+- App/Services/Users/UserService
+Queries: 
+- App/Repositories/Users/UserRepository
 ```
 
-Then your methods in classes:
+Then your classes:
 ```php
 class UserService
 {
@@ -116,7 +126,7 @@ call(UserService::class)->yourUser()
 The result will be `true` despite the method is missing in `UserService`.
 If you put the same method in the `UserService`, it will fetch the result from the service itself.
 
-- Note: if you use `PHPStan/Larastan` you'll need to add the `@method` docblock to the service to make it static-analyzable, otherwise it will return the error that the method doesn't exist in the class.
+- Note: if you use `PHPStan/Larastan` you'll need to add the `@method` docblock to the service to make it static-analyzable, otherwise it will return an error that the method doesn't exist in the class.
 
 ## Testing
 
