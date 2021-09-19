@@ -50,7 +50,7 @@ trait HelpsProxies
     public function getPassedParameters(object $class, string $method, array $parameters): array
     {
         if (empty($parameters)) {
-            return [];
+            return $parameters;
         }
 
         $reflectionMethod = new \ReflectionMethod($class, $method);
