@@ -142,4 +142,30 @@ class MethodBindingTest extends TestCase
 
         $this->assertInstanceOf(BoilerplateService::class, $instance);
     }
+
+    /** @test */
+    public function testCanOverrideMethodWhenReusingCallProxyInstance()
+    {
+        $callProxy = call(BoilerplateService::class);
+
+        bind(BoilerplateService::class)
+            ->method()
+            ->yourMethod(
+                fn ($service, $app) => $service->yourMethod(100) + 1
+            );
+
+        $test = $callProxy->yourMethod(100);
+
+        $this->assertEquals(101, $test);
+
+        bind(BoilerplateService::class)
+            ->method()
+            ->yourMethod(
+                fn ($service, $app) => true
+            );
+
+        $test = $callProxy->yourMethod();
+
+        $this->assertTrue($test);
+    }
 }
