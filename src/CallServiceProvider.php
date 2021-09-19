@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
-use MichaelRubel\EnhancedContainer\Concerns\Binding;
-use MichaelRubel\EnhancedContainer\Concerns\BindingBuilder;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -39,7 +37,7 @@ class CallServiceProvider extends PackageServiceProvider
             );
         });
 
-        $this->app->bind(Binding::class, function ($_app, $class) {
+        $this->app->bind(Bind::class, function ($_app, $class) {
             return new BindingBuilder(
                 current($class)
             );

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\EnhancedContainer\Concerns;
+namespace MichaelRubel\EnhancedContainer;
 
 use Closure;
 
-interface Binding
+interface Bind
 {
     /**
      * Syntax sugar - method binding.

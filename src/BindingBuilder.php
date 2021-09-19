@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\EnhancedContainer\Concerns;
+namespace MichaelRubel\EnhancedContainer;
 
 use Closure;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
-class BindingBuilder implements Binding
+class BindingBuilder implements Bind
 {
     use HelpsProxies;
 
