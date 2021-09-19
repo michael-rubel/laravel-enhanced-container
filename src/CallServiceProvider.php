@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
+use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
+use MichaelRubel\EnhancedContainer\Core\CallProxy;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

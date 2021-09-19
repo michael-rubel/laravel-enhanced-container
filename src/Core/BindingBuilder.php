@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\EnhancedContainer;
+namespace MichaelRubel\EnhancedContainer\Core;
 
 use Closure;
+use MichaelRubel\EnhancedContainer\Bind;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
 class BindingBuilder implements Bind

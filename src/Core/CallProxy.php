@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\EnhancedContainer;
+namespace MichaelRubel\EnhancedContainer\Core;
 
+use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
 class CallProxy implements Call

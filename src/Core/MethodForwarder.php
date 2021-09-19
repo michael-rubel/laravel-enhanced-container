@@ -1,6 +1,6 @@
 <?php
 
-namespace MichaelRubel\EnhancedContainer;
+namespace MichaelRubel\EnhancedContainer\Core;
 
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
