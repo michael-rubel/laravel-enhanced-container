@@ -9,11 +9,11 @@ interface Forwarding
     public const CLASS_SEPARATOR = '\\';
 
     /**
-     * Forward the method.
+     * Resolve the class where we want to forward.
      *
      * @return object
      */
-    public function forward(): object;
+    public function resolveClass(): object;
 
     /**
      * Parse the class where to forward the call.

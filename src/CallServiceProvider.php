@@ -46,14 +46,5 @@ class CallServiceProvider extends PackageServiceProvider
                 current($class)
             );
         });
-
-        $this->app->bind(Forwarding::class, function ($_app, $params) {
-            $forwarder = new MethodForwarder(
-                current($params),
-                last($params)
-            );
-
-            return $forwarder->forward();
-        });
     }
 }
