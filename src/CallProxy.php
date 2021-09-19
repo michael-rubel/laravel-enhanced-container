@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
-use MichaelRubel\EnhancedContainer\Concerns\Forwarding;
 use MichaelRubel\EnhancedContainer\Concerns\MethodForwarder;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
