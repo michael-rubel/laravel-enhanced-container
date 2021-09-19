@@ -25,9 +25,10 @@ trait HelpsProxies
                         $constructor = (new \ReflectionClass($class))->getConstructor();
 
                         if ($constructor) {
-                            $dependencies = collect($constructor->getParameters())->map(
-                                fn ($parameter) => $parameter->getName()
-                            )->combine($dependencies)->all();
+                            $dependencies = $this->makeContainerParameters(
+                                $constructor->getParameters(),
+                                $dependencies
+                            );
                         }
                     }
 
@@ -41,12 +42,12 @@ trait HelpsProxies
     /**
      * @param object       $class
      * @param string       $method
-     * @param string|array $parameters
+     * @param array $parameters
      *
      * @return array
      * @throws \ReflectionException
      */
-    public function getPassedParameters(object $class, string $method, string|array $parameters): array
+    public function getPassedParameters(object $class, string $method, array $parameters): array
     {
         if (empty($parameters)) {
             return [];
@@ -54,10 +55,24 @@ trait HelpsProxies
 
         $reflectionMethod = new \ReflectionMethod($class, $method);
 
-        return collect(
-            $reflectionMethod->getParameters()
-        )->map(
+        return $this->makeContainerParameters(
+            $reflectionMethod->getParameters(),
+            $parameters
+        );
+    }
+
+    /**
+     * Combine parameters to make it container-readable.
+     *
+     * @param array $parameters
+     * @param array $toCombine
+     *
+     * @return array
+     */
+    public function makeContainerParameters(array $parameters, array $toCombine): array
+    {
+        return collect($parameters)->map(
             fn ($param) => $param->getName()
-        )->combine($parameters)->all();
+        )->combine($toCombine)->all();
     }
 }
