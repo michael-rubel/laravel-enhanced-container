@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Bind;
+use MichaelRubel\EnhancedContainer\Call;
 
 if (! function_exists('call')) {
     /**
