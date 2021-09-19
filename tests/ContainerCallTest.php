@@ -63,4 +63,18 @@ class ContainerCallTest extends TestCase
             $call
         );
     }
+
+    /** @test */
+    public function testCanCallReusingCallProxyInstance()
+    {
+        $callProxy = call(BoilerplateServiceWithConstructor::class, ['param' => true]);
+
+        $test = $callProxy->yourMethod(100);
+
+        $this->assertEquals(101, $test);
+
+        $test = $callProxy->test();
+
+        $this->assertTrue($test);
+    }
 }
