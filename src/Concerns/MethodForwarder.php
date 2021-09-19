@@ -5,9 +5,14 @@ namespace MichaelRubel\EnhancedContainer\Concerns;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
-class MethodForwarder implements Forwarding
+class MethodForwarder
 {
     use HelpsProxies;
+
+    /**
+     * @const CLASS_SEPARATOR
+     */
+    public const CLASS_SEPARATOR = '\\';
 
     /**
      * @param string $class
