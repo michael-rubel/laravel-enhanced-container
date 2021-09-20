@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
@@ -12,14 +13,14 @@ class CallProxy implements Call
     use HelpsProxies;
 
     /**
-     * @var object|null
+     * @var object
      */
-    public ?object $resolvedInstance = null;
+    public object $resolvedInstance;
 
     /**
-     * @var object|null
+     * @var object
      */
-    public ?object $resolvedInstanceForwardsTo = null;
+    public object $resolvedInstanceForwardsTo;
 
     /**
      * CallProxy constructor.
@@ -28,25 +29,21 @@ class CallProxy implements Call
      * @param array         $dependencies
      *
      * @throws \ReflectionException
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function __construct(
         private object | string $class,
         private array $dependencies = []
     ) {
-        if (is_null($this->resolvedInstance)) {
-            $this->resolvedInstance = $this->resolvePassedClass(
-                $this->class,
-                $this->dependencies
-            );
-        }
+        $this->resolvedInstance = $this->resolvePassedClass(
+            $this->class,
+            $this->dependencies
+        );
 
         if (config('enhanced-container.forwarding_enabled')) {
-            if (is_null($this->resolvedInstanceForwardsTo)) {
-                $this->resolvedInstanceForwardsTo = (
-                    new MethodForwarder($this->class, $this->dependencies)
-                )->resolveClass();
-            }
+            $this->resolvedInstanceForwardsTo = (
+                new MethodForwarder($this->class, $this->dependencies)
+            )->resolveClass();
         }
     }
 
@@ -106,7 +103,6 @@ class CallProxy implements Call
      *
      * @return mixed
      * @throws \ReflectionException
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function __get(string $name): mixed
     {
