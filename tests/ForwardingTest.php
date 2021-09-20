@@ -97,4 +97,31 @@ class ForwardingTest extends TestCase
 
         call(BestDomain::class)->builderMethod();
     }
+
+    /** @test */
+    public function testCanGetAndSetPropertiesWithForwarding()
+    {
+        $callProxy = call(UserService::class);
+
+        $test = $callProxy->testProperty;
+
+        $this->assertTrue($test);
+
+        $callProxy->testProperty = false;
+        $test = $callProxy->testProperty;
+
+        $this->assertFalse($test);
+    }
+
+    /** @test */
+    public function testThrowsErrorSettingNonExistingPropertyWithForwarding()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $callProxy = call(UserService::class);
+
+        $test = $callProxy->nonExistingProperty = false;
+
+        $this->assertFalse($test);
+    }
 }

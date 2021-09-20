@@ -5,6 +5,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
 class ContainerCallTest extends TestCase
 {
@@ -86,6 +87,30 @@ class ContainerCallTest extends TestCase
         $test = $callProxy->testProperty;
 
         $this->assertTrue($test);
+
+        $test = $callProxy->testProperty = false;
+
+        $this->assertFalse($test);
+    }
+
+    /** @test */
+    public function testThrowsErrorAccessingNonExistingPropertyWithoutForwarding()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $callProxy = call(UserService::class);
+
+        $test = $callProxy->testProperty;
+
+        $this->assertTrue($test);
+    }
+
+    /** @test */
+    public function testThrowsErrorSettingNonExistingPropertyWithoutForwarding()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $callProxy = call(UserService::class);
 
         $test = $callProxy->testProperty = false;
 

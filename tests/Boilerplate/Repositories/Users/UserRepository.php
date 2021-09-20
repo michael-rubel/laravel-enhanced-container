@@ -8,6 +8,11 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository
 class UserRepository implements TestRepositoryInterface
 {
     /**
+     * @var bool
+     */
+    public bool $testProperty = true;
+
+    /**
      * @param Builder $builder
      */
     public function __construct(
