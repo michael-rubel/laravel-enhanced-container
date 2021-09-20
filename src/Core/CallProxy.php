@@ -128,22 +128,15 @@ class CallProxy implements Call
             if (config('enhanced-container.forwarding_enabled')) {
                 property_exists($this->resolvedForwardsToInstance, $name)
                     ? $this->resolvedForwardsToInstance->{$name} = $value
-                    : throw new \InvalidArgumentException(
-                        'Property '
-                        . $name
-                        . ' not found in class '
-                        . $this->resolvedForwardsToInstance::class
+                    : $this->throwPropertyNotFoundException(
+                        $name,
+                        $this->resolvedForwardsToInstance
                     );
 
                 return;
             }
 
-            throw new \InvalidArgumentException(
-                'Property '
-                . $name
-                . ' not found in class '
-                . $this->resolvedInstance::class
-            );
+            $this->throwPropertyNotFoundException($name, $this->resolvedInstance);
         }
     }
 }

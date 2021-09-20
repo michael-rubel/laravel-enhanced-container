@@ -78,4 +78,20 @@ trait HelpsProxies
             fn ($param) => $param->getName()
         )->combine($toCombine)->all();
     }
+
+    /**
+     * Handle property error.
+     *
+     * @param string $name
+     * @param object $instance
+     */
+    public function throwPropertyNotFoundException(string $name, object $instance): void
+    {
+        throw new \InvalidArgumentException(
+            'Property '
+            . $name
+            . ' not found in class '
+            . $instance::class
+        );
+    }
 }
