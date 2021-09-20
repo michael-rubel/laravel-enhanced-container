@@ -21,10 +21,15 @@ return [
     'forwarding_enabled' => false,
 
     /*
-     | Determine if you want to use plural or singular folder names.
+     | Class/namespace naming convention.
+     |
+     | Available options: plural, pluralStudly, singular, studly,
+     | any other string conversion from "Illuminate\Support\Str"
+     |
+     | Default: 'pluralStudly'
      */
 
-    'naming' => 'plural', // second option: singular
+    'naming' => 'pluralStudly',
 
     /*
      | "From"
