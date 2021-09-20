@@ -21,30 +21,35 @@ return [
     'forwarding_enabled' => false,
 
     /*
-     | Class/namespace naming convention.
+     | "From"
      |
-     | Available options: plural, pluralStudly, singular, studly,
+     | The layer from whom the call forwarded.
+     |
+     | Available naming options: plural, pluralStudly, singular, studly,
      | any other string conversion from "Illuminate\Support\Str"
      |
      | Default: 'pluralStudly'
      */
 
-    'naming' => 'pluralStudly',
-
-    /*
-     | "From"
-     |
-     | The layer from whom the call forwarded.
-     */
-
-    'from' => 'Service',
+    'from' => [
+        'layer'  => 'Service',
+        'naming' => 'pluralStudly',
+    ],
 
     /*
      | "To"
      |
      | The layer where the call is forwarded.
+     |
+     | Available naming options: plural, pluralStudly, singular, studly,
+     | any other string conversion from "Illuminate\Support\Str"
+     |
+     | Default: 'pluralStudly'
      */
 
-    'to' => 'Repository',
+    'to' => [
+        'layer'  => 'Repository',
+        'naming' => 'pluralStudly',
+    ],
 
 ];

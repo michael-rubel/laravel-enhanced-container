@@ -74,9 +74,10 @@ class ForwardingTest extends TestCase
     public function testCanForwardDomainToBuilder()
     {
         config([
-            'enhanced-container.naming' => 'singular',
-            'enhanced-container.from' => 'Domain',
-            'enhanced-container.to' => 'Builder',
+            'enhanced-container.from.layer' => 'Domain',
+            'enhanced-container.from.naming' => 'singular',
+            'enhanced-container.to.layer' => 'Builder',
+            'enhanced-container.to.naming' => 'singular',
         ]);
 
         $call = call(BestDomain::class)->builderMethod();
@@ -90,9 +91,25 @@ class ForwardingTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
 
         config([
-            'enhanced-container.naming' => 'plural',
-            'enhanced-container.from' => 'Domain',
-            'enhanced-container.to' => 'Builder',
+            'enhanced-container.from.layer' => 'Domain',
+            'enhanced-container.from.naming' => 'pluralStudly',
+            'enhanced-container.to.layer' => 'Builder',
+            'enhanced-container.ti.naming' => 'pluralStudly',
+        ]);
+
+        call(BestDomain::class)->builderMethod();
+    }
+
+    /** @test */
+    public function testFailToForwardDomainToBuilderWithDifferentNames()
+    {
+        $this->expectException(\BadMethodCallException::class);
+
+        config([
+            'enhanced-container.from.layer' => 'Domain',
+            'enhanced-container.from.naming' => 'singular',
+            'enhanced-container.to.layer' => 'Builder',
+            'enhanced-container.ti.naming' => 'pluralStudly',
         ]);
 
         call(BestDomain::class)->builderMethod();

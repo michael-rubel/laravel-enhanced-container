@@ -54,8 +54,8 @@ class MethodForwarder
                 ->pipe(
                     fn ($delimited) => $delimited->map(
                         fn ($item) => str_replace(
-                            Str::{config('enhanced-container.naming')}(config('enhanced-container.from')),
-                            Str::{config('enhanced-container.naming')}(config('enhanced-container.to')),
+                            Str::{config('enhanced-container.from.naming')}(config('enhanced-container.from.layer')),
+                            Str::{config('enhanced-container.to.naming')}(config('enhanced-container.to.layer')),
                             $item
                         )
                     )
@@ -65,8 +65,8 @@ class MethodForwarder
                         $structure->put(
                             $structure->keys()->last(),
                             str_replace(
-                                config('enhanced-container.from'),
-                                config('enhanced-container.to'),
+                                config('enhanced-container.from.layer'),
+                                config('enhanced-container.to.layer'),
                                 $structure->last() ?? ''
                             )
                         )->all()
