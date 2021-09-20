@@ -21,7 +21,7 @@ class CallProxy implements Call
     /**
      * @var object
      */
-    public object $resolvedForwardsToInstance;
+    public object $resolvedForwardingInstance;
 
     /**
      * CallProxy constructor.
@@ -42,7 +42,7 @@ class CallProxy implements Call
         );
 
         if (config('enhanced-container.forwarding_enabled')) {
-            $this->resolvedForwardsToInstance = (
+            $this->resolvedForwardingInstance = (
                 new MethodForwarder($this->class, $this->dependencies)
             )->getClass();
         }
@@ -85,7 +85,7 @@ class CallProxy implements Call
             fn () => $this->containerCall($this->resolvedInstance, $method, $parameters),
             function ($e) use ($method, $parameters) {
                 if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->containerCall($this->resolvedForwardsToInstance, $method, $parameters);
+                    return $this->containerCall($this->resolvedForwardingInstance, $method, $parameters);
                 }
 
                 throw new \BadMethodCallException($e->getMessage());
@@ -106,7 +106,7 @@ class CallProxy implements Call
             fn () => $this->resolvedInstance->{$name},
             function ($e) use ($name) {
                 if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->resolvedForwardsToInstance->{$name};
+                    return $this->resolvedForwardingInstance->{$name};
                 }
 
                 throw new \InvalidArgumentException($e->getMessage());
@@ -126,11 +126,11 @@ class CallProxy implements Call
             $this->resolvedInstance->{$name} = $value;
         } else {
             if (config('enhanced-container.forwarding_enabled')) {
-                property_exists($this->resolvedForwardsToInstance, $name)
-                    ? $this->resolvedForwardsToInstance->{$name} = $value
+                property_exists($this->resolvedForwardingInstance, $name)
+                    ? $this->resolvedForwardingInstance->{$name} = $value
                     : $this->throwPropertyNotFoundException(
                         $name,
-                        $this->resolvedForwardsToInstance
+                        $this->resolvedForwardingInstance
                     );
 
                 return;
