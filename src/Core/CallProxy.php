@@ -44,7 +44,7 @@ class CallProxy implements Call
         if (config('enhanced-container.forwarding_enabled')) {
             $this->resolvedForwardsToInstance = (
                 new MethodForwarder($this->class, $this->dependencies)
-            )->resolveClass();
+            )->getClass();
         }
     }
 
@@ -109,7 +109,7 @@ class CallProxy implements Call
                     return $this->resolvedForwardsToInstance->{$name};
                 }
 
-                throw new \BadMethodCallException($e->getMessage());
+                throw new \InvalidArgumentException($e->getMessage());
             }
         );
     }
@@ -122,15 +122,28 @@ class CallProxy implements Call
      */
     public function __set(string $name, mixed $value): void
     {
-        rescue(
-            fn () => $this->resolvedInstance->{$name} = $value,
-            function ($e) use ($name, $value) {
-                if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->resolvedForwardsToInstance->{$name} = $value;
-                }
+        if (property_exists($this->resolvedInstance, $name)) {
+            $this->resolvedInstance->{$name} = $value;
+        } else {
+            if (config('enhanced-container.forwarding_enabled')) {
+                property_exists($this->resolvedForwardsToInstance, $name)
+                    ? $this->resolvedForwardsToInstance->{$name} = $value
+                    : throw new \InvalidArgumentException(
+                        'Property '
+                        . $name
+                        . ' not found in class '
+                        . $this->resolvedForwardsToInstance::class
+                    );
 
-                throw new \BadMethodCallException($e->getMessage());
+                return;
             }
-        );
+
+            throw new \InvalidArgumentException(
+                'Property '
+                . $name
+                . ' not found in class '
+                . $this->resolvedInstance::class
+            );
+        }
     }
 }

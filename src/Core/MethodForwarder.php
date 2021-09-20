@@ -32,13 +32,9 @@ class MethodForwarder
      * @return object
      * @throws ReflectionException|BindingResolutionException
      */
-    public function resolveClass(): object
+    public function getClass(): object
     {
-        return rescue(
-            fn () => $this->resolvePassedClass($this->forwardsTo(), $this->dependencies),
-            fn ($e) => throw new \BadMethodCallException($e->getMessage()),
-            false
-        );
+        return $this->resolvePassedClass($this->forwardsTo(), $this->dependencies);
     }
 
     /**
