@@ -16,12 +16,12 @@ class CallProxy implements Call
     /**
      * @var object
      */
-    public object $resolvedInstance;
+    private object $resolvedInstance;
 
     /**
      * @var object
      */
-    public object $resolvedForwardingInstance;
+    private object $resolvedForwardingInstance;
 
     /**
      * CallProxy constructor.
