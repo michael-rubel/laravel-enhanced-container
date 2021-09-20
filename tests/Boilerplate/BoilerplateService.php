@@ -7,6 +7,11 @@ namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 class BoilerplateService
 {
     /**
+     * @var bool
+     */
+    public bool $testProperty = true;
+
+    /**
      * @param string $first
      * @param int    $second
      *

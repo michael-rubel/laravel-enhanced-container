@@ -77,4 +77,18 @@ class ContainerCallTest extends TestCase
 
         $this->assertTrue($test);
     }
+
+    /** @test */
+    public function testCanGetAndSetPropertiesThroughCallProxy()
+    {
+        $callProxy = call(BoilerplateService::class);
+
+        $test = $callProxy->testProperty;
+
+        $this->assertTrue($test);
+
+        $test = $callProxy->testProperty = false;
+
+        $this->assertFalse($test);
+    }
 }
