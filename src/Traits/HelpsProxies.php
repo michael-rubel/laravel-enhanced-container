@@ -85,7 +85,7 @@ trait HelpsProxies
      * @param string $name
      * @param object $instance
      */
-    public function throwPropertyNotFoundException(string $name, object $instance): void
+    public function throwPropertyNotFound(string $name, object $instance): void
     {
         throw new \InvalidArgumentException(
             'Property '
