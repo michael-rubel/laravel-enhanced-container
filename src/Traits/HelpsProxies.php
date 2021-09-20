@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Traits;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
+use ReflectionException;
 
 trait HelpsProxies
 {
@@ -13,8 +15,8 @@ trait HelpsProxies
      * @param array         $dependencies
      *
      * @return object
-     * @throws \ReflectionException
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws ReflectionException
+     * @throws BindingResolutionException
      */
     public function resolvePassedClass(object|string $class, array $dependencies = []): object
     {
@@ -46,7 +48,7 @@ trait HelpsProxies
      * @param array $parameters
      *
      * @return array
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function getPassedParameters(object $class, string $method, array $parameters): array
     {

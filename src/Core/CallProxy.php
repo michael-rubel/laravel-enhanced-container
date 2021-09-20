@@ -7,6 +7,7 @@ namespace MichaelRubel\EnhancedContainer\Core;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
+use ReflectionException;
 
 class CallProxy implements Call
 {
@@ -28,7 +29,7 @@ class CallProxy implements Call
      * @param object|string $class
      * @param array         $dependencies
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @throws BindingResolutionException
      */
     public function __construct(
@@ -55,7 +56,7 @@ class CallProxy implements Call
      * @param array  $parameters
      *
      * @return mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function containerCall(object $service, string $method, array $parameters): mixed
     {
@@ -76,7 +77,7 @@ class CallProxy implements Call
      * @param array  $parameters
      *
      * @return mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __call(string $method, array $parameters): mixed
     {
@@ -102,7 +103,6 @@ class CallProxy implements Call
      * @param string $name
      *
      * @return mixed
-     * @throws \ReflectionException
      */
     public function __get(string $name): mixed
     {
