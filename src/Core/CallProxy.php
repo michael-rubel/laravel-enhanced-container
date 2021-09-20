@@ -14,12 +14,12 @@ class CallProxy implements Call
     /**
      * @var object|null
      */
-    public ?object $resolvedService = null;
+    public ?object $resolvedInstance = null;
 
     /**
      * @var object|null
      */
-    public ?object $resolvedServiceForwardsTo = null;
+    public ?object $resolvedInstanceForwardsTo = null;
 
     /**
      * CallProxy constructor.
@@ -34,16 +34,16 @@ class CallProxy implements Call
         private object | string $class,
         private array $dependencies = []
     ) {
-        if (is_null($this->resolvedService)) {
-            $this->resolvedService = $this->resolvePassedClass(
+        if (is_null($this->resolvedInstance)) {
+            $this->resolvedInstance = $this->resolvePassedClass(
                 $this->class,
                 $this->dependencies
             );
         }
 
         if (config('enhanced-container.forwarding_enabled')) {
-            if (is_null($this->resolvedServiceForwardsTo)) {
-                $this->resolvedServiceForwardsTo = (
+            if (is_null($this->resolvedInstanceForwardsTo)) {
+                $this->resolvedInstanceForwardsTo = (
                     new MethodForwarder($this->class, $this->dependencies)
                 )->resolveClass();
             }
@@ -84,14 +84,14 @@ class CallProxy implements Call
     public function __call(string $method, array $parameters): mixed
     {
         $call = function () use ($method, $parameters) {
-            return $this->containerCall($this->resolvedService, $method, $parameters);
+            return $this->containerCall($this->resolvedInstance, $method, $parameters);
         };
 
         return rescue(
             fn () => $call(),
             function ($e) use ($method, $parameters) {
                 if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->containerCall($this->resolvedServiceForwardsTo, $method, $parameters);
+                    return $this->containerCall($this->resolvedInstanceForwardsTo, $method, $parameters);
                 }
 
                 throw new \BadMethodCallException($e->getMessage());
@@ -111,10 +111,10 @@ class CallProxy implements Call
     public function __get(string $name): mixed
     {
         return rescue(
-            fn () => $this->resolvedService->{$name},
+            fn () => $this->resolvedInstance->{$name},
             function ($e) use ($name) {
                 if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->resolvedServiceForwardsTo->{$name};
+                    return $this->resolvedInstanceForwardsTo->{$name};
                 }
 
                 throw new \BadMethodCallException($e->getMessage());
@@ -131,10 +131,10 @@ class CallProxy implements Call
     public function __set(string $name, mixed $value): void
     {
         rescue(
-            fn () => $this->resolvedService->{$name} = $value,
+            fn () => $this->resolvedInstance->{$name} = $value,
             function ($e) use ($name, $value) {
                 if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->resolvedServiceForwardsTo->{$name} = $value;
+                    return $this->resolvedInstanceForwardsTo->{$name} = $value;
                 }
 
                 throw new \BadMethodCallException($e->getMessage());

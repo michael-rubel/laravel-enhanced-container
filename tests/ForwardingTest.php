@@ -6,7 +6,7 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
-class MethodForwardingTest extends TestCase
+class ForwardingTest extends TestCase
 {
     /** @setUp */
     public function setUp(): void
