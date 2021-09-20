@@ -2,8 +2,10 @@
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
+use ReflectionException;
 
 class MethodForwarder
 {
@@ -28,7 +30,7 @@ class MethodForwarder
      * Forward the method.
      *
      * @return object
-     * @throws \ReflectionException
+     * @throws ReflectionException|BindingResolutionException
      */
     public function resolveClass(): object
     {

@@ -21,7 +21,7 @@ class CallProxy implements Call
     /**
      * @var object
      */
-    public object $resolvedInstanceForwardsTo;
+    public object $resolvedForwardsToInstance;
 
     /**
      * CallProxy constructor.
@@ -42,7 +42,7 @@ class CallProxy implements Call
         );
 
         if (config('enhanced-container.forwarding_enabled')) {
-            $this->resolvedInstanceForwardsTo = (
+            $this->resolvedForwardsToInstance = (
                 new MethodForwarder($this->class, $this->dependencies)
             )->resolveClass();
         }
@@ -81,15 +81,11 @@ class CallProxy implements Call
      */
     public function __call(string $method, array $parameters): mixed
     {
-        $call = function () use ($method, $parameters) {
-            return $this->containerCall($this->resolvedInstance, $method, $parameters);
-        };
-
         return rescue(
-            fn () => $call(),
+            fn () => $this->containerCall($this->resolvedInstance, $method, $parameters),
             function ($e) use ($method, $parameters) {
                 if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->containerCall($this->resolvedInstanceForwardsTo, $method, $parameters);
+                    return $this->containerCall($this->resolvedForwardsToInstance, $method, $parameters);
                 }
 
                 throw new \BadMethodCallException($e->getMessage());
@@ -110,7 +106,7 @@ class CallProxy implements Call
             fn () => $this->resolvedInstance->{$name},
             function ($e) use ($name) {
                 if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->resolvedInstanceForwardsTo->{$name};
+                    return $this->resolvedForwardsToInstance->{$name};
                 }
 
                 throw new \BadMethodCallException($e->getMessage());
@@ -130,7 +126,7 @@ class CallProxy implements Call
             fn () => $this->resolvedInstance->{$name} = $value,
             function ($e) use ($name, $value) {
                 if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->resolvedInstanceForwardsTo->{$name} = $value;
+                    return $this->resolvedForwardsToInstance->{$name} = $value;
                 }
 
                 throw new \BadMethodCallException($e->getMessage());
