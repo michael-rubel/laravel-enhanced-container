@@ -88,18 +88,16 @@ class CallProxy implements Call
     public function __call(string $method, array $parameters): mixed
     {
         if (method_exists($this->resolvedInstance, $method)) {
-            return rescue(
-                fn () => $this->containerCall($this->resolvedInstance, $method, $parameters),
-                fn ($e) => throw new BadMethodCallException($e->getMessage())
-            );
+            return $this->containerCall($this->resolvedInstance, $method, $parameters);
         } elseif (config('enhanced-container.forwarding_enabled')) {
-            return rescue(
-                fn () => $this->containerCall($this->resolvedForwardingInstance, $method, $parameters),
-                fn ($e) => throw new BadMethodCallException($e->getMessage())
-            );
+            return $this->containerCall($this->resolvedForwardingInstance, $method, $parameters);
         }
 
-        throw new BadMethodCallException('Cannot find a proper class to call.');
+        throw new BadMethodCallException(sprintf(
+            'Call to undefined method %s::%s()',
+            $this->resolvedInstance::class,
+            $method
+        ));
     }
 
     /**
