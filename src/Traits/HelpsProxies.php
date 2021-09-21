@@ -74,9 +74,11 @@ trait HelpsProxies
      */
     public function makeContainerParameters(array $parameters, array $toCombine): array
     {
-        return collect($parameters)->map(
-            fn ($param) => $param->getName()
-        )->combine($toCombine)->all();
+        return collect($parameters)
+            ->slice(0, count($toCombine))
+            ->map(
+                fn ($param) => $param->getName()
+            )->combine($toCombine)->all();
     }
 
     /**
