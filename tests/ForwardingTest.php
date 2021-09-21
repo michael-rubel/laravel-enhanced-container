@@ -151,4 +151,34 @@ class ForwardingTest extends TestCase
 
         $this->assertTrue($test);
     }
+
+    /** @test */
+    public function testMethodDoesntExist()
+    {
+        $this->expectException(\Error::class);
+
+        $object = resolve(UserService::class);
+
+        call($object)->doesntExistMethod();
+    }
+
+    /** @test */
+    public function testFailsToCallMethodInRepo()
+    {
+        $this->expectException(\TypeError::class);
+
+        $object = resolve(UserService::class);
+
+        call($object)->testMethodMultipleParamsInRepo([], '123test');
+    }
+
+    /** @test */
+    public function testCanCallMethodWithMultipleParamsInRepo()
+    {
+        $object = resolve(UserService::class);
+
+        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
+
+        $this->assertTrue($test);
+    }
 }

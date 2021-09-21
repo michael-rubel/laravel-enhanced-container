@@ -27,4 +27,15 @@ class UserRepository implements TestRepositoryInterface
     {
         return true;
     }
+
+    /**
+     * @param array $params
+     * @param int   $int
+     *
+     * @return bool
+     */
+    public function testMethodMultipleParamsInRepo(array $params, int $int): bool
+    {
+        return true;
+    }
 }

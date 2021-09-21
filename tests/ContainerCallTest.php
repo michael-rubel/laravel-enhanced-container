@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
@@ -115,5 +116,65 @@ class ContainerCallTest extends TestCase
         $test = $callProxy->testProperty = false;
 
         $this->assertFalse($test);
+    }
+
+    /** @test */
+    public function testMethodDoesntExist()
+    {
+        $this->expectException(\BadMethodCallException::class);
+
+        $object = resolve(UserService::class);
+
+        call($object)->doesntExistMethod();
+    }
+
+    /** @test */
+    public function testFailsToCallMethodWithWrongParameters()
+    {
+        $this->expectException(BindingResolutionException::class);
+
+        $object = resolve(UserService::class);
+
+        call($object)->testMethodWithParam();
+    }
+
+    /** @test */
+    public function testCanCallMethodWithTwoParamsWhenOnlyOneExists()
+    {
+        $object = resolve(UserService::class);
+
+        $test = call($object)->testMethodWithParam(123, true);
+
+        $this->assertTrue($test);
+    }
+
+    /** @test */
+    public function testFailsToCallMethodWithWrongParametersMultiple()
+    {
+        $this->expectException(BindingResolutionException::class);
+
+        $object = resolve(UserService::class);
+
+        call($object)->testMethodWithMultipleParams(123, true);
+    }
+
+    /** @test */
+    public function testFailsToCallMethodWithWrongTypes()
+    {
+        $this->expectException(\TypeError::class);
+
+        $object = resolve(UserService::class);
+
+        call($object)->testMethodWithMultipleParams(123, true, 123, false);
+    }
+
+    /** @test */
+    public function testFailsToCallMethodWithThreeParamsUsingFourParams()
+    {
+        $object = resolve(UserService::class);
+
+        $test = call($object)->testMethodWithMultipleParams([], true, 123, false);
+
+        $this->assertTrue($test);
     }
 }
