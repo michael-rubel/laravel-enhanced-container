@@ -8,6 +8,7 @@ use BadMethodCallException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
+use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 use ReflectionException;
 
@@ -106,6 +107,7 @@ class CallProxy implements Call
      * @param string $name
      *
      * @return mixed
+     * @throws PropertyNotFoundException
      */
     public function __get(string $name): mixed
     {
@@ -115,11 +117,7 @@ class CallProxy implements Call
             return $this->resolvedForwardingInstance->{$name};
         }
 
-        throw new \InvalidArgumentException(sprintf(
-            'Call to undefined property %s::%s()',
-            $this->resolvedInstance::class,
-            $name
-        ));
+        return $this->throwPropertyNotFoundException($name, $this->resolvedInstance);
     }
 
     /**
@@ -127,6 +125,8 @@ class CallProxy implements Call
      *
      * @param string $name
      * @param mixed  $value
+     *
+     * @throws PropertyNotFoundException
      */
     public function __set(string $name, mixed $value): void
     {
@@ -136,12 +136,12 @@ class CallProxy implements Call
             if (config('enhanced-container.forwarding_enabled')) {
                 property_exists($this->resolvedForwardingInstance, $name)
                     ? $this->resolvedForwardingInstance->{$name} = $value
-                    : $this->throwPropertyNotFound($name, $this->resolvedForwardingInstance);
+                    : $this->throwPropertyNotFoundException($name, $this->resolvedForwardingInstance);
 
                 return;
             }
 
-            $this->throwPropertyNotFound($name, $this->resolvedInstance);
+            $this->throwPropertyNotFoundException($name, $this->resolvedInstance);
         }
     }
 }

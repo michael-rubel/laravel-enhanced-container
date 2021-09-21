@@ -3,6 +3,7 @@
 namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
@@ -97,7 +98,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testThrowsErrorAccessingNonExistingPropertyWithoutForwarding()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(PropertyNotFoundException::class);
 
         $callProxy = call(UserService::class);
 
@@ -109,7 +110,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testThrowsErrorSettingNonExistingPropertyWithoutForwarding()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(PropertyNotFoundException::class);
 
         $callProxy = call(UserService::class);
 

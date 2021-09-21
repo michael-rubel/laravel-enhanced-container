@@ -6,6 +6,7 @@ namespace MichaelRubel\EnhancedContainer\Traits;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
+use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use ReflectionException;
 
 trait HelpsProxies
@@ -100,14 +101,15 @@ trait HelpsProxies
      *
      * @param string $name
      * @param object $instance
+     *
+     * @throws PropertyNotFoundException
      */
-    public function throwPropertyNotFound(string $name, object $instance): void
+    public function throwPropertyNotFoundException(string $name, object $instance): self
     {
-        throw new \InvalidArgumentException(
-            'Property '
-            . $name
-            . ' not found in class '
-            . $instance::class
-        );
+        throw new PropertyNotFoundException(sprintf(
+            'Call to undefined property %s::%s()',
+            $name,
+            $instance::class
+        ));
     }
 }
