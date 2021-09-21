@@ -82,6 +82,20 @@ trait HelpsProxies
     }
 
     /**
+     * Convert the object to its namespace.
+     *
+     * @param object|string $object
+     *
+     * @return string
+     */
+    public function convertToNamespace(object|string $object): string
+    {
+        return is_string($object)
+            ? $object
+            : $object::class;
+    }
+
+    /**
      * Handle property error.
      *
      * @param string $name

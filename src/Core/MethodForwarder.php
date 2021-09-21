@@ -24,9 +24,6 @@ class MethodForwarder
         private object | string $class,
         private array $dependencies
     ) {
-        if (is_object($this->class)) {
-            $this->class = $this->class::class;
-        }
     }
 
     /**
@@ -47,31 +44,32 @@ class MethodForwarder
      */
     public function forwardsTo(): string
     {
-        return collect($this->class)
-            ->pipe(
-                fn ($class) => collect(
-                    explode(self::CLASS_SEPARATOR, $class[0])
+        return collect(
+            $this->convertToNamespace($this->class)
+        )->pipe(
+            fn ($class) => collect(
+                explode(self::CLASS_SEPARATOR, $class[0])
+            )
+        )->pipe(
+            fn ($delimited) => $delimited->map(
+                fn ($item) => str_replace(
+                    Str::{config('enhanced-container.from.naming')}(config('enhanced-container.from.layer')),
+                    Str::{config('enhanced-container.to.naming')}(config('enhanced-container.to.layer')),
+                    $item
                 )
-            )->pipe(
-                fn ($delimited) => $delimited->map(
-                    fn ($item) => str_replace(
-                        Str::{config('enhanced-container.from.naming')}(config('enhanced-container.from.layer')),
-                        Str::{config('enhanced-container.to.naming')}(config('enhanced-container.to.layer')),
-                        $item
+            )
+        )->pipe(
+            fn ($structure) => implode(
+                self::CLASS_SEPARATOR,
+                $structure->put(
+                    $structure->keys()->last(),
+                    str_replace(
+                        config('enhanced-container.from.layer'),
+                        config('enhanced-container.to.layer'),
+                        $structure->last() ?? ''
                     )
-                )
-            )->pipe(
-                fn ($structure) => implode(
-                    self::CLASS_SEPARATOR,
-                    $structure->put(
-                        $structure->keys()->last(),
-                        str_replace(
-                            config('enhanced-container.from.layer'),
-                            config('enhanced-container.to.layer'),
-                            $structure->last() ?? ''
-                        )
-                    )->all()
-                )
-            );
+                )->all()
+            )
+        );
     }
 }
