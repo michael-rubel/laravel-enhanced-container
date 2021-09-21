@@ -10,7 +10,7 @@
 
 This package provides syntax sugar for the Laravel container calls and bindings, automatic resolution of bound implementation, method forwarding, and an enhanced version of the Laravel method binding feature.
 
-The package requires Laravel 8 and PHP 8.
+The package requires PHP 8.0 and Laravel 8.x.
 Future versions of PHP and Laravel will be maintained.
 
 ## Installation
