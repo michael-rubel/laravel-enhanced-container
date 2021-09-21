@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
+use BadMethodCallException;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 use ReflectionException;
 
 class CallProxy implements Call
 {
+    use ForwardsCalls;
     use HelpsProxies;
 
     /**
@@ -81,16 +84,17 @@ class CallProxy implements Call
      */
     public function __call(string $method, array $parameters): mixed
     {
-        return rescue(
-            fn () => $this->containerCall($this->resolvedInstance, $method, $parameters),
-            function ($e) use ($method, $parameters) {
-                if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->containerCall($this->resolvedForwardingInstance, $method, $parameters);
-                }
+        if (method_exists($this->resolvedInstance, $method)) {
+            return $this->containerCall($this->resolvedInstance, $method, $parameters);
+        } else {
+            if (config('enhanced-container.forwarding_enabled')) {
+                return $this->containerCall($this->resolvedForwardingInstance, $method, $parameters);
+            };
+        }
 
-                throw new \BadMethodCallException($e->getMessage());
-            }
-        );
+        throw new BadMethodCallException(sprintf(
+            'Call to undefined method %s::%s()', $this->resolvedInstance::class, $method
+        ));
     }
 
     /**
@@ -102,16 +106,17 @@ class CallProxy implements Call
      */
     public function __get(string $name): mixed
     {
-        return rescue(
-            fn () => $this->resolvedInstance->{$name},
-            function ($e) use ($name) {
-                if (config('enhanced-container.forwarding_enabled')) {
-                    return $this->resolvedForwardingInstance->{$name};
-                }
+        if (property_exists($this->resolvedInstance, $name)) {
+            return $this->resolvedInstance->{$name};
+        } else {
+            if (config('enhanced-container.forwarding_enabled')) {
+                return $this->resolvedForwardingInstance->{$name};
+            };
+        }
 
-                throw new \InvalidArgumentException($e->getMessage());
-            }
-        );
+        throw new \InvalidArgumentException(sprintf(
+            'Call to undefined property %s::%s()', $this->resolvedInstance::class, $name
+        ));
     }
 
     /**
