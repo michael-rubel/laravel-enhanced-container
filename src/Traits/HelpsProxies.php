@@ -77,7 +77,7 @@ trait HelpsProxies
         return collect($parameters)
             ->slice(0, count($toCombine))
             ->map(fn ($param) => $param->getName())
-            ->combine($toCombine)
+            ->combine(array_slice($toCombine, 0, count($parameters)))
             ->all();
     }
 
