@@ -141,4 +141,14 @@ class ForwardingTest extends TestCase
 
         $this->assertFalse($test);
     }
+
+    /** @test */
+    public function testCanPassAnObjectWithMethodForwarding()
+    {
+        $object = resolve(UserService::class);
+
+        $test = call($object)->testMethod();
+
+        $this->assertTrue($test);
+    }
 }
