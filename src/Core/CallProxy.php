@@ -46,7 +46,10 @@ class CallProxy implements Call
 
         if (config('enhanced-container.forwarding_enabled')) {
             $this->resolvedForwardingInstance = (
-                new MethodForwarder($this->class, $this->dependencies)
+                new MethodForwarder(
+                    $this->class,
+                    $this->dependencies
+                )
             )->getClass();
         }
     }
