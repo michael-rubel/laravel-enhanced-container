@@ -86,10 +86,8 @@ class CallProxy implements Call
     {
         if (method_exists($this->resolvedInstance, $method)) {
             return $this->containerCall($this->resolvedInstance, $method, $parameters);
-        } else {
-            if (config('enhanced-container.forwarding_enabled')) {
-                return $this->containerCall($this->resolvedForwardingInstance, $method, $parameters);
-            };
+        } elseif (config('enhanced-container.forwarding_enabled')) {
+            return $this->containerCall($this->resolvedForwardingInstance, $method, $parameters);
         }
 
         throw new BadMethodCallException(sprintf(
@@ -108,10 +106,8 @@ class CallProxy implements Call
     {
         if (property_exists($this->resolvedInstance, $name)) {
             return $this->resolvedInstance->{$name};
-        } else {
-            if (config('enhanced-container.forwarding_enabled')) {
-                return $this->resolvedForwardingInstance->{$name};
-            };
+        } elseif (config('enhanced-container.forwarding_enabled')) {
+            return $this->resolvedForwardingInstance->{$name};
         }
 
         throw new \InvalidArgumentException(sprintf(
