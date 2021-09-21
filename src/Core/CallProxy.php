@@ -93,7 +93,9 @@ class CallProxy implements Call
         }
 
         throw new BadMethodCallException(sprintf(
-            'Call to undefined method %s::%s()', $this->resolvedInstance::class, $method
+            'Call to undefined method %s::%s()',
+            $this->resolvedInstance::class,
+            $method
         ));
     }
 
@@ -115,7 +117,9 @@ class CallProxy implements Call
         }
 
         throw new \InvalidArgumentException(sprintf(
-            'Call to undefined property %s::%s()', $this->resolvedInstance::class, $name
+            'Call to undefined property %s::%s()',
+            $this->resolvedInstance::class,
+            $name
         ));
     }
 
