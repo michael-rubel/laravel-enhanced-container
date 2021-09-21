@@ -17,13 +17,16 @@ class MethodForwarder
     public const CLASS_SEPARATOR = '\\';
 
     /**
-     * @param string $class
-     * @param array  $dependencies
+     * @param object|string $class
+     * @param array         $dependencies
      */
     public function __construct(
-        private string $class,
+        private object | string $class,
         private array $dependencies
     ) {
+        if (is_object($this->class)) {
+            $this->class = $this->class::class;
+        }
     }
 
     /**
