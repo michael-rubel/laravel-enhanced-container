@@ -4,6 +4,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users\UserRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
@@ -177,6 +178,30 @@ class ForwardingTest extends TestCase
     public function testCanCallMethodWithMultipleParamsInRepo()
     {
         $object = resolve(UserService::class);
+
+        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
+
+        $this->assertTrue($test);
+    }
+
+    /** @test */
+    public function testCanCallRepoDirectlyWithMethodForwarding()
+    {
+        $object = resolve(UserRepository::class);
+
+        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
+
+        $this->assertTrue($test);
+    }
+
+    /** @test */
+    public function testCanCallRepoDirectlyWithoutForwarding()
+    {
+        config([
+            'enhanced-container.forwarding_enabled' => false,
+        ]);
+
+        $object = resolve(UserRepository::class);
 
         $test = call($object)->testMethodMultipleParamsInRepo([], 123);
 
