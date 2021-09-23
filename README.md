@@ -76,6 +76,21 @@ bind(Service::class)->method('yourMethod', function ($service, $app, $params) {
 
 #### The result next call: 101
 
+##### You can easily mock the methods in your tests as well, and it counts as code coverage. 😉
+
+For example:
+```php
+bind(ServiceInterface::class)->to(Service::class);
+bind(ServiceInterface::class)->method(
+    'externalApiRequestReturnsFalse',
+    fn () => false
+);
+
+$call = call(ServiceInterface::class)->externalApiRequestReturnsFalse();
+
+$this->assertFalse($call);
+```
+
 Remember that you need to use `call()` to method binding to work.
 If you rely on interfaces, the call will automatically resolve bound implementation for you, no need to do it manually.
 
@@ -133,7 +148,3 @@ If you put the same method in the `UserService`, it will fetch the result from t
 ```bash
 composer test
 ```
-
-## Contributing
-
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
