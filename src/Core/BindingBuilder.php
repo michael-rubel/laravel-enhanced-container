@@ -29,12 +29,15 @@ class BindingBuilder implements Bind
      * @param array  $parameters
      *
      * @return void
-     * @throws \ReflectionException
      */
     public function __call(string $method, array $parameters): void
     {
+        if (interface_exists($this->convertToNamespace($this->class))) {
+            $this->class = resolve($this->class);
+        }
+
         app()->bindMethod([
-            $this->resolvePassedClass($this->class)::class,
+            $this->convertToNamespace($this->class),
             $method,
         ], current($parameters));
     }

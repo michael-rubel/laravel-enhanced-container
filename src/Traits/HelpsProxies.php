@@ -24,7 +24,7 @@ trait HelpsProxies
         return is_object($class)
             ? $class
             : rescue(
-                function () use ($class, $dependencies): mixed {
+                function () use ($class, $dependencies): object {
                     if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
                         $constructor = (new \ReflectionClass($class))->getConstructor();
 
@@ -36,7 +36,7 @@ trait HelpsProxies
                         }
                     }
 
-                    return app()->make($class, $dependencies);
+                    return resolve($class, $dependencies);
                 },
                 fn ($e) => throw new \BadMethodCallException($e->getMessage()),
                 false
