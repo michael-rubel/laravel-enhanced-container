@@ -18,12 +18,12 @@ class CallProxy implements Call
     /**
      * @var object
      */
-    private object $resolvedInstance;
+    private object $resolved;
 
     /**
      * @var object
      */
-    private object $resolvedForwardingInstance;
+    private object $resolvedForwardsTo;
 
     /**
      * CallProxy constructor.
@@ -38,13 +38,13 @@ class CallProxy implements Call
         private object | string $class,
         private array $dependencies = []
     ) {
-        $this->resolvedInstance = $this->resolvePassedClass(
+        $this->resolved = $this->resolvePassedClass(
             $this->class,
             $this->dependencies
         );
 
         if (config('enhanced-container.forwarding_enabled')) {
-            $this->resolvedForwardingInstance = (
+            $this->resolvedForwardsTo = (
                 new MethodForwarder(
                     $this->class,
                     $this->dependencies
@@ -86,15 +86,15 @@ class CallProxy implements Call
      */
     public function __call(string $method, array $parameters): mixed
     {
-        if (method_exists($this->resolvedInstance, $method)) {
-            return $this->containerCall($this->resolvedInstance, $method, $parameters);
+        if (method_exists($this->resolved, $method)) {
+            return $this->containerCall($this->resolved, $method, $parameters);
         } elseif (config('enhanced-container.forwarding_enabled')) {
-            return $this->containerCall($this->resolvedForwardingInstance, $method, $parameters);
+            return $this->containerCall($this->resolvedForwardsTo, $method, $parameters);
         }
 
         throw new BadMethodCallException(sprintf(
             'Call to undefined method %s::%s()',
-            $this->resolvedInstance::class,
+            $this->resolved::class,
             $method
         ));
     }
@@ -109,13 +109,13 @@ class CallProxy implements Call
      */
     public function __get(string $name): mixed
     {
-        if (property_exists($this->resolvedInstance, $name)) {
-            return $this->resolvedInstance->{$name};
+        if (property_exists($this->resolved, $name)) {
+            return $this->resolved->{$name};
         } elseif (config('enhanced-container.forwarding_enabled')) {
-            return $this->resolvedForwardingInstance->{$name};
+            return $this->resolvedForwardsTo->{$name};
         }
 
-        return $this->throwPropertyNotFoundException($name, $this->resolvedInstance);
+        return $this->throwPropertyNotFoundException($name, $this->resolved);
     }
 
     /**
@@ -128,18 +128,18 @@ class CallProxy implements Call
      */
     public function __set(string $name, mixed $value): void
     {
-        if (property_exists($this->resolvedInstance, $name)) {
-            $this->resolvedInstance->{$name} = $value;
+        if (property_exists($this->resolved, $name)) {
+            $this->resolved->{$name} = $value;
         } else {
             if (config('enhanced-container.forwarding_enabled')) {
-                property_exists($this->resolvedForwardingInstance, $name)
-                    ? $this->resolvedForwardingInstance->{$name} = $value
-                    : $this->throwPropertyNotFoundException($name, $this->resolvedForwardingInstance);
+                property_exists($this->resolvedForwardsTo, $name)
+                    ? $this->resolvedForwardsTo->{$name} = $value
+                    : $this->throwPropertyNotFoundException($name, $this->resolvedForwardsTo);
 
                 return;
             }
 
-            $this->throwPropertyNotFoundException($name, $this->resolvedInstance);
+            $this->throwPropertyNotFoundException($name, $this->resolved);
         }
     }
 }
