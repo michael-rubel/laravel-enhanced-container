@@ -6,7 +6,6 @@ namespace MichaelRubel\EnhancedContainer\Core;
 
 use BadMethodCallException;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
@@ -14,7 +13,6 @@ use ReflectionException;
 
 class CallProxy implements Call
 {
-    use ForwardsCalls;
     use HelpsProxies;
 
     /**
