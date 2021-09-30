@@ -6,6 +6,7 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorClass;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithWrongContext;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithVariadicConstructor;
 
 class BaseBindingTest extends TestCase
@@ -91,5 +92,24 @@ class BaseBindingTest extends TestCase
         $this->assertIsArray($test);
         $this->assertInstanceOf(BoilerplateService::class, $test[0]);
         $this->assertInstanceOf(BoilerplateServiceWithConstructor::class, $test[1]);
+    }
+
+    /** @test */
+    public function testContextualBindingServiceNotNeedsDependency()
+    {
+        bind(BoilerplateInterface::class)
+            ->to(BoilerplateService::class)
+            ->when(BoilerplateServiceWithConstructorClass::class);
+
+        $test = call(
+            BoilerplateServiceWithConstructorClass::class
+        )->test();
+
+        $this->assertInstanceOf(BoilerplateService::class, $test);
+
+        // next call is not instantiable because of wrong context
+        $this->expectException(\BadMethodCallException::class);
+
+        call(BoilerplateServiceWithWrongContext::class);
     }
 }
