@@ -95,6 +95,10 @@ class BindingBuilder implements Bind
      */
     public function when(array|string $concrete): void
     {
+        app()->offsetUnset(
+            $this->convertToNamespace($this->class)
+        );
+
         app()->when($concrete)
             ->needs($this->convertToNamespace($this->class))
             ->give($this->contextualImplementation);
