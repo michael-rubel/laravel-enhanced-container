@@ -24,9 +24,9 @@ interface Bind
      * @param Closure|string|null $concrete
      * @param bool                $shared
      *
-     * @return void
+     * @return self
      */
-    public function to(Closure|string $concrete = null, bool $shared = false): void;
+    public function to(Closure|string $concrete = null, bool $shared = false): self;
 
     /**
      * Syntax sugar - singleton.
@@ -45,4 +45,13 @@ interface Bind
      * @return void
      */
     public function scoped(Closure|string $concrete = null): void;
+
+    /**
+     * Syntax sugar - contextual binding.
+     *
+     * @param array|string $concrete
+     *
+     * @return void
+     */
+    public function when(array|string $concrete): void;
 }
