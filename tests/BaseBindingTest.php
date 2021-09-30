@@ -63,6 +63,7 @@ class BaseBindingTest extends TestCase
     public function testCanUseContextualBindingWithNewSyntax()
     {
         bind(BoilerplateInterface::class)
+            ->asContextual()
             ->to(BoilerplateService::class)
             ->when(BoilerplateServiceWithConstructorClass::class);
 
@@ -77,6 +78,7 @@ class BaseBindingTest extends TestCase
     public function testCanUseContextualBindingWithVariadicDependencies()
     {
         bind(BoilerplateInterface::class)
+            ->asContextual()
             ->to(function ($app) {
                 return [
                     $app->make(BoilerplateService::class),
@@ -95,9 +97,30 @@ class BaseBindingTest extends TestCase
     }
 
     /** @test */
-    public function testContextualBindingServiceNotNeedsDependency()
+    public function testContextualBindingServiceWithWrongContext()
     {
         bind(BoilerplateInterface::class)
+            ->asContextual()
+            ->to(BoilerplateService::class)
+            ->when(BoilerplateServiceWithConstructorClass::class);
+
+        $test = call(
+            BoilerplateServiceWithConstructorClass::class
+        )->test();
+
+        $this->assertInstanceOf(BoilerplateService::class, $test);
+
+        // next call fails during to wrong instantiation context
+        $this->expectException(\BadMethodCallException::class);
+
+        call(BoilerplateServiceWithWrongContext::class);
+    }
+
+    /** @test */
+    public function testCanUseMultipleContextualBindings()
+    {
+        bind(BoilerplateInterface::class)
+            ->asContextual()
             ->to(BoilerplateService::class)
             ->when(BoilerplateServiceWithConstructorClass::class);
 
@@ -108,13 +131,26 @@ class BaseBindingTest extends TestCase
         $this->assertInstanceOf(BoilerplateService::class, $test);
 
         bind(BoilerplateInterface::class)
-            ->to(BoilerplateService::class)
-            ->when(BoilerplateServiceWithConstructorClass::class);
+            ->asContextual()
+            ->to(function ($app) {
+                return [
+                    $app->make(BoilerplateService::class),
+                    $app->make(BoilerplateServiceWithConstructor::class, ['param' => true]),
+                ];
+            })
+            ->when(BoilerplateServiceWithVariadicConstructor::class);
 
         $test = call(
-            BoilerplateServiceWithConstructorClass::class
+            BoilerplateServiceWithVariadicConstructor::class
         )->test();
 
-        $this->assertInstanceOf(BoilerplateService::class, $test);
+        $this->assertIsArray($test);
+        $this->assertInstanceOf(BoilerplateService::class, $test[0]);
+        $this->assertInstanceOf(BoilerplateServiceWithConstructor::class, $test[1]);
+
+        // next call fails during to wrong instantiation context
+        $this->expectException(\BadMethodCallException::class);
+
+        call(BoilerplateServiceWithWrongContext::class);
     }
 }
