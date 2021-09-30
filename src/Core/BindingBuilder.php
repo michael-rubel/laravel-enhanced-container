@@ -94,7 +94,7 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Enable isContextual binding.
+     * Enable contextual binding.
      *
      * @return $this
      */
@@ -106,7 +106,7 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Syntax sugar - isContextual binding.
+     * Syntax sugar - contextual binding.
      *
      * @param array|string $concrete
      *

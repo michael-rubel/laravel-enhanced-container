@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer;
 
 use Closure;
+use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
 
 interface Bind
 {
@@ -45,6 +46,13 @@ interface Bind
      * @return void
      */
     public function scoped(Closure|string $concrete = null): void;
+
+    /**
+     * Enable contextual binding.
+     *
+     * @return $this
+     */
+    public function asContextual(): self;
 
     /**
      * Syntax sugar - contextual binding.
