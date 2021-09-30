@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 
-class BoilerplateService
+class BoilerplateService implements BoilerplateInterface
 {
     /**
      * @var bool
