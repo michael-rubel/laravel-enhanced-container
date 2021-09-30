@@ -86,13 +86,15 @@ bind(ServiceInterface::class)->method(
     fn () => false
 );
 
-$call = call(ServiceInterface::class)->externalApiRequestReturnsFalse();
+$service = call(ServiceInterface::class);
+
+$call = $service->externalApiRequestReturnsFalse();
 
 $this->assertFalse($call);
 ```
 
-Remember that you need to use `call()` to method binding to work.
-If you rely on interfaces, the call will automatically resolve bound implementation for you, no need to do it manually.
+Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
+If you rely on interfaces, the proxy will automatically resolve bound implementation for you, no need to do it manually.
 
 ### Method forwarding
 This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met.
