@@ -107,9 +107,14 @@ class BaseBindingTest extends TestCase
 
         $this->assertInstanceOf(BoilerplateService::class, $test);
 
-        // next call is not instantiable because of wrong context
-        $this->expectException(\BadMethodCallException::class);
+        bind(BoilerplateInterface::class)
+            ->to(BoilerplateService::class)
+            ->when(BoilerplateServiceWithConstructorClass::class);
 
-        call(BoilerplateServiceWithWrongContext::class);
+        $test = call(
+            BoilerplateServiceWithConstructorClass::class
+        )->test();
+
+        $this->assertInstanceOf(BoilerplateService::class, $test);
     }
 }
