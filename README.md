@@ -1,5 +1,6 @@
-# Laravel Enhanced Container
+![laravel-lec](https://user-images.githubusercontent.com/37669560/135411590-5b67ccef-fcc5-4bd6-b7c8-e4b9aa659cb8.png)
 
+# Laravel Enhanced Container
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-enhanced-container.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-enhanced-container)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests?label=tests)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 [![PHP CS Fixer](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/check%20&%20fix%20styling%20with%20php-codesniffer?label=phpcs)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
