@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer;
 
 use Closure;
-use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
 
 interface Bind
 {
