@@ -65,7 +65,7 @@ class BaseBindingTest extends TestCase
             ->to(BoilerplateService::class)
             ->when(BoilerplateServiceWithConstructorClass::class);
 
-        $test = resolve(
+        $test = call(
             BoilerplateServiceWithConstructorClass::class
         )->test();
 
@@ -84,7 +84,7 @@ class BaseBindingTest extends TestCase
             })
             ->when(BoilerplateServiceWithVariadicConstructor::class);
 
-        $test = resolve(
+        $test = call(
             BoilerplateServiceWithVariadicConstructor::class
         )->test();
 
