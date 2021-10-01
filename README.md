@@ -122,7 +122,7 @@ $this->assertFalse($call);
 Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
 If you rely on interfaces, the proxy will automatically resolve bound implementation for you, no need to do it manually.
 
-Optionally, if you want to easily wrap all your class constructor's dependencies to `CallProxy`, you can use `BootsCallProxies` trait and then call `$this->bootCallProxies()` in your constructor. It will return `proxy` property with Laravel's native `Fluent` class. What it would look like:
+Optionally, if you want to easily wrap all your class constructor's dependencies to `CallProxy`, you can use `BootsCallProxies` trait and then call `$this->bootCallProxies()` in your constructor. It will bootstrap the `proxy` class property that utilizes Laravel's native `Fluent` object. What it would look like:
 
 ```php
 use MichaelRubel\EnhancedContainer\Traits\BootsCallProxies;
