@@ -119,6 +119,7 @@ class BindingBuilder implements Bind
     public function __call(string $method, array $parameters): void
     {
         if (interface_exists($this->convertToNamespace($this->abstract))) {
+            // auto-resolve implementation if it is an interface
             $this->abstract = resolve($this->abstract);
         }
 
