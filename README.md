@@ -213,3 +213,6 @@ If you put the same method in the `UserService`, it will fetch the result from t
 ```bash
 composer test
 ```
+
+## ToDo:
+- optional feature to be able to run previous bound method in the chain.
