@@ -47,7 +47,7 @@ class BindingBuilder implements Bind
      * Syntax sugar - basic "bind".
      *
      * @param \Closure|string|null $concrete
-     * @param bool                $shared
+     * @param bool                 $shared
      *
      * @return self
      */

@@ -17,7 +17,6 @@ trait HelpsProxies
      *
      * @return object
      * @throws ReflectionException
-     * @throws BindingResolutionException
      */
     public function resolvePassedClass(object|string $class, array $dependencies = []): object
     {
@@ -38,8 +37,7 @@ trait HelpsProxies
 
                     return resolve($class, $dependencies);
                 },
-                fn ($e) => throw new \BadMethodCallException($e->getMessage()),
-                false
+                fn ($e) => throw new \BadMethodCallException($e->getMessage())
             );
     }
 
