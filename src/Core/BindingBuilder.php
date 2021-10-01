@@ -19,10 +19,10 @@ class BindingBuilder implements Bind
     /**
      * BindingBuilder constructor.
      *
-     * @param object|string $class
+     * @param object|string $abstract
      */
     public function __construct(
-        private object | string $class
+        private object | string $abstract
     ) {
     }
 
@@ -53,7 +53,7 @@ class BindingBuilder implements Bind
      */
     public function to(\Closure|string $concrete = null, bool $shared = false): self
     {
-        app()->bind($this->class, $concrete, $shared);
+        app()->bind($this->abstract, $concrete, $shared);
 
         return $this;
     }
@@ -67,7 +67,7 @@ class BindingBuilder implements Bind
      */
     public function singleton(\Closure|string $concrete = null): void
     {
-        app()->singleton($this->class, $concrete);
+        app()->singleton($this->abstract, $concrete);
     }
 
     /**
@@ -79,7 +79,7 @@ class BindingBuilder implements Bind
      */
     public function scoped(\Closure|string $concrete = null): void
     {
-        app()->scoped($this->class, $concrete);
+        app()->scoped($this->abstract, $concrete);
     }
 
     /**
@@ -104,7 +104,7 @@ class BindingBuilder implements Bind
     public function for(array|string $concrete): void
     {
         app()->when($concrete)
-            ->needs($this->class)
+            ->needs($this->abstract)
             ->give($this->contextualImplementation);
     }
 
@@ -118,12 +118,12 @@ class BindingBuilder implements Bind
      */
     public function __call(string $method, array $parameters): void
     {
-        if (interface_exists($this->convertToNamespace($this->class))) {
-            $this->class = resolve($this->class);
+        if (interface_exists($this->convertToNamespace($this->abstract))) {
+            $this->abstract = resolve($this->abstract);
         }
 
         app()->bindMethod([
-            $this->convertToNamespace($this->class),
+            $this->convertToNamespace($this->abstract),
             $method,
         ], current($parameters));
     }
