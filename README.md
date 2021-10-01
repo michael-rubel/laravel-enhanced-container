@@ -122,6 +122,43 @@ $this->assertFalse($call);
 Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
 If you rely on interfaces, the proxy will automatically resolve bound implementation for you, no need to do it manually.
 
+Optionally, if you want to easily wrap all your class constructor's dependencies to `CallProxy`, you can use `BootsCallProxies` trait and then call `$this->bootCallProxies()` in your constructor. It will return `proxy` property with Laravel's native `Fluent` class. What it would look like:
+
+```php
+use MichaelRubel\EnhancedContainer\Traits\BootsCallProxies;
+
+class BoilerplateServiceWithBootedCallProxy implements BoilerplateInterface
+{
+    use BootsCallProxies;
+
+    /**
+     * @param ServiceInterface $service
+     */
+    public function __construct(
+        private ServiceInterface $service
+    ) {
+        $this->bootCallProxies();
+    }
+
+    /**
+     * @return object
+     */
+    public function getProxiedClass(): object
+    {
+        return $this->proxy->service; // your proxied service
+    }
+
+    /**
+     * @return object
+     */
+    public function getOriginal(): object
+    {
+        return $this->service; // your original is still available
+    }
+}
+```
+
+
 ### Method forwarding
 This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met.
 
