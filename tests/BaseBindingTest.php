@@ -6,6 +6,7 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorClass;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithVariadicConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithWrongContext;
 
@@ -164,10 +165,10 @@ class BaseBindingTest extends TestCase
 
         bind('$param')
             ->contextual(true)
-            ->for(BoilerplateServiceWithConstructor::class);
+            ->for(BoilerplateServiceWithConstructorPrimitive::class);
 
         $test = call(
-            BoilerplateServiceWithConstructor::class
+            BoilerplateServiceWithConstructorPrimitive::class
         )->getParam();
 
         $this->assertTrue($test);
