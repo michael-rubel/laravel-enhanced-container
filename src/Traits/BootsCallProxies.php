@@ -14,7 +14,9 @@ trait BootsCallProxies
     protected ?Fluent $proxy = null;
 
     /**
-     * Boots the collection of call proxies.
+     * Boots the fluent object of call proxies.
+     *
+     * @return void
      */
     public function bootCallProxies(): void
     {
