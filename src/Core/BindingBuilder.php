@@ -12,11 +12,6 @@ class BindingBuilder implements Bind
     use HelpsProxies;
 
     /**
-     * @var bool
-     */
-    private bool $isContextual = false;
-
-    /**
      * @var \Closure|string|array
      */
     private \Closure|string|array $contextualImplementation;
@@ -58,13 +53,7 @@ class BindingBuilder implements Bind
      */
     public function to(\Closure|string $concrete = null, bool $shared = false): self
     {
-        if (! $this->isContextual) {
-            app()->bind($this->class, $concrete, $shared);
-        }
-
-        if ($this->isContextual && $concrete !== null) {
-            $this->contextualImplementation = $concrete;
-        }
+        app()->bind($this->class, $concrete, $shared);
 
         return $this;
     }
@@ -98,9 +87,9 @@ class BindingBuilder implements Bind
      *
      * @return $this
      */
-    public function asContextual(): self
+    public function asContextual(\Closure|string|array $implementation): self
     {
-        $this->isContextual = true;
+        $this->contextualImplementation = $implementation;
 
         return $this;
     }
@@ -112,7 +101,7 @@ class BindingBuilder implements Bind
      *
      * @return void
      */
-    public function when(array|string $concrete): void
+    public function for(array|string $concrete): void
     {
         app()->when($concrete)
             ->needs($this->class)

@@ -63,9 +63,8 @@ class BaseBindingTest extends TestCase
     public function testCanUseContextualBindingWithNewSyntax()
     {
         bind(BoilerplateInterface::class)
-            ->asContextual()
-            ->to(BoilerplateService::class)
-            ->when(BoilerplateServiceWithConstructorClass::class);
+            ->asContextual(BoilerplateService::class)
+            ->for(BoilerplateServiceWithConstructorClass::class);
 
         $test = call(
             BoilerplateServiceWithConstructorClass::class
@@ -78,14 +77,13 @@ class BaseBindingTest extends TestCase
     public function testCanUseContextualBindingWithVariadicDependencies()
     {
         bind(BoilerplateInterface::class)
-            ->asContextual()
-            ->to(function ($app) {
+            ->asContextual(function ($app) {
                 return [
                     $app->make(BoilerplateService::class),
                     $app->make(BoilerplateServiceWithConstructor::class, ['param' => true]),
                 ];
             })
-            ->when(BoilerplateServiceWithVariadicConstructor::class);
+            ->for(BoilerplateServiceWithVariadicConstructor::class);
 
         $test = call(
             BoilerplateServiceWithVariadicConstructor::class
@@ -100,9 +98,8 @@ class BaseBindingTest extends TestCase
     public function testContextualBindingServiceWithWrongContext()
     {
         bind(BoilerplateInterface::class)
-            ->asContextual()
-            ->to(BoilerplateService::class)
-            ->when(BoilerplateServiceWithConstructorClass::class);
+            ->asContextual(BoilerplateService::class)
+            ->for(BoilerplateServiceWithConstructorClass::class);
 
         $test = call(
             BoilerplateServiceWithConstructorClass::class
@@ -120,9 +117,8 @@ class BaseBindingTest extends TestCase
     public function testCanUseMultipleContextualBindings()
     {
         bind(BoilerplateInterface::class)
-            ->asContextual()
-            ->to(BoilerplateService::class)
-            ->when(BoilerplateServiceWithConstructorClass::class);
+            ->asContextual(BoilerplateService::class)
+            ->for(BoilerplateServiceWithConstructorClass::class);
 
         $test = call(
             BoilerplateServiceWithConstructorClass::class
@@ -131,14 +127,13 @@ class BaseBindingTest extends TestCase
         $this->assertInstanceOf(BoilerplateService::class, $test);
 
         bind(BoilerplateInterface::class)
-            ->asContextual()
-            ->to(function ($app) {
+            ->asContextual(function ($app) {
                 return [
                     $app->make(BoilerplateService::class),
                     $app->make(BoilerplateServiceWithConstructor::class, ['param' => true]),
                 ];
             })
-            ->when(BoilerplateServiceWithVariadicConstructor::class);
+            ->for(BoilerplateServiceWithVariadicConstructor::class);
 
         $test = call(
             BoilerplateServiceWithVariadicConstructor::class

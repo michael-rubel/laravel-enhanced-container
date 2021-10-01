@@ -51,7 +51,7 @@ interface Bind
      *
      * @return $this
      */
-    public function asContextual(): self;
+    public function asContextual(\Closure|string|array $implementation): self;
 
     /**
      * Syntax sugar - contextual binding.
@@ -60,5 +60,5 @@ interface Bind
      *
      * @return void
      */
-    public function when(array|string $concrete): void;
+    public function for(array|string $concrete): void;
 }
