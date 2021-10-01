@@ -87,7 +87,7 @@ class BindingBuilder implements Bind
      *
      * @return $this
      */
-    public function asContextual(\Closure|string|array $implementation): self
+    public function contextual(\Closure|string|array $implementation): self
     {
         $this->contextualImplementation = $implementation;
 
