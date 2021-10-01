@@ -39,8 +39,33 @@ As scoped instance:
 bind(ServiceInterface::class)->scoped(Service::class);
 ```
 
+### Contextual binding with new syntax
+```php
+bind(ServiceInterface::class)
+   ->contextual(Service::class)
+   ->for(ClassWithTypeHintedInterface::class);
+```
 
-### Method binding
+As variadic dependency:
+```php
+bind(ServiceInterface::class)
+   ->contextual(
+       fn ($app) => [
+           $app->make(Service::class, ['param' => true]),
+           $app->make(AnotherServiceSharingTheSameInterface::class),
+       ]
+   )
+   ->for(ClassWithTypeHintedInterface::class);
+```
+
+As primitive:
+```php
+bind('$param')
+   ->contextual(true)
+   ->for(ClassWithTypeHintedPrimitive::class);
+```
+
+### Contextual method binding with input parameter interception
 Assuming that is your function in the service class:
 ```php
 class Service
