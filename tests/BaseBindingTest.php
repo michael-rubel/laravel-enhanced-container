@@ -78,12 +78,12 @@ class BaseBindingTest extends TestCase
     public function testCanUseContextualBindingWithVariadicDependencies()
     {
         bind(BoilerplateInterface::class)
-            ->contextual(function ($app) {
-                return [
+            ->contextual(
+                fn ($app) => [
                     $app->make(BoilerplateService::class),
                     $app->make(BoilerplateServiceWithConstructor::class, ['param' => true]),
-                ];
-            })
+                ]
+            )
             ->for(BoilerplateServiceWithVariadicConstructor::class);
 
         $test = call(
