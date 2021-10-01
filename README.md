@@ -12,7 +12,7 @@
 This package provides syntax sugar for the Laravel container calls and bindings, automatic resolution of bound implementation, method forwarding, and an enhanced version of the Laravel method binding feature.
 
 The package requires PHP 8.0 and Laravel 8.x.
-Future versions of PHP and Laravel will be maintained.
+Support for future versions of PHP & Laravel will be provided.
 
 ## Installation
 
@@ -127,7 +127,7 @@ Optionally, if you want to easily wrap all your class constructor's dependencies
 ```php
 use MichaelRubel\EnhancedContainer\Traits\BootsCallProxies;
 
-class BoilerplateServiceWithBootedCallProxy implements BoilerplateInterface
+class AnyYourClass
 {
     use BootsCallProxies;
 
