@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Traits;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use ReflectionException;
