@@ -148,4 +148,28 @@ class BaseBindingTest extends TestCase
 
         call(BoilerplateServiceWithWrongContext::class);
     }
+
+    /** @test */
+    public function testCanContextualBindPrimitive()
+    {
+        bind('$param')
+            ->contextual(false)
+            ->for(BoilerplateServiceWithConstructor::class);
+
+        $test = call(
+            BoilerplateServiceWithConstructor::class
+        )->getParam();
+
+        $this->assertFalse($test);
+
+        bind('$param')
+            ->contextual(true)
+            ->for(BoilerplateServiceWithConstructor::class);
+
+        $test = call(
+            BoilerplateServiceWithConstructor::class
+        )->getParam();
+
+        $this->assertTrue($test);
+    }
 }

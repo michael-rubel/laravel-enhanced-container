@@ -38,4 +38,12 @@ class BoilerplateServiceWithConstructor implements BoilerplateInterface
 
         return $count;
     }
+
+    /**
+     * @return bool
+     */
+    public function getParam(): bool
+    {
+        return $this->param;
+    }
 }
