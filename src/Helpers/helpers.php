@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use MichaelRubel\EnhancedContainer\Bind;
 use MichaelRubel\EnhancedContainer\Call;
+use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
 
 if (! function_exists('call')) {
     /**
@@ -22,10 +23,10 @@ if (! function_exists('bind')) {
     /**
      * @param string|object $abstract
      *
-     * @return mixed
+     * @return BindingBuilder
      */
-    function bind(string|object $abstract): mixed
+    function bind(string|object $abstract): BindingBuilder
     {
-        return app(Bind::class, [$abstract]);
+        return new BindingBuilder($abstract);
     }
 }
