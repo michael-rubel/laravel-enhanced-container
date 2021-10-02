@@ -4,6 +4,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Support\Fluent;
 use MichaelRubel\EnhancedContainer\Core\CallProxy;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateDependenciesAssignedOldWay;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithBootedCallProxy;
@@ -49,5 +50,22 @@ class BootCallProxiesTest extends TestCase
         $this->assertObjectHasAttribute('proxy', $originalClass);
         $this->assertObjectHasAttribute('test', $originalClass);
         $this->assertObjectHasAttribute('boolean', $originalClass);
+    }
+
+    /** @test */
+    public function testBootCallProxiesWithUnassignedDependencies()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $call = call(BoilerplateDependenciesAssignedOldWay::class);
+
+        $test = $call->getProxy();
+        $this->assertInstanceOf(Fluent::class, $test);
+
+        $test = $call->getProxiedClass();
+        $this->assertInstanceOf(CallProxy::class, $test);
+
+        $originalClass = resolve(BoilerplateDependenciesAssignedOldWay::class);
+
+        $this->assertObjectHasAttribute('proxy', $originalClass);
     }
 }
