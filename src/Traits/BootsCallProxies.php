@@ -20,13 +20,13 @@ trait BootsCallProxies
      */
     public function bootCallProxies(): void
     {
-        $this->proxy = new Fluent();
-
         $dependencies = (
             new \ReflectionClass(static::class)
         )?->getConstructor()?->getParameters();
 
         if ($dependencies) {
+            $this->proxy = new Fluent();
+
             collect($dependencies)->map(function ($param): void {
                 $class = $param->getType()->getName();
 
