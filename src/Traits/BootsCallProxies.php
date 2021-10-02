@@ -27,7 +27,7 @@ trait BootsCallProxies
         if ($dependencies) {
             $this->proxy = new Fluent();
 
-            collect($dependencies)->map(function ($param): void {
+            collect($dependencies)->map(function ($param) {
                 $class = $param->getType()->getName();
 
                 if (class_exists($class) || interface_exists($class)) {
