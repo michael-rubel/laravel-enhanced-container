@@ -31,7 +31,7 @@ trait BootsCallProxies
                 $class = $param->getType()->getName();
 
                 if (class_exists($class) || interface_exists($class)) {
-                    property_exists(static::class, $param->getName())
+                    property_exists(static::class, $param->getName()) && is_object($this->{$param->getName()})
                         ? $this
                             ->proxy
                             ->{$param->getName()} = call($this->{$param->getName()})
