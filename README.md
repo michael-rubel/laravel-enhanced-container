@@ -12,7 +12,7 @@
 This package provides syntax sugar for the Laravel container calls and bindings, automatic resolution of bound implementation, method forwarding, and an enhanced version of the Laravel method binding feature.
 
 The package requires PHP 8.0 and Laravel 8.x.
-Future versions of PHP and Laravel will be maintained.
+Support for future versions of PHP & Laravel will be provided.
 
 ## Installation
 
@@ -122,6 +122,43 @@ $this->assertFalse($call);
 Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
 If you rely on interfaces, the proxy will automatically resolve bound implementation for you, no need to do it manually.
 
+Optionally, if you want to easily wrap all your class constructor's dependencies to `CallProxy`, you can use `BootsCallProxies` trait and then call `$this->bootCallProxies()` in your constructor. It will bootstrap the `proxy` class property that utilizes Laravel's native `Fluent` object. What it would look like:
+
+```php
+use MichaelRubel\EnhancedContainer\Traits\BootsCallProxies;
+
+class AnyYourClass
+{
+    use BootsCallProxies;
+
+    /**
+     * @param ServiceInterface $service
+     */
+    public function __construct(
+        private ServiceInterface $service
+    ) {
+        $this->bootCallProxies();
+    }
+
+    /**
+     * @return object
+     */
+    public function getProxiedClass(): object
+    {
+        return $this->proxy->service; // your proxied service
+    }
+
+    /**
+     * @return object
+     */
+    public function getOriginal(): object
+    {
+        return $this->service; // your original is still available
+    }
+}
+```
+
+
 ### Method forwarding
 This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met.
 
@@ -176,3 +213,6 @@ If you put the same method in the `UserService`, it will fetch the result from t
 ```bash
 composer test
 ```
+
+## ToDo:
+- optional feature to be able to run previous bound method in the chain.
