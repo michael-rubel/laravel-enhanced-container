@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use MichaelRubel\EnhancedContainer\Bind;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
 
