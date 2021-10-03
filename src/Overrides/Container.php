@@ -187,7 +187,9 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     *  {@inheritdoc}
+     * {@inheritdoc}
+     *
+     * @return bool
      */
     public function has($id)
     {
@@ -220,7 +222,7 @@ class Container implements ArrayAccess, ContainerContract
     {
         return isset($this->instances[$abstract]) ||
                (isset($this->bindings[$abstract]['shared']) &&
-                $this->bindings[$abstract]['shared'] === true);
+               $this->bindings[$abstract]['shared'] === true);
     }
 
     /**
@@ -340,6 +342,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $method
      * @param  mixed  $instance
      * @param  array  $parameters
+     *
      * @return mixed
      */
     public function callMethodBinding($method, $instance, $parameters)
@@ -694,7 +697,9 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
-     *  {@inheritdoc}
+     * {@inheritdoc}
+     *
+     * @return mixed
      */
     public function get($id)
     {
@@ -944,8 +949,8 @@ class Container implements ArrayAccess, ContainerContract
             // primitive type which we can not resolve since it is not a class and
             // we will just bomb out with an error since we have no-where to go.
             $result = is_null(Util::getParameterClassName($dependency))
-                ? $this->resolvePrimitive($dependency)
-                : $this->resolveClass($dependency);
+                            ? $this->resolvePrimitive($dependency)
+                            : $this->resolveClass($dependency);
 
             if ($dependency->isVariadic()) {
                 $results = array_merge($results, $result);
@@ -1024,13 +1029,13 @@ class Container implements ArrayAccess, ContainerContract
     {
         try {
             return $parameter->isVariadic()
-                ? $this->resolveVariadicClass($parameter)
-                : $this->make(Util::getParameterClassName($parameter));
+                        ? $this->resolveVariadicClass($parameter)
+                        : $this->make(Util::getParameterClassName($parameter));
         }
 
-            // If we can not resolve the class instance, we will check to see if the value
-            // is optional, and if it is we will return the optional parameter value as
-            // the value of the dependency, similarly to how we do this with scalars.
+        // If we can not resolve the class instance, we will check to see if the value
+        // is optional, and if it is we will return the optional parameter value as
+        // the value of the dependency, similarly to how we do this with scalars.
         catch (BindingResolutionException $e) {
             if ($parameter->isDefaultValueAvailable()) {
                 array_pop($this->with);
@@ -1296,8 +1301,8 @@ class Container implements ArrayAccess, ContainerContract
     public function getAlias($abstract)
     {
         return isset($this->aliases[$abstract])
-            ? $this->getAlias($this->aliases[$abstract])
-            : $abstract;
+                    ? $this->getAlias($this->aliases[$abstract])
+                    : $abstract;
     }
 
     /**
