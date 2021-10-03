@@ -27,7 +27,7 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Syntax sugar.
+     * Method binding.
      *
      * @param string|null  $method
      * @param \Closure|null $override
@@ -44,7 +44,7 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Syntax sugar - basic "bind".
+     * Basic "bind".
      *
      * @param \Closure|string|null $concrete
      * @param bool                 $shared
@@ -59,7 +59,17 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Syntax sugar - singleton.
+     * Basic "bind", binds itself.
+     *
+     * @return void
+     */
+    public function itself(): void
+    {
+        app()->bind($this->abstract);
+    }
+
+    /**
+     * Singleton.
      *
      * @param \Closure|string|null $concrete
      *
@@ -71,7 +81,7 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Syntax sugar - scoped instance.
+     * Scoped instance.
      *
      * @param \Closure|string|null $concrete
      *
@@ -83,7 +93,7 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Enable contextual binding.
+     * Enables contextual binding.
      *
      * @return $this
      */
@@ -95,7 +105,7 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Syntax sugar - contextual binding.
+     * Contextual binding.
      *
      * @param array|string $concrete
      *
@@ -109,7 +119,7 @@ class BindingBuilder implements Bind
     }
 
     /**
-     * Pass the call through container.
+     * Bind the method to the container.
      *
      * @param string $method
      * @param array  $parameters

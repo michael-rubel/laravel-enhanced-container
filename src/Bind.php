@@ -9,7 +9,7 @@ use Closure;
 interface Bind
 {
     /**
-     * Syntax sugar - method binding.
+     * Method binding.
      *
      * @param string|null  $method
      * @param Closure|null $override
@@ -19,7 +19,7 @@ interface Bind
     public function method(string $method = null, Closure $override = null): self|null;
 
     /**
-     * Syntax sugar - basic "bind".
+     * Basic "bind".
      *
      * @param Closure|string|null $concrete
      * @param bool                $shared
@@ -29,7 +29,14 @@ interface Bind
     public function to(Closure|string $concrete = null, bool $shared = false): self;
 
     /**
-     * Syntax sugar - singleton.
+     * Basic "bind", binds itself.
+     *
+     * @return void
+     */
+    public function itself(): void;
+
+    /**
+     * Singleton.
      *
      * @param Closure|string|null $concrete
      *
@@ -38,7 +45,7 @@ interface Bind
     public function singleton(Closure|string $concrete = null): void;
 
     /**
-     * Syntax sugar - scoped instance.
+     * Scoped instance.
      *
      * @param Closure|string|null $concrete
      *
@@ -47,14 +54,14 @@ interface Bind
     public function scoped(Closure|string $concrete = null): void;
 
     /**
-     * Enable contextual binding.
+     * Enables contextual binding.
      *
      * @return $this
      */
     public function contextual(\Closure|string|array $implementation): self;
 
     /**
-     * Syntax sugar - contextual binding.
+     * Contextual binding.
      *
      * @param array|string $concrete
      *
