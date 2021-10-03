@@ -29,3 +29,16 @@ if (! function_exists('bind')) {
         return new BindingBuilder($abstract);
     }
 }
+
+if (! function_exists('singleton')) {
+    /**
+     * @param string              $abstract
+     * @param Closure|string|null $concrete
+     *
+     * @return void
+     */
+    function singleton(string $abstract, \Closure|string $concrete = null): void
+    {
+        app()->singleton($abstract, $concrete);
+    }
+}
