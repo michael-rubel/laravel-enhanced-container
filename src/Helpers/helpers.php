@@ -42,3 +42,16 @@ if (! function_exists('singleton')) {
         app()->singleton($abstract, $concrete);
     }
 }
+
+if (! function_exists('scoped')) {
+    /**
+     * @param string              $abstract
+     * @param Closure|string|null $concrete
+     *
+     * @return void
+     */
+    function scoped(string $abstract, \Closure|string $concrete = null): void
+    {
+        app()->scoped($abstract, $concrete);
+    }
+}
