@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 
-use MichaelRubel\EnhancedContainer\Call;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
+use MichaelRubel\EnhancedContainer\Core\CallProxy;
 
 if (! function_exists('call')) {
     /**
      * @param string|object $class
      * @param array         $parameters
      *
-     * @return mixed
+     * @return CallProxy
+     * @throws ReflectionException
+     * @throws BindingResolutionException
      */
-    function call(string|object $class, array $parameters = []): mixed
+    function call(string|object $class, array $parameters = []): CallProxy
     {
-        return app(Call::class, [$class, $parameters]);
+        return new CallProxy($class, $parameters);
     }
 }
 
