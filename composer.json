@@ -1,10 +1,11 @@
 {
     "name": "michael-rubel/laravel-enhanced-container",
-    "description": "Provides syntax sugar for Laravel container calls",
+    "description": "Improved Laravel service container features. Provides enhanced method binding, method forwarding, and syntax sugar to operate on the container.",
     "keywords": [
         "michael-rubel",
         "laravel",
-        "laravel-enhanced-container"
+        "laravel-enhanced-container",
+        "lec"
     ],
     "homepage": "https://github.com/michael-rubel/laravel-enhanced-container",
     "license": "MIT",
