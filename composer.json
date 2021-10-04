@@ -59,7 +59,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MichaelRubel\\EnhancedContainer\\CallServiceProvider"
+                "MichaelRubel\\EnhancedContainer\\LecServiceProvider"
             ]
         }
     },

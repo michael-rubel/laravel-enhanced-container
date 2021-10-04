@@ -2,7 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
-use MichaelRubel\EnhancedContainer\CallServiceProvider;
+use MichaelRubel\EnhancedContainer\LecServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -15,7 +15,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            CallServiceProvider::class,
+            LecServiceProvider::class,
         ];
     }
 

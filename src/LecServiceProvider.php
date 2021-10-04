@@ -7,7 +7,7 @@ namespace MichaelRubel\EnhancedContainer;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class CallServiceProvider extends PackageServiceProvider
+class LecServiceProvider extends PackageServiceProvider
 {
     /**
      * Configure the package.
