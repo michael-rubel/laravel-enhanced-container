@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
+use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
-use MichaelRubel\EnhancedContainer\Core\CallProxy;
 
 if (! function_exists('call')) {
     /**
      * @param string|object $class
      * @param array         $parameters
      *
-     * @return CallProxy
+     * @return mixed
      */
-    function call(string|object $class, array $parameters = []): CallProxy
+    function call(string|object $class, array $parameters = []): mixed
     {
-        return new CallProxy($class, $parameters);
+        return app(Call::class, [$class, $parameters]);
     }
 }
 

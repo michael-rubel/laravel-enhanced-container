@@ -22,4 +22,19 @@ class LecServiceProvider extends PackageServiceProvider
             ->name('laravel-enhanced-container')
             ->hasConfigFile();
     }
+
+    /**
+     * Register any package services.
+     *
+     * @return void
+     */
+    public function packageBooted(): void
+    {
+        $this->app->bind(Call::class, function ($_app, $params) {
+            return new CallProxy(
+                current($params),
+                last($params)
+            );
+        });
+    }
 }
