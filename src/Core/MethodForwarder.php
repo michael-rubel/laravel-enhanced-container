@@ -30,7 +30,6 @@ class MethodForwarder
      * Forward the method.
      *
      * @return object
-     * @throws ReflectionException|BindingResolutionException
      */
     public function getClass(): object
     {

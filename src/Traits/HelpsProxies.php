@@ -6,7 +6,6 @@ namespace MichaelRubel\EnhancedContainer\Traits;
 
 use Illuminate\Support\Arr;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
-use ReflectionException;
 
 trait HelpsProxies
 {
@@ -15,7 +14,6 @@ trait HelpsProxies
      * @param array         $dependencies
      *
      * @return object
-     * @throws ReflectionException
      */
     public function resolvePassedClass(object|string $class, array $dependencies = []): object
     {
@@ -46,7 +44,7 @@ trait HelpsProxies
      * @param array $parameters
      *
      * @return array
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function getPassedParameters(object $class, string $method, array $parameters): array
     {

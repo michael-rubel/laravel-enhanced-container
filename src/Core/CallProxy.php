@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer\Core;
 
 use BadMethodCallException;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
@@ -30,9 +29,6 @@ class CallProxy implements Call
      *
      * @param object|string $class
      * @param array         $dependencies
-     *
-     * @throws ReflectionException
-     * @throws BindingResolutionException
      */
     public function __construct(
         private object | string $class,
