@@ -2,10 +2,8 @@
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
-use ReflectionException;
 
 class MethodForwarder
 {
