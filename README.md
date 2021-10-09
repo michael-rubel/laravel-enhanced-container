@@ -3,11 +3,12 @@
 # Laravel Enhanced Container
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-enhanced-container.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-enhanced-container)
 [![Total Downloads](https://img.shields.io/packagist/dt/michael-rubel/laravel-enhanced-container.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-enhanced-container)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests?label=tests)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
-[![PHP CS Fixer](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/check%20&%20fix%20styling%20with%20php-codesniffer?label=phpcs)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
-[![PHP CodeSniffer](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/check%20&%20fix%20styling%20with%20php-cs-fixer?label=php-cs-fixer)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
-[![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan?label=phpstan)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
-[![Psalm](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/psalm?label=psalm)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests?label=Tests)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/michael-rubel/laravel-enhanced-container/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/michael-rubel/laravel-enhanced-container/?branch=main)
+[![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan?label=Larastan)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
+[![Psalm](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/psalm?label=Psalm)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
+[![PHP CS Fixer](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/check%20&%20fix%20styling%20with%20php-codesniffer?label=CodeSniffer)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
+[![PHP CodeSniffer](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/check%20&%20fix%20styling%20with%20php-cs-fixer?label=CS-Fixer)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
 This package provides syntax sugar for the Laravel container calls and bindings, automatic resolution of bound implementation, method forwarding, and an enhanced version of the Laravel method binding feature.
 
