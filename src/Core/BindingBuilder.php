@@ -49,7 +49,7 @@ class BindingBuilder implements Bind
      * @param \Closure|string|null $concrete
      * @param bool                 $shared
      *
-     * @return self
+     * @return $this
      */
     public function to(\Closure|string $concrete = null, bool $shared = false): self
     {

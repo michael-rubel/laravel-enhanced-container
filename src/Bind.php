@@ -4,29 +4,27 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
-use Closure;
-
 interface Bind
 {
     /**
      * Method binding.
      *
      * @param string|null  $method
-     * @param Closure|null $override
+     * @param \Closure|null $override
      *
-     * @return self|null
+     * @return $this|null
      */
-    public function method(string $method = null, Closure $override = null): self|null;
+    public function method(string $method = null, \Closure $override = null): self|null;
 
     /**
      * Basic "bind".
      *
-     * @param Closure|string|null $concrete
-     * @param bool                $shared
+     * @param \Closure|string|null $concrete
+     * @param bool                 $shared
      *
      * @return self
      */
-    public function to(Closure|string $concrete = null, bool $shared = false): self;
+    public function to(\Closure|string $concrete = null, bool $shared = false): self;
 
     /**
      * Basic "bind", binds itself.
@@ -38,20 +36,20 @@ interface Bind
     /**
      * Singleton.
      *
-     * @param Closure|string|null $concrete
+     * @param \Closure|string|null $concrete
      *
      * @return void
      */
-    public function singleton(Closure|string $concrete = null): void;
+    public function singleton(\Closure|string $concrete = null): void;
 
     /**
      * Scoped instance.
      *
-     * @param Closure|string|null $concrete
+     * @param \Closure|string|null $concrete
      *
      * @return void
      */
-    public function scoped(Closure|string $concrete = null): void;
+    public function scoped(\Closure|string $concrete = null): void;
 
     /**
      * Enables contextual binding.
