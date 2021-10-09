@@ -24,6 +24,7 @@ class BindingBuilder implements Bind
     public function __construct(
         private object | string $abstract
     ) {
+        $this->abstract = $this->convertToNamespace($this->abstract);
     }
 
     /**
@@ -36,6 +37,13 @@ class BindingBuilder implements Bind
      */
     public function method(string $method = null, \Closure $override = null): self|null
     {
+        if (interface_exists($this->abstract)) {
+            // auto-resolve implementation if it is an interface
+            $this->abstract = $this->convertToNamespace(
+                resolve($this->abstract)
+            );
+        }
+
         if (is_null($method) || is_null($override)) {
             return $this;
         }
@@ -128,13 +136,8 @@ class BindingBuilder implements Bind
      */
     public function __call(string $method, array $parameters): void
     {
-        if (interface_exists($this->convertToNamespace($this->abstract))) {
-            // auto-resolve implementation if it is an interface
-            $this->abstract = resolve($this->abstract);
-        }
-
         app()->bindMethod([
-            $this->convertToNamespace($this->abstract),
+            $this->abstract,
             $method,
         ], current($parameters));
     }

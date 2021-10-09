@@ -62,6 +62,23 @@ class MethodBindingTest extends TestCase
     }
 
     /** @test */
+    public function testCanOverrideMethodWithInterfaceAlternativeSyntax()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        bind(BoilerplateInterface::class)->method(
+            'yourMethod',
+            fn ($service, $app) => $service->yourMethod(100) + 1
+        );
+
+        $call = call(BoilerplateService::class)->yourMethod(100);
+
+        $this->assertEquals(
+            101,
+            $call
+        );
+    }
+
+    /** @test */
     public function testBindMethodReturnsItselfIfOnlyMethodPassed()
     {
         bind(BoilerplateService::class)->method();
