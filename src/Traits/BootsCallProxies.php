@@ -24,7 +24,7 @@ trait BootsCallProxies
             new \ReflectionClass(static::class)
         )?->getConstructor()?->getParameters();
 
-        if ($dependencies) {
+        if (! empty($dependencies)) {
             $this->proxy = new Fluent();
 
             collect($dependencies)->map(function ($param) {
