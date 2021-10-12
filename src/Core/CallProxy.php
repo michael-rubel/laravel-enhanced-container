@@ -96,7 +96,7 @@ class CallProxy implements Call
     }
 
     /**
-     * Get the instance service's property.
+     * Get the instance's property.
      *
      * @param string $name
      *
@@ -115,7 +115,7 @@ class CallProxy implements Call
     }
 
     /**
-     * Set the instance service's property.
+     * Set the instance's property.
      *
      * @param string $name
      * @param mixed  $value
