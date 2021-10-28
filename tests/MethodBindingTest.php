@@ -153,4 +153,23 @@ class MethodBindingTest extends TestCase
 
         $this->assertTrue($test);
     }
+
+    /** @test */
+    public function testCanResolveStringsInMethodBinding()
+    {
+        bind('test')->to(BoilerplateService::class);
+        bind('test')->method('test', fn () => 'works');
+
+        $this->assertEquals('works', call(BoilerplateService::class)->test());
+    }
+
+    /** @test */
+    public function testTryingToResolveStringsDoesNotThrowExceptionIfNotBound()
+    {
+        bind('test')->method('test', fn () => 'works');
+
+        $this->assertTrue(
+            app()->hasMethodBinding('test@test')
+        );
+    }
 }

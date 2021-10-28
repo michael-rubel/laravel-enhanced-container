@@ -37,12 +37,9 @@ class BindingBuilder implements Bind
      */
     public function method(string $method = null, \Closure $override = null): self|null
     {
-        if (interface_exists($this->abstract)) {
-            // auto-resolve implementation if it is an interface
-            $this->abstract = $this->convertToNamespace(
-                resolve($this->abstract)
-            );
-        }
+        // try to resolve implementation
+        // for actual abstract type
+        $this->resolve();
 
         if (is_null($method) || is_null($override)) {
             return $this;
@@ -122,8 +119,8 @@ class BindingBuilder implements Bind
     public function for(array|string $concrete): void
     {
         app()->when($concrete)
-            ->needs($this->abstract)
-            ->give($this->contextualImplementation);
+             ->needs($this->abstract)
+             ->give($this->contextualImplementation);
     }
 
     /**
@@ -138,6 +135,22 @@ class BindingBuilder implements Bind
         app()->extend($this->abstract, $closure);
 
         return $this;
+    }
+
+    /**
+     * Try to resolve an abstract.
+     *
+     * @return mixed
+     */
+    public function resolve(): mixed
+    {
+        return rescue(
+            fn () => $this->abstract = $this->convertToNamespace(
+                resolve($this->abstract)
+            ),
+            null,
+            false
+        );
     }
 
     /**
