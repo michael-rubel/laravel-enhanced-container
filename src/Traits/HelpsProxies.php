@@ -34,9 +34,9 @@ trait HelpsProxies
             }
 
             return resolve($class, $dependencies);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $exception) {
             throw new \BadMethodCallException(
-                $e->getMessage()
+                $exception->getMessage()
             );
         }
     }
