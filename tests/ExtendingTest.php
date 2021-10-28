@@ -23,22 +23,4 @@ class ExtendingTest extends TestCase
             call(BoilerplateInterface::class)->testProperty
         );
     }
-
-    /** @test */
-    public function testCanExtendAbstractTypeUsingHelper()
-    {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
-
-        extend(BoilerplateInterface::class, function ($service) {
-            $this->assertTrue($service->testProperty);
-
-            $service->testProperty = false;
-
-            return $service;
-        });
-
-        $this->assertFalse(
-            call(BoilerplateInterface::class)->testProperty
-        );
-    }
 }

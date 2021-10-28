@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 
 class HelpersTest extends TestCase
@@ -37,5 +38,23 @@ class HelpersTest extends TestCase
         $boilerplateTwo = resolve(BoilerplateService::class);
 
         $this->assertSame($boilerplateOne, $boilerplateTwo);
+    }
+
+    /** @test */
+    public function testCanExtendAbstractTypeUsingHelper()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+
+        extend(BoilerplateInterface::class, function ($service) {
+            $this->assertTrue($service->testProperty);
+
+            $service->testProperty = false;
+
+            return $service;
+        });
+
+        $this->assertFalse(
+            call(BoilerplateInterface::class)->testProperty
+        );
     }
 }
