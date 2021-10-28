@@ -24,7 +24,7 @@ composer require michael-rubel/laravel-enhanced-container
 
 ## Usage
 
-### Basic binding with new syntax
+### Binding with new syntax
 ```php
 bind(ServiceInterface::class)->to(Service::class);
 
@@ -45,7 +45,22 @@ bind(ServiceInterface::class)->scoped(Service::class);
 scoped(Service::class);
 ```
 
-### Contextual binding with new syntax
+### Extending instances
+```php
+bind(ServiceInterface::class)->extend(function ($service) {
+    $service->testProperty = false;
+
+    return $service;
+});
+
+extend(ServiceInterface::class, function ($service) {
+    $service->testProperty = true;
+
+    return $service;
+})
+```
+
+### Contextual binding
 ```php
 bind(ServiceInterface::class)
    ->contextual(Service::class)
@@ -71,7 +86,7 @@ bind('$param')
    ->for(ClassWithTypeHintedPrimitive::class);
 ```
 
-### Contextual method binding with input parameter interception
+### Method binding with input parameter interception
 Assuming that is your function in the service class:
 ```php
 class Service
