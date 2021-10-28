@@ -17,25 +17,28 @@ trait HelpsProxies
      */
     public function resolvePassedClass(object|string $class, array $dependencies = []): object
     {
-        return is_object($class)
-            ? $class
-            : rescue(
-                function () use ($class, $dependencies): object {
-                    if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
-                        $constructor = (new \ReflectionClass($class))->getConstructor();
+        if (is_object($class)) {
+            return $class;
+        }
 
-                        if ($constructor) {
-                            $dependencies = $this->makeContainerParameters(
-                                $constructor->getParameters(),
-                                $dependencies
-                            );
-                        }
-                    }
+        try {
+            if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
+                $constructor = (new \ReflectionClass($class))->getConstructor();
 
-                    return resolve($class, $dependencies);
-                },
-                fn ($e) => throw new \BadMethodCallException($e->getMessage())
+                if ($constructor) {
+                    $dependencies = $this->makeContainerParameters(
+                        $constructor->getParameters(),
+                        $dependencies
+                    );
+                }
+            }
+
+            return resolve($class, $dependencies);
+        } catch (\Throwable $e) {
+            throw new \BadMethodCallException(
+                $e->getMessage()
             );
+        }
     }
 
     /**
