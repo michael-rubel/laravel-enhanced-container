@@ -127,6 +127,20 @@ class BindingBuilder implements Bind
     }
 
     /**
+     * Extend the abstract type.
+     *
+     * @param \Closure $closure
+     *
+     * @return BindingBuilder
+     */
+    public function extend(\Closure $closure): self
+    {
+        app()->extend($this->abstract, $closure);
+
+        return $this;
+    }
+
+    /**
      * Bind the method to the container.
      *
      * @param string $method

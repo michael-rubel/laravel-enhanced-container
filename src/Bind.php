@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
+use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
+
 interface Bind
 {
     /**
@@ -66,4 +68,13 @@ interface Bind
      * @return void
      */
     public function for(array|string $concrete): void;
+
+    /**
+     * Extend the abstract type.
+     *
+     * @param \Closure $closure
+     *
+     * @return BindingBuilder
+     */
+    public function extend(\Closure $closure): self;
 }

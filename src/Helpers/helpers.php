@@ -55,3 +55,16 @@ if (! function_exists('scoped')) {
         app()->scoped($abstract, $concrete);
     }
 }
+
+if (! function_exists('extend')) {
+    /**
+     * @param string  $abstract
+     * @param Closure $closure
+     *
+     * @return void
+     */
+    function extend(string $abstract, \Closure $closure): void
+    {
+        app()->extend($abstract, $closure);
+    }
+}
