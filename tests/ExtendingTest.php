@@ -11,7 +11,7 @@ class ExtendingTest extends TestCase
     public function testCanExtendAbstractType()
     {
         bind(BoilerplateInterface::class)->to(BoilerplateService::class);
-        bind(BoilerplateInterface::class)->extend(function($service) {
+        bind(BoilerplateInterface::class)->extend(function ($service) {
             $this->assertTrue($service->testProperty);
 
             $service->testProperty = false;
@@ -29,7 +29,7 @@ class ExtendingTest extends TestCase
     {
         bind(BoilerplateInterface::class)->to(BoilerplateService::class);
 
-        extend(BoilerplateInterface::class, function($service) {
+        extend(BoilerplateInterface::class, function ($service) {
             $this->assertTrue($service->testProperty);
 
             $service->testProperty = false;
