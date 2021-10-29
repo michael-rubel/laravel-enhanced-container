@@ -88,3 +88,39 @@ if (! function_exists('disableMethodForwarding')) {
         config(['enhanced-container.forwarding_enabled' => false]);
     }
 }
+
+if (! function_exists('runWithoutForwarding')) {
+    /**
+     * @param Closure $closure
+     *
+     * @return void
+     */
+    function runWithoutForwarding(\Closure $closure): mixed
+    {
+        disableMethodForwarding();
+
+        $callback = $closure();
+
+        enableMethodForwarding();
+
+        return $callback;
+    }
+}
+
+if (! function_exists('runWithForwarding')) {
+    /**
+     * @param Closure $closure
+     *
+     * @return void
+     */
+    function runWithForwarding(\Closure $closure): mixed
+    {
+        enableMethodForwarding();
+
+        $callback = $closure();
+
+        disableMethodForwarding();
+
+        return $callback;
+    }
+}
