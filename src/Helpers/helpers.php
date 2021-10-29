@@ -69,6 +69,16 @@ if (! function_exists('extend')) {
     }
 }
 
+if (! function_exists('isForwardingEnabled')) {
+    /**
+     * @return bool
+     */
+    function isForwardingEnabled(): bool
+    {
+        return config('enhanced-container.forwarding_enabled');
+    }
+}
+
 if (! function_exists('enableMethodForwarding')) {
     /**
      * @return void
