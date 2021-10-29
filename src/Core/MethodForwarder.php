@@ -33,11 +33,9 @@ class MethodForwarder
     {
         $forwardsTo = $this->forwardsTo();
 
-        if (class_exists($forwardsTo) || interface_exists($forwardsTo)) {
-            return $this->resolvePassedClass($forwardsTo, $this->dependencies);
-        }
-
-        return null;
+        return class_exists($forwardsTo) || interface_exists($forwardsTo)
+            ? $this->resolvePassedClass($forwardsTo, $this->dependencies)
+            : null;
     }
 
     /**
