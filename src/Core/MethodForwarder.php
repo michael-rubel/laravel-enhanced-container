@@ -27,11 +27,17 @@ class MethodForwarder
     /**
      * Forward the method.
      *
-     * @return object
+     * @return object|null
      */
-    public function getClass(): object
+    public function getClass(): ?object
     {
-        return $this->resolvePassedClass($this->forwardsTo(), $this->dependencies);
+        $forwardsTo = $this->forwardsTo();
+
+        if (class_exists($forwardsTo) || interface_exists($forwardsTo)) {
+            return $this->resolvePassedClass($forwardsTo, $this->dependencies);
+        }
+
+        return null;
     }
 
     /**

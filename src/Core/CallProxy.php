@@ -20,9 +20,9 @@ class CallProxy implements Call
     private object $instance;
 
     /**
-     * @var object
+     * @var object|null
      */
-    private object $forwardsTo;
+    private ?object $forwardsTo;
 
     /**
      * CallProxy constructor.
@@ -39,14 +39,12 @@ class CallProxy implements Call
             $this->dependencies
         );
 
-        if (config('enhanced-container.forwarding_enabled')) {
-            $this->forwardsTo = (
-                new MethodForwarder(
-                    $this->class,
-                    $this->dependencies
-                )
-            )->getClass();
-        }
+        $this->forwardsTo = (
+            new MethodForwarder(
+                $this->class,
+                $this->dependencies
+            )
+        )->getClass();
     }
 
     /**
@@ -84,7 +82,7 @@ class CallProxy implements Call
     {
         if (method_exists($this->instance, $method)) {
             return $this->containerCall($this->instance, $method, $parameters);
-        } elseif (config('enhanced-container.forwarding_enabled')) {
+        } elseif (isForwardingEnabled() && ! is_null($this->forwardsTo)) {
             return $this->containerCall($this->forwardsTo, $method, $parameters);
         }
 
@@ -107,7 +105,7 @@ class CallProxy implements Call
     {
         if (property_exists($this->instance, $name)) {
             return $this->instance->{$name};
-        } elseif (config('enhanced-container.forwarding_enabled')) {
+        } elseif (isForwardingEnabled() && ! is_null($this->forwardsTo)) {
             return $this->forwardsTo->{$name};
         }
 
@@ -127,7 +125,7 @@ class CallProxy implements Call
         if (property_exists($this->instance, $name)) {
             $this->instance->{$name} = $value;
         } else {
-            if (config('enhanced-container.forwarding_enabled')) {
+            if (isForwardingEnabled() && ! is_null($this->forwardsTo)) {
                 property_exists($this->forwardsTo, $name)
                     ? $this->forwardsTo->{$name} = $value
                     : $this->throwPropertyNotFoundException($name, $this->forwardsTo);
