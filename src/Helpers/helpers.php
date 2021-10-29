@@ -68,3 +68,23 @@ if (! function_exists('extend')) {
         app()->extend($abstract, $closure);
     }
 }
+
+if (! function_exists('enableMethodForwarding')) {
+    /**
+     * @return void
+     */
+    function enableMethodForwarding(): void
+    {
+        config(['enhanced-container.forwarding_enabled' => true]);
+    }
+}
+
+if (! function_exists('disableMethodForwarding')) {
+    /**
+     * @return void
+     */
+    function disableMethodForwarding(): void
+    {
+        config(['enhanced-container.forwarding_enabled' => false]);
+    }
+}
