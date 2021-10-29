@@ -92,10 +92,10 @@ class HelpersTest extends TestCase
     /** @test */
     public function testCanRunSomethingWithoutForwarding()
     {
-        $this->expectException(\BadMethodCallException::class);
-
-        runWithoutForwarding(function () {
-            return call(TestService::class)->nonExistingMethod();
+        $call = runWithoutForwarding(function () {
+            return call(BoilerplateService::class)->test();
         });
+
+        $this->assertTrue($call);
     }
 }
