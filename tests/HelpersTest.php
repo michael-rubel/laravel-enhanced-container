@@ -60,6 +60,16 @@ class HelpersTest extends TestCase
     }
 
     /** @test */
+    public function testCanCheckIfMethodForwardingEnabled()
+    {
+        config(['enhanced-container.forwarding_enabled' => true]);
+
+        $this->assertTrue(
+            isForwardingEnabled()
+        );
+    }
+
+    /** @test */
     public function testCanEnableMethodForwarding()
     {
         enableMethodForwarding();
