@@ -4,6 +4,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 
 class HelpersTest extends TestCase
 {
@@ -76,5 +77,25 @@ class HelpersTest extends TestCase
         $this->assertFalse(
             config('enhanced-container.forwarding_enabled')
         );
+    }
+
+    /** @test */
+    public function testCanRunSomethingWithForwardingEnabled()
+    {
+        $call = runWithForwarding(function () {
+            return call(TestService::class)->nonExistingMethod();
+        });
+
+        $this->assertTrue($call);
+    }
+
+    /** @test */
+    public function testCanRunSomethingWithoutForwarding()
+    {
+        $this->expectException(\BadMethodCallException::class);
+
+        runWithoutForwarding(function () {
+            return call(TestService::class)->nonExistingMethod();
+        });
     }
 }
