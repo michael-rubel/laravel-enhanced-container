@@ -93,7 +93,7 @@ if (! function_exists('runWithoutForwarding')) {
     /**
      * @param Closure $closure
      *
-     * @return void
+     * @return mixed
      */
     function runWithoutForwarding(\Closure $closure): mixed
     {
@@ -111,7 +111,7 @@ if (! function_exists('runWithForwarding')) {
     /**
      * @param Closure $closure
      *
-     * @return void
+     * @return mixed
      */
     function runWithForwarding(\Closure $closure): mixed
     {
