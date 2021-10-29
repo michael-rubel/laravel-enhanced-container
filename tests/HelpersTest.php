@@ -57,4 +57,24 @@ class HelpersTest extends TestCase
             call(BoilerplateInterface::class)->testProperty
         );
     }
+
+    /** @test */
+    public function testCanEnableMethodForwarding()
+    {
+        enableMethodForwarding();
+
+        $this->assertTrue(
+            config('enhanced-container.forwarding_enabled')
+        );
+    }
+
+    /** @test */
+    public function testCanDisableMethodForwarding()
+    {
+        disableMethodForwarding();
+
+        $this->assertFalse(
+            config('enhanced-container.forwarding_enabled')
+        );
+    }
 }
