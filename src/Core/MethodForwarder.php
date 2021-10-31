@@ -45,6 +45,11 @@ class MethodForwarder
      */
     public function forwardsTo(): string
     {
+        $naming_from = config('enhanced-container.from.naming') ?? 'pluralStudly';
+        $naming_to   = config('enhanced-container.to.naming') ?? 'pluralStudly';
+        $layer_from  = config('enhanced-container.from.layer') ?? 'Service';
+        $layer_to    = config('enhanced-container.to.layer') ?? 'Repository';
+
         return collect(
             $this->convertToNamespace($this->class)
         )->pipe(
@@ -54,8 +59,8 @@ class MethodForwarder
         )->pipe(
             fn ($delimited) => $delimited->map(
                 fn ($item) => str_replace(
-                    Str::{config('enhanced-container.from.naming')}(config('enhanced-container.from.layer')),
-                    Str::{config('enhanced-container.to.naming')}(config('enhanced-container.to.layer')),
+                    Str::{$naming_from}($layer_from),
+                    Str::{$naming_to}($layer_to),
                     $item
                 )
             )
@@ -65,8 +70,8 @@ class MethodForwarder
                 $structure->put(
                     $structure->keys()->last(),
                     str_replace(
-                        config('enhanced-container.from.layer'),
-                        config('enhanced-container.to.layer'),
+                        $layer_from,
+                        $layer_to,
                         $structure->last() ?? ''
                     )
                 )->all()
