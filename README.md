@@ -1,12 +1,12 @@
 ![laravel-lec](https://user-images.githubusercontent.com/37669560/135411590-5b67ccef-fcc5-4bd6-b7c8-e4b9aa659cb8.png)
 
 # Laravel Enhanced Container
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-enhanced-container.svg?style=for-the-badge)](https://packagist.org/packages/michael-rubel/laravel-enhanced-container)
-[![Total Downloads](https://img.shields.io/packagist/dt/michael-rubel/laravel-enhanced-container.svg?style=for-the-badge)](https://packagist.org/packages/michael-rubel/laravel-enhanced-container)
-[![Code Quality](https://img.shields.io/scrutinizer/quality/g/michael-rubel/laravel-enhanced-container.svg?style=for-the-badge)](https://scrutinizer-ci.com/g/michael-rubel/laravel-enhanced-container/?branch=main)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests/main?style=for-the-badge&label=tests)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/michael-rubel/laravel-enhanced-container.svg?style=for-the-badge)](https://scrutinizer-ci.com/g/michael-rubel/laravel-enhanced-container/?branch=main)
-[![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan/main?style=for-the-badge&label=larastan)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-enhanced-container.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-enhanced-container)
+[![Total Downloads](https://img.shields.io/packagist/dt/michael-rubel/laravel-enhanced-container.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-enhanced-container)
+[![Code Quality](https://img.shields.io/scrutinizer/quality/g/michael-rubel/laravel-enhanced-container.svg?style=flat-square)](https://scrutinizer-ci.com/g/michael-rubel/laravel-enhanced-container/?branch=main)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests/main?style=flat-square&label=tests)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/michael-rubel/laravel-enhanced-container.svg?style=flat-square)](https://scrutinizer-ci.com/g/michael-rubel/laravel-enhanced-container/?branch=main)
+[![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan/main?style=flat-square&label=larastan)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
 This package provides syntax sugar for the Laravel container calls and bindings, automatic resolution of bound implementation, method forwarding, and an enhanced version of the Laravel method binding feature.
 
