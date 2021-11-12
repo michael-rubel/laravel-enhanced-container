@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
@@ -45,19 +46,26 @@ class MethodForwarder
      */
     public function forwardsTo(): string
     {
+        /** @var string */
         $naming_from = config('enhanced-container.from.naming') ?? 'pluralStudly';
-        $naming_to   = config('enhanced-container.to.naming') ?? 'pluralStudly';
-        $layer_from  = config('enhanced-container.from.layer') ?? 'Service';
-        $layer_to    = config('enhanced-container.to.layer') ?? 'Repository';
+
+        /** @var string */
+        $naming_to = config('enhanced-container.to.naming') ?? 'pluralStudly';
+
+        /** @var string */
+        $layer_from = config('enhanced-container.from.layer') ?? 'Service';
+
+        /** @var string */
+        $layer_to = config('enhanced-container.to.layer') ?? 'Repository';
 
         return collect(
             $this->convertToNamespace($this->class)
         )->pipe(
-            fn ($class) => collect(
-                explode(self::CLASS_SEPARATOR, $class[0])
+            fn (Collection $class): Collection => collect(
+                explode(self::CLASS_SEPARATOR, $class->first())
             )
         )->pipe(
-            fn ($delimited) => $delimited->map(
+            fn (Collection $delimited): Collection => $delimited->map(
                 fn ($item) => str_replace(
                     Str::{$naming_from}($layer_from),
                     Str::{$naming_to}($layer_to),
@@ -65,7 +73,7 @@ class MethodForwarder
                 )
             )
         )->pipe(
-            fn ($structure) => implode(
+            fn (Collection $structure): string => implode(
                 self::CLASS_SEPARATOR,
                 $structure->put(
                     $structure->keys()->last(),

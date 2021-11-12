@@ -12,6 +12,11 @@ class BindingBuilder implements Bind
     use HelpsProxies;
 
     /**
+     * @var string
+     */
+    private string $abstract;
+
+    /**
      * @var \Closure|string|array
      */
     private \Closure|string|array $contextualImplementation;
@@ -21,10 +26,9 @@ class BindingBuilder implements Bind
      *
      * @param object|string $abstract
      */
-    public function __construct(
-        private object | string $abstract
-    ) {
-        $this->abstract = $this->convertToNamespace($this->abstract);
+    public function __construct(object | string $abstract)
+    {
+        $this->abstract = $this->convertToNamespace($abstract);
     }
 
     /**

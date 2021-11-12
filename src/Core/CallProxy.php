@@ -27,8 +27,8 @@ class CallProxy implements Call
     /**
      * CallProxy constructor.
      *
-     * @param object|string $class
-     * @param array         $dependencies
+     * @param object|class-string $class
+     * @param array               $dependencies
      */
     public function __construct(
         private object | string $class,

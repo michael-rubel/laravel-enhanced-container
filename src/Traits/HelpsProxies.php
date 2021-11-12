@@ -10,8 +10,8 @@ use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 trait HelpsProxies
 {
     /**
-     * @param object|string $class
-     * @param array         $dependencies
+     * @param object|class-string $class
+     * @param array               $dependencies
      *
      * @return object
      */

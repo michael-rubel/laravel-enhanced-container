@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
+use Illuminate\Foundation\Application;
 use MichaelRubel\EnhancedContainer\Core\CallProxy;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -31,10 +32,10 @@ class LecServiceProvider extends PackageServiceProvider
      */
     public function packageBooted(): void
     {
-        $this->app->bind(Call::class, function ($_app, $params) {
+        $this->app->bind(Call::class, function (Application $app, array $params) {
             return new CallProxy(
                 current($params),
-                last($params)
+                end($params)
             );
         });
     }

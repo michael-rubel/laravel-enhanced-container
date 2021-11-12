@@ -75,7 +75,7 @@ if (! function_exists('isForwardingEnabled')) {
      */
     function isForwardingEnabled(): bool
     {
-        return config('enhanced-container.forwarding_enabled');
+        return (bool) config('enhanced-container.forwarding_enabled');
     }
 }
 
