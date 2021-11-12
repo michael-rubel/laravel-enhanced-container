@@ -88,7 +88,7 @@ class Service
 
 Perform the call to your service through container:
 ```php
-call(Service::class)->yourMethod(100)
+call(Service::class)->yourMethod(100);
 ```
 
 Then override the method behavior in any place of your app:
