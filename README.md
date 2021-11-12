@@ -31,26 +31,16 @@ bind(Service::class)->itself();
 
 As singleton:
 ```php
-bind(ServiceInterface::class)->singleton(Service::class);
-
-singleton(Service::class);
+singleton(ServiceInterface::class, Service::class);
 ```
 
 As scoped instance:
 ```php
-bind(ServiceInterface::class)->scoped(Service::class);
-
-scoped(Service::class);
+scoped(ServiceInterface::class, Service::class);
 ```
 
 ### Extending instances
 ```php
-bind(ServiceInterface::class)->extend(function ($service) {
-    $service->testProperty = false;
-
-    return $service;
-});
-
 extend(ServiceInterface::class, function ($service) {
     $service->testProperty = true;
 
@@ -101,10 +91,6 @@ Perform the call to your service through container:
 call(Service::class)->yourMethod(100)
 ```
 
-You can pass it as `$this` or basic class object too:
-```php
-call(new Service())->yourMethod(100)
-```
 Then override the method behavior in any place of your app:
 ```php
 bind(Service::class)->method()->yourMethod(function ($service, $app, $params) {
@@ -150,33 +136,22 @@ class AnyYourClass
 {
     use BootsCallProxies;
 
-    /**
-     * @param ServiceInterface $service
-     */
-    public function __construct(
-        private ServiceInterface $service
-    ) {
+    public function __construct(private ServiceInterface $service)
+    {
         $this->bootCallProxies();
     }
 
-    /**
-     * @return object
-     */
     public function getProxiedClass(): object
     {
         return $this->proxy->service; // your proxied service
     }
 
-    /**
-     * @return object
-     */
     public function getOriginal(): object
     {
         return $this->service; // your original is still available
     }
 }
 ```
-
 
 ### Method forwarding
 This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met.
@@ -188,7 +163,7 @@ To enable this feature, publish the config:
 php artisan vendor:publish --tag="enhanced-container-config"
 ```
 
-Then turn `forwarding_enabled` option on and set the class names that met your application structure.
+Turn `forwarding_enabled` option on and set the class names that fits your application structure.
 
 Assuming your structure is:
 ```php
@@ -198,7 +173,7 @@ Queries:
 - App/Repositories/Users/UserRepository
 ```
 
-Then your classes:
+And your classes:
 ```php
 class UserService
 {
@@ -219,7 +194,7 @@ class UserRepository
 
 Then call the method to fetch the user:
 ```php
-call(UserService::class)->yourUser()
+call(UserService::class)->yourUser();
 ```
 
 The result will be `true` despite the method is missing in `UserService`.
