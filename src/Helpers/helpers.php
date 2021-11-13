@@ -69,6 +69,19 @@ if (! function_exists('extend')) {
     }
 }
 
+if (! function_exists('instance')) {
+    /**
+     * @param string $abstract
+     * @param mixed  $instance
+     *
+     * @return void
+     */
+    function instance(string $abstract, mixed $instance): void
+    {
+        app()->instance($abstract, $instance);
+    }
+}
+
 if (! function_exists('isForwardingEnabled')) {
     /**
      * @return bool
