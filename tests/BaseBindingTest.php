@@ -61,7 +61,7 @@ class BaseBindingTest extends TestCase
     {
         bind(BoilerplateInterface::class)->to(BoilerplateService::class);
 
-        instance(BoilerplateInterface::class, new BoilerplateServiceWithConstructor(true));
+        bind(BoilerplateInterface::class)->instance(new BoilerplateServiceWithConstructor(true));
 
         $this->assertInstanceOf(
             BoilerplateServiceWithConstructor::class,
