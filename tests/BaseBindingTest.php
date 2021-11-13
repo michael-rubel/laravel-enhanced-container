@@ -60,7 +60,6 @@ class BaseBindingTest extends TestCase
     public function testCanSetInstanceToTheContainer()
     {
         bind(BoilerplateInterface::class)->to(BoilerplateService::class);
-
         bind(BoilerplateInterface::class)->instance(new BoilerplateServiceWithConstructor(true));
 
         $this->assertInstanceOf(
