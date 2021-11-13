@@ -45,7 +45,7 @@ bind(ServiceInterface::class)->singleton(Service::class);
 singleton(Service::class);
 ```
 
-As scoped instance:
+As scoped singleton:
 ```php
 bind(ServiceInterface::class)->scoped(Service::class);
 ```
