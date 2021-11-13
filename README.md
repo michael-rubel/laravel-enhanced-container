@@ -26,21 +26,32 @@ composer require michael-rubel/laravel-enhanced-container
 
 ## Usage
 
-### Binding with new syntax
+### Binding in a new fluent way
 ```php
 bind(ServiceInterface::class)->to(Service::class);
+```
 
+Bind just an implementation:
+```php
 bind(Service::class)->itself();
 ```
 
 As singleton:
 ```php
-singleton(ServiceInterface::class, Service::class);
+bind(ServiceInterface::class)->singleton(Service::class);
+```
+
+```php
+singleton(Service::class);
 ```
 
 As scoped instance:
 ```php
-scoped(ServiceInterface::class, Service::class);
+bind(ServiceInterface::class)->scoped(Service::class);
+```
+
+```php
+scoped(Service::class);
 ```
 
 ### Extending instances
