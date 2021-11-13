@@ -77,4 +77,13 @@ interface Bind
      * @return BindingBuilder
      */
     public function extend(\Closure $closure): self;
+
+    /**
+     * Register an existing instance as shared in the container.
+     *
+     * @param mixed $instance
+     *
+     * @return BindingBuilder
+     */
+    public function instance(mixed $instance): self;
 }

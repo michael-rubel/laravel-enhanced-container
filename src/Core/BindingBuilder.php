@@ -142,6 +142,20 @@ class BindingBuilder implements Bind
     }
 
     /**
+     * Register an existing instance as shared in the container.
+     *
+     * @param mixed $instance
+     *
+     * @return BindingBuilder
+     */
+    public function instance(mixed $instance): self
+    {
+        app()->instance($this->abstract, $instance);
+
+        return $this;
+    }
+
+    /**
      * Try to resolve an abstract.
      *
      * @return mixed
