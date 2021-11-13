@@ -4,6 +4,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 
 class BaseBindingTest extends TestCase
 {
@@ -53,5 +54,18 @@ class BaseBindingTest extends TestCase
         $instance = resolve(BoilerplateInterface::class);
 
         $this->assertInstanceOf(BoilerplateService::class, $instance);
+    }
+
+    /** @test */
+    public function testCanSetInstanceToTheContainer()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+
+        instance(BoilerplateInterface::class, new BoilerplateServiceWithConstructor(true));
+
+        $this->assertInstanceOf(
+            BoilerplateServiceWithConstructor::class,
+            resolve(BoilerplateInterface::class)
+        );
     }
 }

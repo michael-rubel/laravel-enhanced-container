@@ -4,6 +4,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 
 class HelpersTest extends TestCase
@@ -56,6 +57,19 @@ class HelpersTest extends TestCase
 
         $this->assertFalse(
             call(BoilerplateInterface::class)->testProperty
+        );
+    }
+
+    /** @test */
+    public function testCanSetInstanceToTheContainerUsingHelper()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+
+        instance(BoilerplateInterface::class, new BoilerplateServiceWithConstructor(true));
+
+        $this->assertInstanceOf(
+            BoilerplateServiceWithConstructor::class,
+            resolve(BoilerplateInterface::class)
         );
     }
 
