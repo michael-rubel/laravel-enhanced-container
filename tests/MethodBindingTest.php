@@ -129,6 +129,24 @@ class MethodBindingTest extends TestCase
     }
 
     /** @test */
+    public function testCanOverrideMethodWithParametersAndAddCondition()
+    {
+        bind(BoilerplateService::class)->method('yourMethod', function ($service, $app, $params) {
+            if ($params['count'] === 100) {
+                return $service->yourMethod($params['count']) + 1;
+            }
+
+            return false;
+        });
+
+        $call = call(BoilerplateService::class)->yourMethod(100);
+        $this->assertSame(101, $call);
+
+        $call = call(BoilerplateService::class)->yourMethod(200);
+        $this->assertFalse($call);
+    }
+
+    /** @test */
     public function testCanOverrideMethodWhenReusingCallProxyInstance()
     {
         $callProxy = call(BoilerplateService::class);
