@@ -226,6 +226,34 @@ If you put the same method in the `UserService`, it will fetch the result from t
 
 - Note: if you use `PHPStan/Larastan` you'll need to add the `@method` docblock to the service to make it static-analyzable, otherwise it will return an error that the method doesn't exist in the class.
 
+If the forwarding in your application is enabled globally but you want to execute something bypassing the scheme, you can run it in disabled mode or vice versa:
+```php
+runWithoutForwarding(
+    fn () => call(Service::class)->yourMethod(100)
+);
+
+// executes the closure without forwarding
+
+runWithForwarding(
+    fn () => call(Service::class)->yourMethod(100)
+);
+
+// executes the closure with forwarding
+```
+
+You can disable or enable the forwarding globally in your code:
+```php
+enableMethodForwarding();
+
+// sets the config key to true
+```
+
+```php
+disableMethodForwarding();
+
+// sets the config key to false
+```
+
 ## Testing
 
 ```bash
