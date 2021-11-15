@@ -98,7 +98,7 @@ bind('$param')
    ->for(ClassWithTypeHintedPrimitive::class);
 ```
 
-### Method binding with input parameter interception
+### Method binding
 Assuming that is your function in the service class:
 ```php
 class Service
@@ -110,26 +110,36 @@ class Service
 }
 ```
 
-Perform the call to your service through container:
+Bind the service to an interface:
 ```php
-call(Service::class)->yourMethod(100);
+bind(ServiceInterface::class)->to(Service::class);
 ```
 
-Then override the method behavior in any place of your app:
+You can perform the call to your service through container:
 ```php
-bind(Service::class)->method()->yourMethod(function ($service, $app, $params) {
-    return $service->yourMethod($params['count']) + 1;
+call(ServiceInterface::class)->yourMethod(100);
+
+// the call automatically resolves the implementation from an interface you passed
+```
+
+Override method behavior in any place of your app. You can even add conditions in your method binding by intercepting parameters:
+```php
+bind(ServiceInterface::class)->method('yourMethod', function ($service, $app, $params) {
+    if ($params['count'] === 100) {
+        return $service->yourMethod($params['count']) + 1;
+    }
+
+    return false;
 });
-```
 
-Alternative syntax:
-```php
-bind(Service::class)->method('yourMethod', function ($service, $app, $params) {
-    return $service->yourMethod($params['count']) + 1;
-});
-```
+call(ServiceInterface::class)->yourMethod(100);
 
-#### The result next call: 101
+// 101
+
+call(ServiceInterface::class)->yourMethod(200);
+
+// false
+```
 
 ##### You can easily mock the methods in your tests as well, and it counts as code coverage. 😉
 
