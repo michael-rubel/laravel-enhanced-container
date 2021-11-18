@@ -68,6 +68,18 @@ class CallProxy implements Call
     }
 
     /**
+     * Gets the internal property by name.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function getInternal(string $property): mixed
+    {
+        return $this->{$property};
+    }
+
+    /**
      * Pass the call through container.
      *
      * @param string $method
