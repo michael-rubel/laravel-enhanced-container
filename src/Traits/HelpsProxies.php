@@ -10,33 +10,18 @@ use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 trait HelpsProxies
 {
     /**
-     * @param object|class-string $class
-     * @param array               $dependencies
-     * @param string|null         $context
+     * @param class-string $class
+     * @param array        $dependencies
+     * @param string|null  $context
      *
      * @return object
      */
-    public function resolvePassedClass(object|string $class, array $dependencies = [], ?string $context = null): object
+    public function resolvePassedClass(string $class, array $dependencies = [], ?string $context = null): object
     {
-        if (is_object($class)) {
-            return $class;
-        }
-
-        if (! is_null($context) && isset(app()->contextual[$context])) {
-            $class = app()->contextual[$context][$class] ?? $class;
-        }
+        $class = $this->getContextualConcrete($class, $context);
 
         try {
-            if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
-                $constructor = (new \ReflectionClass($class))->getConstructor();
-
-                if ($constructor) {
-                    $dependencies = $this->makeContainerParameters(
-                        $constructor->getParameters(),
-                        $dependencies
-                    );
-                }
-            }
+            $dependencies = $this->getDependencies($class, $dependencies);
 
             return resolve($class, $dependencies);
         } catch (\Throwable $exception) {
@@ -44,6 +29,48 @@ trait HelpsProxies
                 $exception->getMessage()
             );
         }
+    }
+
+    /**
+     * Get the contextual concrete.
+     *
+     * @param string      $class
+     * @param string|null $context
+     *
+     * @return string
+     */
+    public function getContextualConcrete(string $class, ?string $context = null): string
+    {
+        if (! is_null($context) && isset(app()->contextual[$context])) {
+            return app()->contextual[$context][$class] ?? $class;
+        }
+
+        return $class;
+    }
+
+    /**
+     * Resolve class dependencies.
+     *
+     * @param class-string $class
+     * @param array        $dependencies
+     *
+     * @return array
+     * @throws \ReflectionException
+     */
+    public function getDependencies(string $class, array $dependencies = []): array
+    {
+        if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
+            $constructor = (new \ReflectionClass($class))->getConstructor();
+
+            if ($constructor) {
+                $dependencies = $this->makeContainerParameters(
+                    $constructor->getParameters(),
+                    $dependencies
+                );
+            }
+        }
+
+        return $dependencies;
     }
 
     /**

@@ -36,11 +36,13 @@ class CallProxy implements Call
         private array $dependencies = [],
         private ?string $context = null
     ) {
-        $this->instance = $this->resolvePassedClass(
-            $this->class,
-            $this->dependencies,
-            $this->context
-        );
+        $this->instance = ! is_object($class)
+            ? $this->resolvePassedClass(
+                $this->class,
+                $this->dependencies,
+                $this->context
+            )
+            : $class;
 
         $this->forwardsTo = (new MethodForwarder(
             $this->class,
