@@ -23,7 +23,9 @@ trait HelpsProxies
         }
 
         if (! is_null($contextual) && isset(app()->contextual[$contextual])) {
-            $class = app()->contextual[$contextual][$class];
+            $class = isset(app()->contextual[$contextual][$class])
+                ? app()->contextual[$contextual][$class]
+                : $class;
         }
 
         try {

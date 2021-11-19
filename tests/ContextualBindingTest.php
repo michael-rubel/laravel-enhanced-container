@@ -11,7 +11,9 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConst
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithVariadicConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithWrongContext;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
 class ContextualBindingTest extends TestCase
 {
@@ -145,11 +147,17 @@ class ContextualBindingTest extends TestCase
             ->contextual(TestService::class)
             ->for(BoilerplateServiceResolvesContextualInMethod::class);
 
+        // set contextual
+        bind(BoilerplateInterface::class)
+            ->contextual(UserService::class)
+            ->for(TestRepository::class);
+
         $service = call(BoilerplateServiceResolvesContextualInMethod::class);
 
         $this->assertInstanceOf(TestService::class, $service->constructorHasContextual());
         $this->assertInstanceOf(TestService::class, $service->methodHasContextual()->getInternal('instance'));
         $this->assertInstanceOf(TestService::class, $service->methodHasContextual2()->getInternal('instance'));
+        $this->assertInstanceOf(UserService::class, $service->methodHasContextual3()->getInternal('instance'));
         $this->assertInstanceOf(BoilerplateService::class, $service->methodHasGlobal()->getInternal('instance'));
 
         // ensure global still available for other classes
