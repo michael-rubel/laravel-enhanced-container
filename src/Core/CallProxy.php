@@ -29,14 +29,17 @@ class CallProxy implements Call
      *
      * @param object|class-string $class
      * @param array               $dependencies
+     * @param string|null         $contextual
      */
     public function __construct(
         private object | string $class,
-        private array $dependencies = []
+        private array $dependencies = [],
+        private ?string $contextual = null
     ) {
         $this->instance = $this->resolvePassedClass(
             $this->class,
-            $this->dependencies
+            $this->dependencies,
+            $this->contextual
         );
 
         $this->forwardsTo = (new MethodForwarder(
@@ -65,6 +68,18 @@ class CallProxy implements Call
                 $parameters
             )
         );
+    }
+
+    /**
+     * Gets the internal property by name.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function getInternal(string $property): mixed
+    {
+        return $this->{$property};
     }
 
     /**

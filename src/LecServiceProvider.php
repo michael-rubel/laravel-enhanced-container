@@ -35,6 +35,7 @@ class LecServiceProvider extends PackageServiceProvider
         $this->app->bind(Call::class, function (Application $app, array $params) {
             return new CallProxy(
                 current($params),
+                next($params),
                 end($params)
             );
         });

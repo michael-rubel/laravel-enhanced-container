@@ -4,11 +4,14 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceResolvesContextualInMethod;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceResolvesGlobalInMethod;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorClass;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithVariadicConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithWrongContext;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 
 class ContextualBindingTest extends TestCase
 {
@@ -124,5 +127,33 @@ class ContextualBindingTest extends TestCase
         )->getParam();
 
         $this->assertTrue($test);
+    }
+
+    /** @test */
+    public function testCallProxyResolvesContextualBinding()
+    {
+        // bind the service globally
+        bind(BoilerplateInterface::class)
+            ->singleton(BoilerplateService::class);
+
+        $call = call(BoilerplateInterface::class);
+
+        $this->assertInstanceOf(BoilerplateService::class, $call->getInternal('instance'));
+
+        // set contextual
+        bind(BoilerplateInterface::class)
+            ->contextual(TestService::class)
+            ->for(BoilerplateServiceResolvesContextualInMethod::class);
+
+        $service = call(BoilerplateServiceResolvesContextualInMethod::class);
+
+        $this->assertInstanceOf(TestService::class, $service->constructorHasContextual());
+        $this->assertInstanceOf(TestService::class, $service->methodHasContextual()->getInternal('instance'));
+        $this->assertInstanceOf(TestService::class, $service->methodHasContextual2()->getInternal('instance'));
+        $this->assertInstanceOf(BoilerplateService::class, $service->methodHasGlobal()->getInternal('instance'));
+
+        // ensure global still available for other classes
+        $service = call(BoilerplateServiceResolvesGlobalInMethod::class);
+        $this->assertInstanceOf(BoilerplateService::class, $service->getsGlobalBinding()->getInternal('instance'));
     }
 }

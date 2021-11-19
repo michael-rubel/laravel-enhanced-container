@@ -12,13 +12,18 @@ trait HelpsProxies
     /**
      * @param object|class-string $class
      * @param array               $dependencies
+     * @param string|null         $contextual
      *
      * @return object
      */
-    public function resolvePassedClass(object|string $class, array $dependencies = []): object
+    public function resolvePassedClass(object|string $class, array $dependencies = [], ?string $contextual = null): object
     {
         if (is_object($class)) {
             return $class;
+        }
+
+        if (! is_null($contextual) && isset(app()->contextual[$contextual])) {
+            $class = app()->contextual[$contextual][$class];
         }
 
         try {
