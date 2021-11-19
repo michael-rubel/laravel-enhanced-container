@@ -38,4 +38,12 @@ class BoilerplateServiceResolvesContextualInMethod implements BoilerplateInterfa
     {
         return call(BoilerplateInterface::class, [], static::class);
     }
+
+    /**
+     * @return CallProxy
+     */
+    public function methodHasGlobal(): CallProxy
+    {
+        return call(BoilerplateInterface::class);
+    }
 }

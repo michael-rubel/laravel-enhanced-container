@@ -165,6 +165,11 @@ class ContextualBindingTest extends TestCase
             $service->methodHasContextual2()->getInternal('instance')
         );
 
+        $this->assertInstanceOf(
+            BoilerplateService::class,
+            $service->methodHasGlobal()->getInternal('instance')
+        );
+
         // ensure global still available for other classes
         $service = call(BoilerplateServiceResolvesGlobalInMethod::class);
 
