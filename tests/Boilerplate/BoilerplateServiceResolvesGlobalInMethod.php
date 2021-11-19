@@ -13,6 +13,6 @@ class BoilerplateServiceResolvesGlobalInMethod implements BoilerplateInterface
      */
     public function getsGlobalBinding(): CallProxy
     {
-        return call(BoilerplateInterface::class);
+        return call(BoilerplateInterface::class, [], static::class);
     }
 }
