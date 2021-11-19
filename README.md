@@ -98,6 +98,14 @@ bind('$param')
    ->for(ClassWithTypeHintedPrimitive::class);
 ```
 
+### Contextual resolution outside of the constructor
+
+```php
+call(class: ServiceInterface::class, context: static::class);
+
+// instead of static::class you may pass any class context for this particular abstract
+```
+
 ### Method binding
 Assuming that is your function in the service class:
 ```php
