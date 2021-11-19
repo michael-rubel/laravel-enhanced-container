@@ -29,17 +29,17 @@ class CallProxy implements Call
      *
      * @param object|class-string $class
      * @param array               $dependencies
-     * @param string|null         $contextual
+     * @param string|null         $context
      */
     public function __construct(
         private object | string $class,
         private array $dependencies = [],
-        private ?string $contextual = null
+        private ?string $context = null
     ) {
         $this->instance = $this->resolvePassedClass(
             $this->class,
             $this->dependencies,
-            $this->contextual
+            $this->context
         );
 
         $this->forwardsTo = (new MethodForwarder(

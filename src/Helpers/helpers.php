@@ -9,13 +9,13 @@ if (! function_exists('call')) {
     /**
      * @param string|object $class
      * @param array         $parameters
-     * @param string|null   $contextual
+     * @param string|null   $context
      *
      * @return mixed
      */
-    function call(string|object $class, array $parameters = [], ?string $contextual = null): mixed
+    function call(string|object $class, array $parameters = [], ?string $context = null): mixed
     {
-        return app(Call::class, [$class, $parameters, $contextual]);
+        return app(Call::class, [$class, $parameters, $context]);
     }
 }
 
