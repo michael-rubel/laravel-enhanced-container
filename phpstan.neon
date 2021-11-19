@@ -18,7 +18,7 @@ parameters:
         - '#Parameter (\#)(\d) \$callback of method Illuminate\\Container\\Container::call\(\) expects \(callable\(\): (.*)#'
         - '#Cannot call method pipe\(\) on mixed.#'
         - '#(.*)getDependencies\(\) expects class\-string, string given\.#'
-        - '#(.*)resolvePassedClass\(\) expects class\-string, class\-string\|object given\.#'
+        - '#(.*)resolvePassedClass\(\) expects string, object\|string given\.#'
 
     checkMissingIterableValueType: false
 

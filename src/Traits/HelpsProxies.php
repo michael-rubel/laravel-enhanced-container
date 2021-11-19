@@ -10,9 +10,9 @@ use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 trait HelpsProxies
 {
     /**
-     * @param class-string $class
-     * @param array        $dependencies
-     * @param string|null  $context
+     * @param string      $class
+     * @param array       $dependencies
+     * @param string|null $context
      *
      * @return object
      */
@@ -51,8 +51,8 @@ trait HelpsProxies
     /**
      * Resolve class dependencies.
      *
-     * @param class-string $class
-     * @param array        $dependencies
+     * @param string $class
+     * @param array  $dependencies
      *
      * @return array
      * @throws \ReflectionException
@@ -60,6 +60,7 @@ trait HelpsProxies
     public function getDependencies(string $class, array $dependencies = []): array
     {
         if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
+            /** @var class-string $class */
             $constructor = (new \ReflectionClass($class))->getConstructor();
 
             if ($constructor) {
