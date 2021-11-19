@@ -138,10 +138,7 @@ class ContextualBindingTest extends TestCase
 
         $call = call(BoilerplateInterface::class);
 
-        $this->assertInstanceOf(
-            BoilerplateService::class,
-            $call->getInternal('instance')
-        );
+        $this->assertInstanceOf(BoilerplateService::class, $call->getInternal('instance'));
 
         // set contextual
         bind(BoilerplateInterface::class)
@@ -150,32 +147,13 @@ class ContextualBindingTest extends TestCase
 
         $service = call(BoilerplateServiceResolvesContextualInMethod::class);
 
-        $this->assertInstanceOf(
-            TestService::class,
-            $service->constructorHasContextual()
-        );
-
-        $this->assertInstanceOf(
-            TestService::class,
-            $service->methodHasContextual()->getInternal('instance')
-        );
-
-        $this->assertInstanceOf(
-            TestService::class,
-            $service->methodHasContextual2()->getInternal('instance')
-        );
-
-        $this->assertInstanceOf(
-            BoilerplateService::class,
-            $service->methodHasGlobal()->getInternal('instance')
-        );
+        $this->assertInstanceOf(TestService::class, $service->constructorHasContextual());
+        $this->assertInstanceOf(TestService::class, $service->methodHasContextual()->getInternal('instance'));
+        $this->assertInstanceOf(TestService::class, $service->methodHasContextual2()->getInternal('instance'));
+        $this->assertInstanceOf(BoilerplateService::class, $service->methodHasGlobal()->getInternal('instance'));
 
         // ensure global still available for other classes
         $service = call(BoilerplateServiceResolvesGlobalInMethod::class);
-
-        $this->assertInstanceOf(
-            BoilerplateService::class,
-            $service->getsGlobalBinding()->getInternal('instance')
-        );
+        $this->assertInstanceOf(BoilerplateService::class, $service->getsGlobalBinding()->getInternal('instance'));
     }
 }
