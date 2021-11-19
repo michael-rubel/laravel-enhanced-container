@@ -8,9 +8,9 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests/main?style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 [![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan/main?style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
-This package provides syntax sugar for the Laravel container calls and bindings, automatic resolution of bound implementation, method forwarding, and an enhanced version of the Laravel method binding feature.
+Improved Laravel Service Container features. This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the container. The bindings are defined in a new "fluent" way.
 
-The package requires PHP 8.0 and Laravel 8.x. Future versions of PHP & Laravel will be supported.
+The package requires PHP ^8.0 and Laravel ^8.x. Future versions of PHP & Laravel will be supported as well.
 
 [![PHP Version](https://img.shields.io/badge/php-^8.x-777BB4?style=flat-square&logo=php)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-^8.x-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
@@ -26,7 +26,7 @@ composer require michael-rubel/laravel-enhanced-container
 
 ## Usage
 
-### Binding in a new fluent way
+### Basic binding
 ```php
 bind(ServiceInterface::class)->to(Service::class);
 ```
@@ -98,12 +98,14 @@ bind('$param')
    ->for(ClassWithTypeHintedPrimitive::class);
 ```
 
-### Contextual resolution outside of the constructor
+### Contextual binding resolution outside of the constructor
 
 ```php
 call(class: ServiceInterface::class, context: static::class);
 
-// instead of static::class you may pass any class context for this particular abstract
+// the call automatically resolves the implementation from an interface you passed
+// if we're passing context, it tries to resolve contextual binding instead of global one first
+// instead of static::class you may pass any class context for this particular abstract type
 ```
 
 ### Method binding
@@ -126,8 +128,6 @@ bind(ServiceInterface::class)->to(Service::class);
 You can perform the call to your service through container:
 ```php
 call(ServiceInterface::class)->yourMethod(100);
-
-// the call automatically resolves the implementation from an interface you passed
 ```
 
 Override method behavior in any place of your app. You can even add conditions in your method binding by intercepting parameters:
@@ -149,7 +149,7 @@ call(ServiceInterface::class)->yourMethod(200);
 // false
 ```
 
-##### You can easily mock the methods in your tests as well, and it counts as code coverage. 😉
+#### You can easily mock the methods in your tests as well, and these calls count as code coverage. 😉
 
 For example:
 ```php
