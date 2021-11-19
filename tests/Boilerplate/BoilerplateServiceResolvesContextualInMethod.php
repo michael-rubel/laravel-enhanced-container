@@ -11,7 +11,15 @@ class BoilerplateServiceResolvesContextualInMethod implements BoilerplateInterfa
     /**
      * @return CallProxy
      */
-    public function hasContextual(): CallProxy
+    public function methodHasContextual(): CallProxy
+    {
+        return call(BoilerplateInterface::class);
+    }
+
+    /**
+     * @return CallProxy
+     */
+    public function methodHasContextual2(): CallProxy
     {
         return call(BoilerplateInterface::class);
     }

@@ -2,9 +2,10 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services;
 
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
 
-class TestService
+class TestService implements BoilerplateInterface
 {
     /**
      * @param TestRepository $testRepository
