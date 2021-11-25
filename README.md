@@ -10,7 +10,7 @@
 
 Improved Laravel Service Container features. This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the container. The bindings are defined in a new "fluent" way.
 
-The package requires PHP ^8.0 and Laravel ^8.x. Future versions of PHP & Laravel will be supported as well.
+The package requires PHP ^8.x and Laravel ^8.67.
 
 [![PHP Version](https://img.shields.io/badge/php-^8.x-777BB4?style=flat-square&logo=php)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-^8.x-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
