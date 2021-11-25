@@ -13,7 +13,7 @@ Improved Laravel Service Container features. This package provides enhanced cont
 The package requires PHP ^8.x and Laravel ^8.67.
 
 [![PHP Version](https://img.shields.io/badge/php-^8.x-777BB4?style=flat-square&logo=php)](https://php.net)
-[![Laravel Version](https://img.shields.io/badge/laravel-^8.x-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
+[![Laravel Version](https://img.shields.io/badge/laravel-^8.67-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
 [![Laravel Octane Compatible](https://img.shields.io/badge/octane-compatible-success?style=flat-square&logo=laravel)](https://github.com/laravel/octane)
 
 ## Installation
