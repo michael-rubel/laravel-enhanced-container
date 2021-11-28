@@ -16,6 +16,18 @@ The package requires PHP ^8.x and Laravel ^8.67.
 [![Laravel Version](https://img.shields.io/badge/laravel-^8.67-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
 [![Laravel Octane Compatible](https://img.shields.io/badge/octane-compatible-success?style=flat-square&logo=laravel)](https://github.com/laravel/octane)
 
+## Contents
+  * [Installation](#installation)
+  * [Usage](#usage)
+    + [Basic binding](#basic-binding)
+    + [Binding instances](#binding-instances)
+    + [Extending instances](#extending-bindings)
+    + [Contextual binding](#contextual-binding)
+    + [Contextual binding resolution outside of the constructor](#contextual-binding-resolution-outside-of-the-constructor)
+    + [Method binding](#method-binding)
+    + [Method forwarding](#method-forwarding)
+  * [Testing](#testing)
+
 ## Installation
 
 You can install the package via composer:
@@ -54,6 +66,8 @@ bind(ServiceInterface::class)->scoped(Service::class);
 scoped(Service::class);
 ```
 
+[🔝 back to contents](#contents)
+
 ### Binding instances
 ```php
 bind(ServiceInterface::class)->instance(Service::class);
@@ -63,7 +77,9 @@ bind(ServiceInterface::class)->instance(Service::class);
 instance(ServiceInterface::class, new Service())
 ```
 
-### Extending instances
+[🔝 back to contents](#contents)
+
+### Extending bindings
 ```php
 extend(ServiceInterface::class, function ($service) {
     $service->testProperty = true;
@@ -71,6 +87,8 @@ extend(ServiceInterface::class, function ($service) {
     return $service;
 })
 ```
+
+[🔝 back to contents](#contents)
 
 ### Contextual binding
 ```php
@@ -98,6 +116,8 @@ bind('$param')
    ->for(ClassWithTypeHintedPrimitive::class);
 ```
 
+[🔝 back to contents](#contents)
+
 ### Contextual binding resolution outside of the constructor
 
 ```php
@@ -107,6 +127,8 @@ call(class: ServiceInterface::class, context: static::class);
 // if we're passing context, it tries to resolve contextual binding instead of global one first
 // instead of static::class you may pass any class context for this particular abstract type
 ```
+
+[🔝 back to contents](#contents)
 
 ### Method binding
 Assuming that is your function in the service class:
@@ -195,6 +217,8 @@ class AnyYourClass
 }
 ```
 
+[🔝 back to contents](#contents)
+
 ### Method forwarding
 This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met.
 
@@ -271,6 +295,8 @@ disableMethodForwarding();
 
 // sets the config key to false
 ```
+
+[🔝 back to contents](#contents)
 
 ## Testing
 
