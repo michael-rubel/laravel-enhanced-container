@@ -21,7 +21,7 @@ The package requires PHP ^8.x and Laravel ^8.67.
   * [Usage](#usage)
     + [Basic binding](#basic-binding)
     + [Binding instances](#binding-instances)
-    + [Extending instances](#extending-bindings)
+    + [Extending bindings](#extending-bindings)
     + [Contextual binding](#contextual-binding)
     + [Contextual binding resolution outside of the constructor](#contextual-binding-resolution-outside-of-the-constructor)
     + [Method binding](#method-binding)
