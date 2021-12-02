@@ -18,10 +18,25 @@ trait HelpsProxies
      */
     public function resolvePassedClass(string $class, array $dependencies = [], ?string $context = null): object
     {
-        $class        = $this->getContextualConcrete($class, $context);
+        $class        = $this->getClassForResolution($class, $context);
         $dependencies = $this->getDependencies($class, $dependencies);
 
         return resolve($class, $dependencies);
+    }
+
+    /**
+     * Get the class for resolution.
+     *
+     * @param string      $class
+     * @param string|null $context
+     *
+     * @return string
+     */
+    public function getClassForResolution(string $class, ?string $context = null): string
+    {
+        return ! is_null($context) && isset(app()->contextual[$context])
+            ? $this->getContextualConcrete($class, $context)
+            : $class;
     }
 
     /**
@@ -34,9 +49,7 @@ trait HelpsProxies
      */
     public function getContextualConcrete(string $class, ?string $context = null): string
     {
-        return ! is_null($context) && isset(app()->contextual[$context])
-            ? app()->contextual[$context][$class] ?? $class
-            : $class;
+        return app()->contextual[$context][$class] ?? $class;
     }
 
     /**
