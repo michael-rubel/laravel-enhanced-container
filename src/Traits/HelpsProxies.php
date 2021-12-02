@@ -18,21 +18,14 @@ trait HelpsProxies
      */
     public function resolvePassedClass(string $class, array $dependencies = [], ?string $context = null): object
     {
-        $class = $this->getContextualConcrete($class, $context);
+        $class        = $this->getContextualConcrete($class, $context);
+        $dependencies = $this->getDependencies($class, $dependencies);
 
-        try {
-            $dependencies = $this->getDependencies($class, $dependencies);
-
-            return resolve($class, $dependencies);
-        } catch (\Throwable $exception) {
-            throw new \BadMethodCallException(
-                $exception->getMessage()
-            );
-        }
+        return resolve($class, $dependencies);
     }
 
     /**
-     * Get the contextual concrete.
+     * Try to get the contextual concrete.
      *
      * @param string      $class
      * @param string|null $context
@@ -41,11 +34,9 @@ trait HelpsProxies
      */
     public function getContextualConcrete(string $class, ?string $context = null): string
     {
-        if (! is_null($context) && isset(app()->contextual[$context])) {
-            return app()->contextual[$context][$class] ?? $class;
-        }
-
-        return $class;
+        return ! is_null($context) && isset(app()->contextual[$context])
+            ? app()->contextual[$context][$class] ?? $class
+            : $class;
     }
 
     /**

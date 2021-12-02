@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceResolvesContextualInMethod;
@@ -66,7 +67,7 @@ class ContextualBindingTest extends TestCase
         $this->assertInstanceOf(BoilerplateService::class, $test);
 
         // next call fails during to wrong instantiation context
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BindingResolutionException::class);
 
         call(BoilerplateServiceWithWrongContext::class);
     }
@@ -102,7 +103,7 @@ class ContextualBindingTest extends TestCase
         $this->assertInstanceOf(BoilerplateServiceWithConstructor::class, $test[1]);
 
         // next call fails during to wrong instantiation context
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BindingResolutionException::class);
 
         call(BoilerplateServiceWithWrongContext::class);
     }
