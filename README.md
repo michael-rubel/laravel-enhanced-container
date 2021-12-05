@@ -10,7 +10,7 @@
 
 Improved Laravel Service Container features. This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the container. The bindings are defined in a new "fluent" way.
 
-The package requires PHP ^8.x and Laravel ^8.67.
+The package requires PHP `^8.x` and Laravel `^8.67`.
 
 [![PHP Version](https://img.shields.io/badge/php-^8.x-777BB4?style=flat-square&logo=php)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-^8.67-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
@@ -23,7 +23,7 @@ The package requires PHP ^8.x and Laravel ^8.67.
     + [Binding instances](#binding-instances)
     + [Extending bindings](#extending-bindings)
     + [Contextual binding](#contextual-binding)
-    + [Contextual binding resolution outside of the constructor](#contextual-binding-resolution-outside-of-the-constructor)
+    + [Contextual binding resolution outside of constructor](#contextual-binding-resolution-outside-of-constructor)
     + [Method binding](#method-binding)
     + [Method forwarding](#method-forwarding)
   * [Testing](#testing)
@@ -34,6 +34,11 @@ You can install the package via composer:
 
 ```bash
 composer require michael-rubel/laravel-enhanced-container
+```
+
+Publish the config if you want to use [method forwarding](#method-forwarding):
+```bash
+php artisan vendor:publish --tag="enhanced-container-config"
 ```
 
 ## Usage
@@ -66,8 +71,6 @@ bind(ServiceInterface::class)->scoped(Service::class);
 scoped(Service::class);
 ```
 
-[🔝 back to contents](#contents)
-
 ### Binding instances
 ```php
 bind(ServiceInterface::class)->instance(Service::class);
@@ -76,8 +79,6 @@ bind(ServiceInterface::class)->instance(Service::class);
 ```php
 instance(ServiceInterface::class, new Service())
 ```
-
-[🔝 back to contents](#contents)
 
 ### Extending bindings
 ```php
@@ -116,9 +117,7 @@ bind('$param')
    ->for(ClassWithTypeHintedPrimitive::class);
 ```
 
-[🔝 back to contents](#contents)
-
-### Contextual binding resolution outside of the constructor
+### Contextual binding resolution outside of constructor
 
 ```php
 call(class: ServiceInterface::class, context: static::class);
@@ -171,7 +170,7 @@ call(ServiceInterface::class)->yourMethod(200);
 // false
 ```
 
-#### You can easily mock the methods in your tests as well, and these calls count as code coverage. 😉
+#### You can easily mock the methods in your tests as well.
 
 For example:
 ```php
@@ -220,14 +219,9 @@ class AnyYourClass
 [🔝 back to contents](#contents)
 
 ### Method forwarding
-This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met.
+This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met. You can enable this feature in the config.
 
 Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to just fetch the data without any additional operations.
-
-To enable this feature, publish the config:
-```bash
-php artisan vendor:publish --tag="enhanced-container-config"
-```
 
 Turn `forwarding_enabled` option on and set the class names that fits your application structure.
 
@@ -298,7 +292,7 @@ disableMethodForwarding();
 
 [🔝 back to contents](#contents)
 
-## Testing
+## Testing the package
 
 ```bash
 composer test
