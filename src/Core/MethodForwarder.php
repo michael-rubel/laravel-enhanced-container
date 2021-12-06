@@ -20,8 +20,8 @@ class MethodForwarder
      * @param array         $dependencies
      */
     public function __construct(
-        public object | string $class,
-        public array $dependencies = []
+        private object | string $class,
+        private array $dependencies = []
     ) {
     }
 
