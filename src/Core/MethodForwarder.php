@@ -20,8 +20,8 @@ class MethodForwarder
      * @param array         $dependencies
      */
     public function __construct(
-        private object | string $class,
-        private array $dependencies
+        public object | string $class,
+        public array $dependencies
     ) {
     }
 
@@ -85,5 +85,30 @@ class MethodForwarder
                 )->all()
             )
         );
+    }
+
+    /**
+     * Get the instance's property.
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function __get(string $name): mixed
+    {
+        return $this->{$name};
+    }
+
+    /**
+     * Set the instance's property.
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return void
+     */
+    public function __set(string $name, mixed $value): void
+    {
+        $this->{$name} = $value;
     }
 }
