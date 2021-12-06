@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
+use MichaelRubel\EnhancedContainer\Core\MethodForwarder;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users\UserRepository;
@@ -206,5 +207,21 @@ class ForwardingTest extends TestCase
         $test = call($object)->testMethodMultipleParamsInRepo([], 123);
 
         $this->assertTrue($test);
+    }
+
+    /** @test */
+    public function testCanExtendMethodForwarder()
+    {
+        extend(MethodForwarder::class, function ($forwarder) {
+            $forwarder->test = true;
+
+            return $forwarder;
+        });
+
+        $forwarder = app(MethodForwarder::class, ['class' => BestDomain::class]);
+
+        $this->assertTrue($forwarder->test);
+        $this->assertIsString($forwarder->class);
+        $this->assertIsArray($forwarder->dependencies);
     }
 }
