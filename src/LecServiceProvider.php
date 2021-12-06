@@ -32,12 +32,12 @@ class LecServiceProvider extends PackageServiceProvider
      */
     public function packageBooted(): void
     {
-        $this->app->bind(Call::class, function (Application $app, array $params) {
-            return new CallProxy(
+        $this->app->bind(Call::class, fn ($app, $params)
+            => new CallProxy(
                 current($params),
                 next($params),
                 end($params)
-            );
-        });
+            )
+        );
     }
 }
