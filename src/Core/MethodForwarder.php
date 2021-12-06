@@ -21,7 +21,7 @@ class MethodForwarder
      */
     public function __construct(
         public object | string $class,
-        public array $dependencies
+        public array $dependencies = []
     ) {
     }
 
