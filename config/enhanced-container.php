@@ -48,8 +48,9 @@ return [
      */
 
     'to' => [
-        'layer'  => 'Repository',
-        'naming' => 'pluralStudly',
+        'layer'   => 'Repository',
+        'naming'  => 'pluralStudly',
+        'postfix' => true,
     ],
 
 ];
