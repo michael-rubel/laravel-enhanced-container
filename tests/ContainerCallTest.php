@@ -3,10 +3,13 @@
 namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
 class ContainerCallTest extends TestCase
@@ -177,5 +180,24 @@ class ContainerCallTest extends TestCase
         $test = call($object)->testMethodWithMultipleParams([], true, 123, false);
 
         $this->assertTrue($test);
+    }
+
+    /** @test */
+    public function testContainerCallRedirectsManuallyIfCannotFindTheMethod()
+    {
+        $this->expectException(QueryException::class);
+
+        // Set up forwarding and the layer to redirect.
+        config([
+            'enhanced-container.forwarding_enabled' => true,
+            'enhanced-container.to.layer'           => 'Model',
+        ]);
+
+        // TestService redirects to the model.
+        // The container cannot call it, so we're forwarding the method manually.
+        call(TestService::class)->find(1);
+
+        // The test throws the exception and it's excepted since we don't have
+        // any DB connection but it says the `find` method actually works.
     }
 }
