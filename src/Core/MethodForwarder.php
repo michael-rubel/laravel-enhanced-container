@@ -58,6 +58,9 @@ class MethodForwarder
         /** @var string */
         $layer_to = config('enhanced-container.to.layer') ?? 'Repository';
 
+        /** @var bool */
+        $postfix_to = config('enhanced-container.to.postfix') ?? true;
+
         return collect(
             $this->convertToNamespace($this->class)
         )->pipe(
@@ -79,7 +82,9 @@ class MethodForwarder
                     $structure->keys()->last(),
                     str_replace(
                         $layer_from,
-                        $layer_to,
+                        $postfix_to
+                            ? $layer_to
+                            : '',
                         $structure->last() ?? ''
                     )
                 )->all()

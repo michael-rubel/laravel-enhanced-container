@@ -45,10 +45,12 @@ class CallProxy implements Call
             )
             : $class;
 
-        $this->forwardsTo = app(MethodForwarder::class, [
-            'class'        => $this->class,
-            'dependencies' => $this->dependencies,
-        ])->getClass();
+        if (isForwardingEnabled()) {
+            $this->forwardsTo = app(MethodForwarder::class, [
+                'class'        => $this->class,
+                'dependencies' => $this->dependencies,
+            ])->getClass();
+        }
     }
 
     /**
