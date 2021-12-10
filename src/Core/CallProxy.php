@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer\Core;
 
 use BadMethodCallException;
+use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
-use ReflectionException;
 
 class CallProxy implements Call
 {
     use HelpsProxies;
+    use ForwardsCalls;
 
     /**
      * @var object
@@ -58,18 +59,21 @@ class CallProxy implements Call
      * @param array  $parameters
      *
      * @return mixed
-     * @throws ReflectionException
      */
     public function containerCall(object $service, string $method, array $parameters): mixed
     {
-        return app()->call(
-            [$service, $method],
-            $this->getPassedParameters(
-                $service,
-                $method,
-                $parameters
-            )
-        );
+        try {
+            return app()->call(
+                [$service, $method],
+                $this->getPassedParameters(
+                    $service,
+                    $method,
+                    $parameters
+                )
+            );
+        } catch (\ReflectionException) {
+            return $this->forwardCallTo($service, $method, $parameters);
+        }
     }
 
     /**
@@ -91,7 +95,6 @@ class CallProxy implements Call
      * @param array  $parameters
      *
      * @return mixed
-     * @throws ReflectionException
      */
     public function __call(string $method, array $parameters): mixed
     {
