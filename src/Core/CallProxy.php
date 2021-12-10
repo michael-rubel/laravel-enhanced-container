@@ -79,7 +79,7 @@ class CallProxy implements Call
                 return $this->forwardCallTo($service, $method, $parameters);
             }
 
-            throw new $e;
+            throw $e;
         }
     }
 
