@@ -61,6 +61,7 @@ class CallProxy implements Call
      * @param array  $parameters
      *
      * @return mixed
+     * @throws \ReflectionException
      */
     public function containerCall(object $service, string $method, array $parameters): mixed
     {
@@ -73,8 +74,12 @@ class CallProxy implements Call
                     $parameters
                 )
             );
-        } catch (\ReflectionException) {
-            return $this->forwardCallTo($service, $method, $parameters);
+        } catch (\ReflectionException $e) {
+            if (config('enhanced-container.manual_forwarding') ?? false) {
+                return $this->forwardCallTo($service, $method, $parameters);
+            }
+
+            throw new $e;
         }
     }
 
@@ -97,6 +102,7 @@ class CallProxy implements Call
      * @param array  $parameters
      *
      * @return mixed
+     * @throws \ReflectionException
      */
     public function __call(string $method, array $parameters): mixed
     {

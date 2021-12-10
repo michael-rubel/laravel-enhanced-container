@@ -190,6 +190,7 @@ class ContainerCallTest extends TestCase
         // Set up forwarding and the layer to redirect.
         config([
             'enhanced-container.forwarding_enabled' => true,
+            'enhanced-container.manual_forwarding'  => true,
             'enhanced-container.to.layer'           => 'Model',
         ]);
 
@@ -199,5 +200,19 @@ class ContainerCallTest extends TestCase
 
         // The test throws the exception and it's excepted since we don't have
         // any DB connection but it says the `find` method actually works.
+    }
+
+    /** @test */
+    public function testReflectionExceptionIsThrownWhenManualForwardingIsDisabled()
+    {
+        $this->expectException(\ReflectionException::class);
+
+        config([
+            'enhanced-container.forwarding_enabled' => true,
+            'enhanced-container.manual_forwarding'  => false,
+            'enhanced-container.to.layer'           => 'Model',
+        ]);
+
+        call(TestService::class)->find(1);
     }
 }
