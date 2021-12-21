@@ -36,4 +36,14 @@ class ParameterOrderBoilerplate
     {
         return $data;
     }
+
+    /**
+     * @param string $string
+     *
+     * @return string
+     */
+    public function getString(string $string): string
+    {
+        return $string;
+    }
 }
