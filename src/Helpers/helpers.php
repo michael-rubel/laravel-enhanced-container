@@ -148,3 +148,17 @@ if (! function_exists('runWithForwarding')) {
         return $callback;
     }
 }
+
+if (! function_exists('single')) {
+    /**
+     * Checks if an array has only a single element.
+     *
+     * @param Countable|array $parameters
+     *
+     * @return bool
+     */
+    function single(\Countable|array $parameters): bool
+    {
+        return count($parameters) === 1;
+    }
+}
