@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer\Traits;
 
 use Illuminate\Support\Arr;
+use JetBrains\PhpStorm\Pure;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 
 trait HelpsProxies
@@ -112,7 +113,7 @@ trait HelpsProxies
     {
         $base = current($methodParameters);
 
-        if (is_array($base) && single($methodParameters) && Arr::isAssoc($base)) {
+        if ($this->isOrderable($base, $reflectionParameters, $methodParameters)) {
             return $base;
         }
 
@@ -121,6 +122,20 @@ trait HelpsProxies
             ->map(fn ($param) => $param->getName())
             ->combine(array_slice($methodParameters, 0, count($reflectionParameters)))
             ->all();
+    }
+
+    /**
+     * Determine if the container can handle parameter order.
+     *
+     * @param array $base
+     * @param array $reflectionParameters
+     * @param array $methodParameters
+     *
+     * @return bool
+     */
+    public function isOrderable(mixed $base, array $reflectionParameters, array $methodParameters): bool
+    {
+        return is_array($base) && Arr::isAssoc($base) && single($methodParameters) <=> single($reflectionParameters);
     }
 
     /**
