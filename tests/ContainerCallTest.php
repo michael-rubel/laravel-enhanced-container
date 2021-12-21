@@ -244,7 +244,7 @@ class ContainerCallTest extends TestCase
         $response = call(ParameterOrderBoilerplate::class)->handleTwo($data);
         $this->assertSame('FirstSecond', $response);
 
-        $response = call(ParameterOrderBoilerplate::class)->getString('test');
-        $this->assertSame('test', $response);
+        $response = call(ParameterOrderBoilerplate::class)->getString('test', '-next');
+        $this->assertSame('test-next', $response);
     }
 }

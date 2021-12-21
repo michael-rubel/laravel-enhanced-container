@@ -38,12 +38,13 @@ class ParameterOrderBoilerplate
     }
 
     /**
-     * @param string $string
+     * @param string $test
+     * @param string $next
      *
      * @return string
      */
-    public function getString(string $string): string
+    public function getString(string $test, string $next): string
     {
-        return $string;
+        return $test . $next;
     }
 }
