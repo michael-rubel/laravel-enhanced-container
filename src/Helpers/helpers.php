@@ -153,12 +153,12 @@ if (! function_exists('single')) {
     /**
      * Checks if an array has only a single element.
      *
-     * @param Countable|array $parameters
+     * @param Countable|array $params
      *
      * @return bool
      */
-    function single(\Countable|array $parameters): bool
+    function single(\Countable|array $params): bool
     {
-        return count($parameters) === 1;
+        return count($params) === 1;
     }
 }
