@@ -79,9 +79,9 @@ trait HelpsProxies
     }
 
     /**
-     * @param object       $class
-     * @param string       $method
-     * @param array $parameters
+     * @param object $class
+     * @param string $method
+     * @param array  $parameters
      *
      * @return array
      * @throws \ReflectionException
