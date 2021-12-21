@@ -103,17 +103,23 @@ trait HelpsProxies
     /**
      * Combine parameters to make it container-readable.
      *
-     * @param array $parameters
-     * @param array $toCombine
+     * @param array $reflectionParameters
+     * @param array $methodParameters
      *
      * @return array
      */
-    public function makeContainerParameters(array $parameters, array $toCombine): array
+    public function makeContainerParameters(array $reflectionParameters, array $methodParameters): array
     {
-        return collect($parameters)
-            ->slice(0, count($toCombine))
+        $base = current($methodParameters);
+
+        if (is_array($base) && single($methodParameters) && Arr::isAssoc($base)) {
+            return $base;
+        }
+
+        return collect($reflectionParameters)
+            ->slice(0, count($methodParameters))
             ->map(fn ($param) => $param->getName())
-            ->combine(array_slice($toCombine, 0, count($parameters)))
+            ->combine(array_slice($methodParameters, 0, count($reflectionParameters)))
             ->all();
     }
 

@@ -4,11 +4,13 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Arr;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\ParameterOrderBoilerplate;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
@@ -214,5 +216,21 @@ class ContainerCallTest extends TestCase
         ]);
 
         call(TestService::class)->find(1);
+    }
+
+    /** @test */
+    public function testParametersOrderIsHandledByTheContainer()
+    {
+        $data = [
+            'second' => 'Second',
+            'third'  => 'Third',
+            'first'  => 'First',
+        ];
+
+        $response = call(ParameterOrderBoilerplate::class)->handle($data);
+        $this->assertSame('FirstSecondThird', $response);
+
+        $response = call(ParameterOrderBoilerplate::class)->handle();
+        $this->assertSame('123', $response);
     }
 }
