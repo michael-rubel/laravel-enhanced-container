@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer\Traits;
 
 use Illuminate\Support\Arr;
-use JetBrains\PhpStorm\Pure;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 
 trait HelpsProxies
@@ -93,10 +92,8 @@ trait HelpsProxies
             return $parameters;
         }
 
-        $reflectionMethod = new \ReflectionMethod($class, $method);
-
         return $this->makeContainerParameters(
-            $reflectionMethod->getParameters(),
+            (new \ReflectionMethod($class, $method))->getParameters(),
             $parameters
         );
     }
@@ -117,10 +114,20 @@ trait HelpsProxies
             return $base;
         }
 
+        $reflectionParameters = $this->sliceParameters(
+            $reflectionParameters,
+            $methodParameters
+        );
+
+        $methodParameters = $this->sliceParameters(
+            $methodParameters,
+            $reflectionParameters
+        );
+
         return collect($reflectionParameters)
-            ->slice(0, count($methodParameters))
-            ->map(fn ($param) => $param->getName())
-            ->combine(array_slice($methodParameters, 0, count($reflectionParameters)))
+            ->map
+            ->getName()
+            ->combine($methodParameters)
             ->all();
     }
 
@@ -136,6 +143,19 @@ trait HelpsProxies
     public function isOrderable(mixed $base, array $reflectionParameters, array $methodParameters): bool
     {
         return is_array($base) && Arr::isAssoc($base) && single($methodParameters) <=> single($reflectionParameters);
+    }
+
+    /**
+     * Slice an array to align the parameters.
+     *
+     * @param array $parameters
+     * @param array $countable
+     *
+     * @return array
+     */
+    public function sliceParameters(array $parameters, array $countable): array
+    {
+        return array_slice($parameters, 0, count($countable));
     }
 
     /**
