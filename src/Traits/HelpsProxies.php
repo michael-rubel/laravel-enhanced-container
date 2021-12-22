@@ -114,15 +114,8 @@ trait HelpsProxies
             return $base;
         }
 
-        $reflectionParameters = $this->sliceParameters(
-            $reflectionParameters,
-            $methodParameters
-        );
-
-        $methodParameters = $this->sliceParameters(
-            $methodParameters,
-            $reflectionParameters
-        );
+        $reflectionParameters = $this->sliceParameters($reflectionParameters, $methodParameters);
+        $methodParameters     = $this->sliceParameters($methodParameters, $reflectionParameters);
 
         return collect($reflectionParameters)
             ->map
