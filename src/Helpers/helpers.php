@@ -27,7 +27,7 @@ if (! function_exists('bind')) {
      */
     function bind(string|object $abstract): BindingBuilder
     {
-        return new BindingBuilder($abstract);
+        return app(BindingBuilder::class, ['abstract' => $abstract]);
     }
 }
 
