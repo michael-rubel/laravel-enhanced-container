@@ -12,8 +12,7 @@ use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
 class CallProxy implements Call
 {
-    use HelpsProxies;
-    use ForwardsCalls;
+    use HelpsProxies, ForwardsCalls;
 
     /**
      * @var object
