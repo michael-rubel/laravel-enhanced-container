@@ -61,7 +61,5 @@
        PEAR standard exists inside the PHP_CodeSniffer install
        directory.
     -->
-    <rule ref="PSR12">
-        <exclude name="Generic.Files.LineLength"/>
-    </rule>
+    <rule ref="PSR2"/>
 </ruleset>
