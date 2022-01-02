@@ -199,7 +199,7 @@ class AnyYourClass
 {
     use BootsCallProxies;
 
-    public function __construct(private ServiceInterface $service)
+    public function __construct(protected ServiceInterface $service)
     {
         $this->bootCallProxies();
     }
