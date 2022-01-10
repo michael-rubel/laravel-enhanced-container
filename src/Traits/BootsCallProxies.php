@@ -16,13 +16,19 @@ trait BootsCallProxies
     /**
      * Boots the fluent object of call proxies.
      *
+     * @param string|null $method
+     *
      * @return void
      */
-    public function bootCallProxies(): void
+    public function bootCallProxies(?string $method = null): void
     {
-        $dependencies = (
-            new \ReflectionClass(static::class)
-        )?->getConstructor()?->getParameters();
+        $reflection = new \ReflectionClass(static::class);
+
+        $method = is_null($method)
+            ? $reflection->getConstructor()
+            : $reflection->getMethod($method);
+
+        $dependencies = $method->getParameters();
 
         if (! empty($dependencies)) {
             $this->proxy = new Fluent();
