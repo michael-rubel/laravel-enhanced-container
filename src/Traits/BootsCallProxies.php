@@ -31,7 +31,9 @@ trait BootsCallProxies
         $dependencies = $method->getParameters();
 
         if (! empty($dependencies)) {
-            $this->proxy = new Fluent();
+            if (! $this->proxy instanceof Fluent) {
+                $this->proxy = new Fluent();
+            }
 
             collect($dependencies)->map(function ($param) {
                 $class = $param->getType()->getName();
