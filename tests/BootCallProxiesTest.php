@@ -8,7 +8,9 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateDependenciesAssi
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithBootedCallProxy;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithBootedCallProxyWithMethod;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateWithBootedCallProxyWrongParams;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
 
 class BootCallProxiesTest extends TestCase
 {
@@ -67,5 +69,27 @@ class BootCallProxiesTest extends TestCase
         $originalClass = resolve(BoilerplateDependenciesAssignedOldWay::class);
 
         $this->assertObjectHasAttribute('proxy', $originalClass);
+    }
+
+    /** @test */
+    public function testBootCallProxiesFromAnyMethod()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $call = call(BoilerplateServiceWithBootedCallProxyWithMethod::class);
+
+        $bestDomain = $call->handle();
+
+        $this->assertInstanceOf(BestDomain::class, $bestDomain);
+    }
+
+    /** @test */
+    public function testBootCallProxiesPreventsOverlapping()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $call = call(BoilerplateServiceWithBootedCallProxy::class);
+
+        $bestDomain = $call->handle();
+
+        $this->assertInstanceOf(BestDomain::class, $bestDomain);
     }
 }
