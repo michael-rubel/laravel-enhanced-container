@@ -28,7 +28,7 @@ trait BootsCallProxies
             ? $reflection->getConstructor()
             : $reflection->getMethod($method);
 
-        $dependencies = $method->getParameters();
+        $dependencies = $method?->getParameters();
 
         if (! empty($dependencies)) {
             if (! $this->proxy instanceof Fluent) {
