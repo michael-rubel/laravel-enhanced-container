@@ -24,16 +24,12 @@ trait BootsCallProxies
     {
         $reflection = new \ReflectionClass(static::class);
 
-        $method = is_null($method)
-            ? $reflection->getConstructor()
-            : $reflection->getMethod($method);
+        $method = $this->getMethod($method, $reflection);
 
         $dependencies = $method?->getParameters();
 
         if (! empty($dependencies)) {
-            if (! $this->proxy instanceof Fluent) {
-                $this->proxy = new Fluent();
-            }
+            $this->makeFluentObject();
 
             collect($dependencies)->map(function ($param) {
                 $class = $param->getType()->getName();
@@ -44,6 +40,33 @@ trait BootsCallProxies
                         : $this->proxy->{$param->getName()} = call($class);
                 }
             });
+        }
+    }
+
+    /**
+     * Determines which method to use.
+     *
+     * @param string|null      $method
+     * @param \ReflectionClass $reflectionClass
+     *
+     * @return \ReflectionMethod|null
+     */
+    private function getMethod(?string $method, \ReflectionClass $reflectionClass): ?\ReflectionMethod
+    {
+        return is_null($method)
+            ? $reflectionClass->getConstructor()
+            : $reflectionClass->getMethod($method);
+    }
+
+    /**
+     * Instantiate the Fluent object if it doesn't exist.
+     *
+     * @return void
+     */
+    private function makeFluentObject(): void
+    {
+        if (! $this->proxy instanceof Fluent) {
+            $this->proxy = new Fluent();
         }
     }
 }
