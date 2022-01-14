@@ -21,12 +21,12 @@ interface Bind
     /**
      * Basic "bind".
      *
-     * @param \Closure|string|null $concrete
+     * @param object|string|null $concrete
      * @param bool                 $shared
      *
      * @return self
      */
-    public function to(\Closure|string $concrete = null, bool $shared = false): self;
+    public function to(object|string $concrete = null, bool $shared = false): self;
 
     /**
      * Basic "bind", binds itself.
@@ -38,20 +38,20 @@ interface Bind
     /**
      * Singleton.
      *
-     * @param \Closure|string|null $concrete
+     * @param object|string|null $concrete
      *
      * @return void
      */
-    public function singleton(\Closure|string $concrete = null): void;
+    public function singleton(object|string $concrete = null): void;
 
     /**
      * Scoped instance.
      *
-     * @param \Closure|string|null $concrete
+     * @param object|string|null $concrete
      *
      * @return void
      */
-    public function scoped(\Closure|string $concrete = null): void;
+    public function scoped(object|string $concrete = null): void;
 
     /**
      * Enables contextual binding.

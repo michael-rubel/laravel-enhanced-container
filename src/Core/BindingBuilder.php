@@ -55,14 +55,14 @@ class BindingBuilder implements Bind
     /**
      * Basic "bind".
      *
-     * @param \Closure|string|null $concrete
-     * @param bool                 $shared
+     * @param object|string|null $concrete
+     * @param bool               $shared
      *
      * @return $this
      */
-    public function to(\Closure|string $concrete = null, bool $shared = false): self
+    public function to(object|string $concrete = null, bool $shared = false): self
     {
-        app()->bind($this->abstract, $concrete, $shared);
+        app()->bind($this->abstract, $this->wrapToClosure($concrete), $shared);
 
         return $this;
     }
@@ -80,25 +80,25 @@ class BindingBuilder implements Bind
     /**
      * Singleton.
      *
-     * @param \Closure|string|null $concrete
+     * @param object|string|null $concrete
      *
      * @return void
      */
-    public function singleton(\Closure|string $concrete = null): void
+    public function singleton(object|string $concrete = null): void
     {
-        app()->singleton($this->abstract, $concrete);
+        app()->singleton($this->abstract, $this->wrapToClosure($concrete));
     }
 
     /**
      * Scoped instance.
      *
-     * @param \Closure|string|null $concrete
+     * @param object|string|null $concrete
      *
      * @return void
      */
-    public function scoped(\Closure|string $concrete = null): void
+    public function scoped(object|string $concrete = null): void
     {
-        app()->scoped($this->abstract, $concrete);
+        app()->scoped($this->abstract, $this->wrapToClosure($concrete));
     }
 
     /**
@@ -169,6 +169,24 @@ class BindingBuilder implements Bind
             null,
             false
         );
+    }
+
+    /**
+     * Wrap an object to the closure if the type of the object differs.
+     *
+     * @param object|string|null $concrete
+     *
+     * @return \Closure|string|null
+     */
+    public function wrapToClosure(object|string|null $concrete): \Closure|string|null
+    {
+        if (! is_null($concrete)
+            && ! is_string($concrete)
+            && ! $concrete instanceof \Closure) {
+            return fn () => $concrete;
+        }
+
+        return $concrete;
     }
 
     /**
