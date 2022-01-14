@@ -191,7 +191,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @return bool
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return $this->bound($id);
     }
@@ -701,7 +701,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @return mixed
      */
-    public function get($id)
+    public function get(string $id)
     {
         try {
             return $this->resolve($id);
@@ -1007,7 +1007,7 @@ class Container implements ArrayAccess, ContainerContract
     protected function resolvePrimitive(ReflectionParameter $parameter)
     {
         if (! is_null($concrete = $this->getContextualConcrete('$'.$parameter->getName()))) {
-            return $concrete instanceof Closure ? $concrete($this) : $concrete;
+            return Util::unwrapIfClosure($concrete, $this);
         }
 
         if ($parameter->isDefaultValueAvailable()) {
