@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer\Core;
 
 use MichaelRubel\EnhancedContainer\Binding;
+use MichaelRubel\EnhancedContainer\Extending;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
-class BindingBuilder implements Binding
+class BindingBuilder implements Binding, Extending
 {
     use HelpsProxies;
 
@@ -178,7 +179,7 @@ class BindingBuilder implements Binding
      *
      * @return \Closure|string|null
      */
-    public function wrapToClosure(object|string|null $concrete): \Closure|string|null
+    protected function wrapToClosure(object|string|null $concrete): \Closure|string|null
     {
         if (! is_null($concrete)
             && ! is_string($concrete)

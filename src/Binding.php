@@ -14,7 +14,7 @@ interface Binding
      * @param string|null  $method
      * @param \Closure|null $override
      *
-     * @return $this|null
+     * @return self|null
      */
     public function method(string $method = null, \Closure $override = null): self|null;
 
@@ -56,7 +56,9 @@ interface Binding
     /**
      * Enables contextual binding.
      *
-     * @return $this
+     * @param \Closure|string|array $implementation
+     *
+     * @return self
      */
     public function contextual(\Closure|string|array $implementation): self;
 
@@ -70,20 +72,11 @@ interface Binding
     public function for(array|string $concrete): void;
 
     /**
-     * Extend the abstract type.
-     *
-     * @param \Closure $closure
-     *
-     * @return BindingBuilder
-     */
-    public function extend(\Closure $closure): self;
-
-    /**
      * Register an existing instance as shared in the container.
      *
      * @param mixed $instance
      *
-     * @return BindingBuilder
+     * @return self
      */
     public function instance(mixed $instance): self;
 }
