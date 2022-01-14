@@ -6,7 +6,7 @@ namespace MichaelRubel\EnhancedContainer;
 
 use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
 
-interface Bind
+interface Binding
 {
     /**
      * Method binding.

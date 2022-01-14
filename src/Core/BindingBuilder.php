@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
-use MichaelRubel\EnhancedContainer\Bind;
+use MichaelRubel\EnhancedContainer\Binding;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
-class BindingBuilder implements Bind
+class BindingBuilder implements Binding
 {
     use HelpsProxies;
 
