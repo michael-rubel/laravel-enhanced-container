@@ -89,7 +89,6 @@ class BaseBindingTest extends TestCase
         bind('closure')->to(fn () => 'content');
         $this->assertEquals('content', app('closure'));
 
-        $model = app(TestModel::class);
         bind('string')->to(TestModel::class);
         $this->assertEquals($model, app('string'));
     }
