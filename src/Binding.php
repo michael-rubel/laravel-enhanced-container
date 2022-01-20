@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
-use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
-
 interface Binding
 {
     /**
