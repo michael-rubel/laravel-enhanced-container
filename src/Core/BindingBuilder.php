@@ -177,13 +177,11 @@ class BindingBuilder implements Binding, Extending
      *
      * @param object|string|null $concrete
      *
-     * @return \Closure|string|null
+     * @return \Closure|string
      */
-    protected function wrapToClosure(object|string|null $concrete): \Closure|string|null
+    protected function wrapToClosure(object|string|null $concrete): \Closure|string
     {
-        if (! is_null($concrete)
-            && ! is_string($concrete)
-            && ! $concrete instanceof \Closure) {
+        if (! is_string($concrete) && ! $concrete instanceof \Closure) {
             return fn () => $concrete;
         }
 
