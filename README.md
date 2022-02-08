@@ -32,17 +32,18 @@ The package requires PHP `^8.x` and Laravel `^8.71`.
 
 You can install the package via composer:
 
-### Laravel 8
-```bash
-composer require michael-rubel/laravel-enhanced-container "4.*"
-```
-
 ### Laravel 9
 ```bash
 composer require michael-rubel/laravel-enhanced-container
 ```
 
-Publish the config if you want to use [method forwarding](#method-forwarding):
+### Laravel 8
+```bash
+composer require michael-rubel/laravel-enhanced-container "4.*"
+```
+
+### Config
+Publish the config if you want to customize package settings:
 ```bash
 php artisan vendor:publish --tag="enhanced-container-config"
 ```
