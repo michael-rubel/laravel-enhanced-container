@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 
+use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
 use MichaelRubel\EnhancedContainer\Traits\BootsCallProxies;
 
@@ -24,6 +25,6 @@ class BoilerplateServiceWithBootedCallProxyWithMethod
      */
     public function handle(BestDomain $bestDomain): BestDomain
     {
-        return $this->proxy->bestDomain->getInternal('instance');
+        return $this->proxy->bestDomain->getInternal(Call::INSTANCE);
     }
 }

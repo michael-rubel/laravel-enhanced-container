@@ -27,15 +27,6 @@ interface Call
     public function containerCall(object $service, string $method, array $parameters): mixed;
 
     /**
-     * Determine if the method should be forwarded.
-     *
-     * @param string $method
-     *
-     * @return bool
-     */
-    public function shouldForward(string $method): bool;
-
-    /**
      * Gets the internal property by name.
      *
      * @param string $property

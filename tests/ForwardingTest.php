@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
+use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\MethodForwarder;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
@@ -136,13 +137,13 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testThrowsErrorSettingNonExistingPropertyWithForwarding()
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $callProxy = call(UserService::class);
 
-        $test = $callProxy->nonExistingProperty = false;
+        $callProxy->nonExistingProperty = false;
 
-        $this->assertFalse($test);
+        $this->assertFalse(
+            $callProxy->getInternal(Call::FORWARDS_TO)->nonExistingProperty
+        );
     }
 
     /** @test */
