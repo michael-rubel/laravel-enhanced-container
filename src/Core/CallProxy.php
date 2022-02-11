@@ -119,11 +119,11 @@ class CallProxy implements Call
      */
     public function __get(string $name): mixed
     {
-       if (! is_null($this->forwardsTo)) {
-           return $this->forwardsTo->{$name};
-       }
+        if (! is_null($this->forwardsTo)) {
+            return $this->forwardsTo->{$name};
+        }
 
-       return $this->instance->{$name};
+        return $this->instance->{$name};
     }
 
     /**
