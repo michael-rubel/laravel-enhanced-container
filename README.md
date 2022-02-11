@@ -39,7 +39,7 @@ composer require michael-rubel/laravel-enhanced-container
 
 ### Laravel 8
 ```bash
-composer require michael-rubel/laravel-enhanced-container "4.*"
+composer require michael-rubel/laravel-enhanced-container "^6.0"
 ```
 
 ### Config
