@@ -7,6 +7,14 @@ namespace MichaelRubel\EnhancedContainer;
 interface Call
 {
     /**
+     * Constants to use for referring internal properties.
+     *
+     * @const
+     */
+    public const INSTANCE    = 'instance';
+    public const FORWARDS_TO = 'forwardsTo';
+
+    /**
      * Perform the container call.
      *
      * @param object $service
