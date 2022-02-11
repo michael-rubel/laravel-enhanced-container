@@ -24,7 +24,7 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testMethodNotForwardedWhenForwardingIsDisabled()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(\Error::class);
 
         config([
             'enhanced-container.forwarding_enabled' => false,
@@ -91,7 +91,7 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testFailToForwardDomainToBuilderWithPluralNames()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(\Error::class);
 
         config([
             'enhanced-container.from.layer' => 'Domain',
@@ -106,7 +106,7 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testFailToForwardDomainToBuilderWithDifferentNames()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(\Error::class);
 
         config([
             'enhanced-container.from.layer' => 'Domain',
