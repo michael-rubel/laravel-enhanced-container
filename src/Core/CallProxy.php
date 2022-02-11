@@ -82,18 +82,6 @@ class CallProxy implements Call
     }
 
     /**
-     * Gets the internal property by name.
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function getInternal(string $property): mixed
-    {
-        return $this->{$property};
-    }
-
-    /**
      * Determine if the method should be forwarded.
      *
      * @param string $method
@@ -103,6 +91,18 @@ class CallProxy implements Call
     public function shouldForward(string $method): bool
     {
         return isForwardingEnabled() && ! method_exists($this->instance, $method);
+    }
+
+    /**
+     * Gets the internal property by name.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function getInternal(string $property): mixed
+    {
+        return $this->{$property};
     }
 
     /**
