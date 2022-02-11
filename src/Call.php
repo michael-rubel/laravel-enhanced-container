@@ -34,4 +34,13 @@ interface Call
      * @return bool
      */
     public function shouldForward(string $method): bool;
+
+    /**
+     * Gets the internal property by name.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function getInternal(string $property): mixed;
 }
