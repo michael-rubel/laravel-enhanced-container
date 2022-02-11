@@ -119,7 +119,7 @@ class CallProxy implements Call
      */
     public function __get(string $name): mixed
     {
-        if (! is_null($this->forwardsTo)) {
+        if (! is_null($this->forwardsTo) && ! property_exists($this->instance, $name)) {
             return $this->forwardsTo->{$name};
         }
 
