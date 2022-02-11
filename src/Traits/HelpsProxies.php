@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MichaelRubel\EnhancedContainer\Traits;
 
 use Illuminate\Support\Arr;
-use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 
 trait HelpsProxies
 {
