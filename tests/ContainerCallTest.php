@@ -127,7 +127,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testMethodDoesntExist()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(\Error::class);
 
         $object = resolve(UserService::class);
 
