@@ -164,21 +164,4 @@ trait HelpsProxies
             ? $object
             : $object::class;
     }
-
-    /**
-     * Handle property error.
-     *
-     * @param string $name
-     * @param object $instance
-     *
-     * @throws PropertyNotFoundException
-     */
-    public function throwPropertyNotFoundException(string $name, object $instance): self
-    {
-        throw new PropertyNotFoundException(sprintf(
-            'Call to undefined property %s::%s()',
-            $name,
-            $instance::class
-        ));
-    }
 }

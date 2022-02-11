@@ -6,7 +6,6 @@ namespace MichaelRubel\EnhancedContainer\Core;
 
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
-use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
 class CallProxy implements Call
@@ -82,18 +81,6 @@ class CallProxy implements Call
     }
 
     /**
-     * Determine if the method should be forwarded.
-     *
-     * @param string $method
-     *
-     * @return bool
-     */
-    public function shouldForward(string $method): bool
-    {
-        return isForwardingEnabled() && ! method_exists($this->instance, $method);
-    }
-
-    /**
      * Gets the internal property by name.
      *
      * @param string $property
@@ -116,7 +103,7 @@ class CallProxy implements Call
      */
     public function __call(string $method, array $parameters): mixed
     {
-        if (! is_null($this->forwardsTo) && $this->shouldForward($method)) {
+        if (! is_null($this->forwardsTo) && ! method_exists($this->instance, $method)) {
             return $this->containerCall($this->forwardsTo, $method, $parameters);
         }
 
@@ -129,17 +116,14 @@ class CallProxy implements Call
      * @param string $name
      *
      * @return mixed
-     * @throws PropertyNotFoundException
      */
     public function __get(string $name): mixed
     {
-        if (property_exists($this->instance, $name)) {
-            return $this->instance->{$name};
-        } elseif (isForwardingEnabled() && ! is_null($this->forwardsTo)) {
-            return $this->forwardsTo->{$name};
-        }
+       if (! is_null($this->forwardsTo)) {
+           return $this->forwardsTo->{$name};
+       }
 
-        return $this->throwPropertyNotFoundException($name, $this->instance);
+       return $this->instance->{$name};
     }
 
     /**
@@ -147,23 +131,15 @@ class CallProxy implements Call
      *
      * @param string $name
      * @param mixed  $value
-     *
-     * @throws PropertyNotFoundException
      */
     public function __set(string $name, mixed $value): void
     {
-        if (property_exists($this->instance, $name)) {
-            $this->instance->{$name} = $value;
-        } else {
-            if (isForwardingEnabled() && ! is_null($this->forwardsTo)) {
-                property_exists($this->forwardsTo, $name)
-                    ? $this->forwardsTo->{$name} = $value
-                    : $this->throwPropertyNotFoundException($name, $this->forwardsTo);
+        if (! is_null($this->forwardsTo)) {
+            $this->forwardsTo->{$name} = $value;
 
-                return;
-            }
-
-            $this->throwPropertyNotFoundException($name, $this->instance);
+            return;
         }
+
+        $this->instance->{$name} = $value;
     }
 }
