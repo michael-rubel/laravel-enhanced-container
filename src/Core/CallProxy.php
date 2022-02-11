@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
-use BadMethodCallException;
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
@@ -22,7 +21,7 @@ class CallProxy implements Call
     /**
      * @var object|null
      */
-    private ?object $forwardsTo;
+    private ?object $forwardsTo = null;
 
     /**
      * CallProxy constructor.
@@ -95,6 +94,18 @@ class CallProxy implements Call
     }
 
     /**
+     * Determine if the method should be forwarded.
+     *
+     * @param string $method
+     *
+     * @return bool
+     */
+    public function shouldForward(string $method): bool
+    {
+        return isForwardingEnabled() && ! method_exists($this->instance, $method);
+    }
+
+    /**
      * Pass the call through container.
      *
      * @param string $method
@@ -105,17 +116,11 @@ class CallProxy implements Call
      */
     public function __call(string $method, array $parameters): mixed
     {
-        if (method_exists($this->instance, $method)) {
-            return $this->containerCall($this->instance, $method, $parameters);
-        } elseif (isForwardingEnabled() && ! is_null($this->forwardsTo)) {
+        if (! is_null($this->forwardsTo) && $this->shouldForward($method)) {
             return $this->containerCall($this->forwardsTo, $method, $parameters);
         }
 
-        throw new BadMethodCallException(sprintf(
-            'Call to undefined method %s::%s()',
-            $this->instance::class,
-            $method
-        ));
+        return $this->containerCall($this->instance, $method, $parameters);
     }
 
     /**

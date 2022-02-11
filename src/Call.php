@@ -17,4 +17,13 @@ interface Call
      * @throws \ReflectionException
      */
     public function containerCall(object $service, string $method, array $parameters): mixed;
+
+    /**
+     * Determine if the method should be forwarded.
+     *
+     * @param string $method
+     *
+     * @return bool
+     */
+    public function shouldForward(string $method): bool;
 }

@@ -29,7 +29,7 @@ return [
      * be unable to use method binding on such methods.
      */
 
-    'manual_forwarding' => false,
+    'manual_forwarding' => true,
 
     /*
      | "From"
