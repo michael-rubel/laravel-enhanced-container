@@ -4,12 +4,10 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Arr;
 use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
-use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\ParameterOrderBoilerplate;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
