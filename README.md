@@ -197,32 +197,6 @@ $this->assertFalse($call);
 Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
 If you rely on interfaces, the proxy will automatically resolve bound implementation for you, no need to do it manually.
 
-Optionally, if you want to easily wrap all your class constructor's dependencies to `CallProxy`, you can use `BootsCallProxies` trait and then call `$this->bootCallProxies()` in your constructor. It will bootstrap the `proxy` class property that utilizes Laravel's native `Fluent` object. What it would look like:
-
-```php
-use MichaelRubel\EnhancedContainer\Traits\BootsCallProxies;
-
-class AnyYourClass
-{
-    use BootsCallProxies;
-
-    public function __construct(protected ServiceInterface $service)
-    {
-        $this->bootCallProxies();
-    }
-
-    public function getProxiedClass(): object
-    {
-        return $this->proxy->service; // your proxied service
-    }
-
-    public function getOriginal(): object
-    {
-        return $this->service; // your original is still available
-    }
-}
-```
-
 [🔝 back to contents](#contents)
 
 ### Method forwarding
@@ -275,26 +249,9 @@ runWithoutForwarding(
     fn () => call(Service::class)->yourMethod(100)
 );
 
-// executes the closure without forwarding
-
 runWithForwarding(
-    fn () => call(Service::class)->yourMethod(100)
+    fn () => call(Service::class)->yourMethod(150)
 );
-
-// executes the closure with forwarding
-```
-
-You can disable or enable the forwarding globally in your code:
-```php
-enableMethodForwarding();
-
-// sets the config key to true
-```
-
-```php
-disableMethodForwarding();
-
-// sets the config key to false
 ```
 
 [🔝 back to contents](#contents)
