@@ -228,7 +228,7 @@ class ForwardingTest extends TestCase
     }
 
     /** @test */
-    public function testForwarderReturnsNullIfTheSameObjects()
+    public function testForwarderReturnsNullIfTheSameObjectsFound()
     {
         $this->assertNull(
             call(new TestModel)->getInternal(Call::FORWARDS_TO)
