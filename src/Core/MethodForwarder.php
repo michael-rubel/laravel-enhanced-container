@@ -34,6 +34,12 @@ class MethodForwarder
     {
         $forwardsTo = $this->forwardsTo();
 
+        // Prevent initializing the object if
+        // the instance or path is the same.
+        if ($this->class === $forwardsTo || $this->class instanceof $forwardsTo) {
+            return null;
+        }
+
         return class_exists($forwardsTo) || interface_exists($forwardsTo)
             ? $this->resolvePassedClass($forwardsTo, $this->dependencies)
             : null;

@@ -5,6 +5,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\MethodForwarder;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users\UserRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
@@ -232,5 +233,17 @@ class ForwardingTest extends TestCase
         $this->assertTrue($forwarder->test);
         $this->assertIsString($forwarder->class);
         $this->assertIsArray($forwarder->dependencies);
+    }
+
+    /** @test */
+    public function testForwarderReturnsNullIfTheSameObjects()
+    {
+        $this->assertNull(
+            call(new TestModel)->getInternal(Call::FORWARDS_TO)
+        );
+
+        $this->assertNull(
+            call(TestModel::class)->getInternal(Call::FORWARDS_TO)
+        );
     }
 }
