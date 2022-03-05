@@ -10,7 +10,7 @@
 
 > Improved Laravel Service Container features. This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the container. The bindings are defined in a new "fluent" way.
 
-The package requires PHP `^8.x` and Laravel `^8.71`.
+The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
 
 [![PHP Version](https://img.shields.io/badge/php-^8.x-777BB4?style=flat-square&logo=php)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-^8.71-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
@@ -30,8 +30,7 @@ The package requires PHP `^8.x` and Laravel `^8.71`.
 
 ## Installation
 
-You can install the package via composer:
-
+Install the package via composer:
 ### Laravel 9
 ```bash
 composer require michael-rubel/laravel-enhanced-container
@@ -55,12 +54,11 @@ php artisan vendor:publish --tag="enhanced-container-config"
 bind(ServiceInterface::class)->to(Service::class);
 ```
 
-Bind just an implementation:
 ```php
 bind(Service::class)->itself();
 ```
 
-As singleton:
+As a singleton:
 ```php
 bind(ServiceInterface::class)->singleton(Service::class);
 ```
@@ -80,7 +78,7 @@ scoped(Service::class);
 
 ### Binding instances
 ```php
-bind(ServiceInterface::class)->instance(Service::class);
+bind(ServiceInterface::class)->instance(new Service());
 ```
 
 ```php
@@ -105,7 +103,7 @@ bind(ServiceInterface::class)
    ->for(ClassWithTypeHintedInterface::class);
 ```
 
-As variadic dependency:
+As a variadic dependency:
 ```php
 bind(ServiceInterface::class)
    ->contextual(
@@ -117,7 +115,7 @@ bind(ServiceInterface::class)
    ->for(ClassWithTypeHintedInterface::class);
 ```
 
-As primitive:
+As a primitive:
 ```php
 bind('$param')
    ->contextual(true)
@@ -129,9 +127,9 @@ bind('$param')
 ```php
 call(class: ServiceInterface::class, context: static::class);
 
-// the call automatically resolves the implementation from an interface you passed
-// if we're passing context, it tries to resolve contextual binding instead of global one first
-// instead of static::class you may pass any class context for this particular abstract type
+// The call automatically resolves the implementation from an interface you passed.
+// If you pass context, proxy tries to resolve contextual binding instead of global one first.
+// Instead of static::class you may pass any class context for this particular abstract type.
 ```
 
 [🔝 back to contents](#contents)
@@ -153,7 +151,7 @@ Bind the service to an interface:
 bind(ServiceInterface::class)->to(Service::class);
 ```
 
-You can perform the call to your service through container:
+Call your service method through container:
 ```php
 call(ServiceInterface::class)->yourMethod(100);
 ```
@@ -169,15 +167,13 @@ bind(ServiceInterface::class)->method('yourMethod', function ($service, $app, $p
 });
 
 call(ServiceInterface::class)->yourMethod(100);
-
 // 101
 
 call(ServiceInterface::class)->yourMethod(200);
-
 // false
 ```
 
-#### You can easily mock the methods in your tests as well.
+#### You can easily mock the methods in your tests!
 
 For example:
 ```php
@@ -195,16 +191,16 @@ $this->assertFalse($call);
 ```
 
 Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
-If you rely on interfaces, the proxy will automatically resolve bound implementation for you, no need to do it manually.
+If you rely on interfaces, proxy will automatically resolve bound implementation for you.
 
 [🔝 back to contents](#contents)
 
 ### Method forwarding
 This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met. You can enable this feature in the config.
 
-Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to just fetch the data without any additional operations.
+Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to fetching the data without any additional operations. The same applies if you don't know where to place the method (will it be only a database query, or might contain additional business logic).
 
-Turn `forwarding_enabled` option on and set the class names that fits your application structure.
+Turn `forwarding_enabled` option on and set the class names that fit your application structure.
 
 Assuming your structure is:
 ```php
