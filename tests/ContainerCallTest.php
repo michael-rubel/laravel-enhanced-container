@@ -231,4 +231,16 @@ class ContainerCallTest extends TestCase
         $response = call(ParameterOrderBoilerplate::class)->getString('test', '-next');
         $this->assertSame('test-next', $response);
     }
+
+    /** @test */
+    public function testSupportsNamedParameters()
+    {
+        $response = call(ParameterOrderBoilerplate::class)->handle(
+            third: 'Third',
+            second: 'Second',
+            first: 'First'
+        );
+
+        $this->assertSame('FirstSecondThird', $response);
+    }
 }
