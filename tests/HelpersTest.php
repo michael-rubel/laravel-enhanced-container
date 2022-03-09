@@ -142,5 +142,23 @@ class HelpersTest extends TestCase
         $this->assertFalse(
             single($parameters)
         );
+
+        $parameters = '1';
+
+        $this->assertTrue(
+            single($parameters)
+        );
+
+        $parameters = 1;
+
+        $this->assertTrue(
+            single($parameters)
+        );
+
+        $parameters = 1.0;
+
+        $this->assertTrue(
+            single($parameters)
+        );
     }
 }
