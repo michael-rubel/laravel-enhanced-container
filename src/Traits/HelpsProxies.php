@@ -91,6 +91,10 @@ trait HelpsProxies
             return $parameters;
         }
 
+        if (Arr::isAssoc($parameters)) {
+            return $parameters;
+        }
+
         return $this->makeContainerParameters(
             (new \ReflectionMethod($class, $method))->getParameters(),
             $parameters
