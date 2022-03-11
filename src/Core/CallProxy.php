@@ -134,7 +134,7 @@ class CallProxy implements Call
      */
     public function __set(string $name, mixed $value): void
     {
-        if (! is_null($this->forwardsTo)) {
+        if (! is_null($this->forwardsTo) && ! property_exists($this->instance, $name)) {
             $this->forwardsTo->{$name} = $value;
 
             return;
