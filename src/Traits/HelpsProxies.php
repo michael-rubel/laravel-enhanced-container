@@ -87,11 +87,7 @@ trait HelpsProxies
      */
     public function getPassedParameters(object $class, string $method, array $parameters): array
     {
-        if (empty($parameters)) {
-            return $parameters;
-        }
-
-        if (Arr::isAssoc($parameters)) {
+        if (empty($parameters) || Arr::isAssoc($parameters)) {
             return $parameters;
         }
 
@@ -117,18 +113,14 @@ trait HelpsProxies
             return $base;
         }
 
-        $reflectionParameters = $this->sliceParameters($reflectionParameters, $methodParameters);
-        $methodParameters     = $this->sliceParameters($methodParameters, $reflectionParameters);
-
-        return collect($reflectionParameters)
-            ->map
-            ->getName()
-            ->combine($methodParameters)
+        return collect($this->sliceParameters($reflectionParameters, $methodParameters))
+            ->map->getName()
+            ->combine($this->sliceParameters($methodParameters, $reflectionParameters))
             ->all();
     }
 
     /**
-     * Determine if the container can handle parameter order.
+     * Check if the container can handle the order of passed parameters.
      *
      * @param array $base
      * @param array $reflectionParameters
@@ -138,7 +130,9 @@ trait HelpsProxies
      */
     public function isOrderable(mixed $base, array $reflectionParameters, array $methodParameters): bool
     {
-        return is_array($base) && Arr::isAssoc($base) && single($methodParameters) <=> single($reflectionParameters);
+        return is_array($base)
+            && Arr::isAssoc($base)
+            && single($methodParameters) <=> single($reflectionParameters);
     }
 
     /**
