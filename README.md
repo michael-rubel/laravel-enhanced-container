@@ -155,38 +155,51 @@ Call your service method through container:
 call(ServiceInterface::class)->yourMethod(100);
 ```
 
-Override method behavior in any place of your app. You can even add conditions in your method binding by intercepting parameters:
+Override method behavior in any place of your app.
+You can add conditions in your method binding by intercepting parameters.
+
+For example in `tests`:
 ```php
-bind(ServiceInterface::class)->method('yourMethod', function ($service, $app, $params) {
-    if ($params['count'] === 100) {
-        return $service->yourMethod($params['count']) + 1;
-    }
-
-    return false;
-});
-
-call(ServiceInterface::class)->yourMethod(100);
-// 101
-
-call(ServiceInterface::class)->yourMethod(200);
-// false
-```
-
-#### You can easily mock the methods in your tests!
-
-For example:
-```php
-bind(ServiceInterface::class)->to(Service::class);
-bind(ServiceInterface::class)->method(
-    'externalApiRequestReturnsFalse',
-    fn () => false
+bind(ApiGatewayContract::class)->to(InternalApiGateway::class);
+bind(ApiGatewayContract::class)->method(
+    'performRequest',
+    fn () => true
 );
 
-$service = call(ServiceInterface::class);
+$apiGateway = call(ApiGatewayContract::class);
 
-$call = $service->externalApiRequestReturnsFalse();
+$request = $apiGateway->performRequest();
 
-$this->assertFalse($call);
+$this->assertTrue($request);
+```
+
+Another example from the real-world app:
+```php
+function testData(array $params): Collection
+{
+    return collect([
+        'object'      => 'payment_intent',
+        'amount'      => $params['data']->money->getAmount(),
+        'description' => $params['data']->description,
+         ...
+    ]);
+}
+
+bind(StripePaymentProvider::class)->method()->charge(
+    fn ($service, $app, $params) => new Payment(
+        tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
+            testData($params)->each(fn ($value, $key) => $intent->offsetSet($key, $value));
+        })
+    )
+);
+
+$data = new StripePaymentData(
+    // DTO parameters.
+);
+
+call(StripePaymentProvider::class)->charge($data);
+// The data bound to the method from `testData` wrapped into PaymentIntent
+// object with arguments you passed to the real function call. 🔥
 ```
 
 Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
