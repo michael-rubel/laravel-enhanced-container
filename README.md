@@ -10,11 +10,10 @@
 
 > Improved Laravel Service Container features. This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the container. The bindings are defined in a new "fluent" way.
 
-The package requires PHP `^8.x` and Laravel `^8.67`.
+The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
 
-[![PHP Version](https://img.shields.io/badge/php-^8.x-777BB4?style=flat-square&logo=php)](https://php.net)
-[![Laravel Version](https://img.shields.io/badge/laravel-^8.67-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
-[![Laravel Octane Compatible](https://img.shields.io/badge/octane-compatible-success?style=flat-square&logo=laravel)](https://github.com/laravel/octane)
+## #StandWithUkraine
+[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 
 ## Contents
   * [Installation](#installation)
@@ -26,17 +25,23 @@ The package requires PHP `^8.x` and Laravel `^8.67`.
     + [Contextual binding resolution outside of constructor](#contextual-binding-resolution-outside-of-constructor)
     + [Method binding](#method-binding)
     + [Method forwarding](#method-forwarding)
-  * [Testing](#testing)
+  * [Testing](#testing-the-package)
 
 ## Installation
 
-You can install the package via composer:
-
+Install the package via composer:
+### Laravel 9
 ```bash
 composer require michael-rubel/laravel-enhanced-container
 ```
 
-Publish the config if you want to use [method forwarding](#method-forwarding):
+### Laravel 8
+```bash
+composer require michael-rubel/laravel-enhanced-container "^6.0"
+```
+
+### Config
+Publish the config if you want to customize package settings:
 ```bash
 php artisan vendor:publish --tag="enhanced-container-config"
 ```
@@ -48,12 +53,11 @@ php artisan vendor:publish --tag="enhanced-container-config"
 bind(ServiceInterface::class)->to(Service::class);
 ```
 
-Bind just an implementation:
 ```php
 bind(Service::class)->itself();
 ```
 
-As singleton:
+As a singleton:
 ```php
 bind(ServiceInterface::class)->singleton(Service::class);
 ```
@@ -73,7 +77,7 @@ scoped(Service::class);
 
 ### Binding instances
 ```php
-bind(ServiceInterface::class)->instance(Service::class);
+bind(ServiceInterface::class)->instance(new Service());
 ```
 
 ```php
@@ -98,7 +102,7 @@ bind(ServiceInterface::class)
    ->for(ClassWithTypeHintedInterface::class);
 ```
 
-As variadic dependency:
+As a variadic dependency:
 ```php
 bind(ServiceInterface::class)
    ->contextual(
@@ -110,7 +114,7 @@ bind(ServiceInterface::class)
    ->for(ClassWithTypeHintedInterface::class);
 ```
 
-As primitive:
+As a primitive:
 ```php
 bind('$param')
    ->contextual(true)
@@ -122,9 +126,9 @@ bind('$param')
 ```php
 call(class: ServiceInterface::class, context: static::class);
 
-// the call automatically resolves the implementation from an interface you passed
-// if we're passing context, it tries to resolve contextual binding instead of global one first
-// instead of static::class you may pass any class context for this particular abstract type
+// The call automatically resolves the implementation from an interface you passed.
+// If you pass context, proxy tries to resolve contextual binding instead of global one first.
+// Instead of static::class you may pass any class context for this particular abstract type.
 ```
 
 [🔝 back to contents](#contents)
@@ -146,90 +150,75 @@ Bind the service to an interface:
 bind(ServiceInterface::class)->to(Service::class);
 ```
 
-You can perform the call to your service through container:
+Call your service method through container:
 ```php
 call(ServiceInterface::class)->yourMethod(100);
 ```
 
-Override method behavior in any place of your app. You can even add conditions in your method binding by intercepting parameters:
+Override method behavior in any place of your app.
+You can add conditions in your method binding by intercepting parameters.
+
+For example in `tests`:
 ```php
-bind(ServiceInterface::class)->method('yourMethod', function ($service, $app, $params) {
-    if ($params['count'] === 100) {
-        return $service->yourMethod($params['count']) + 1;
-    }
-
-    return false;
-});
-
-call(ServiceInterface::class)->yourMethod(100);
-
-// 101
-
-call(ServiceInterface::class)->yourMethod(200);
-
-// false
-```
-
-#### You can easily mock the methods in your tests as well.
-
-For example:
-```php
-bind(ServiceInterface::class)->to(Service::class);
-bind(ServiceInterface::class)->method(
-    'externalApiRequestReturnsFalse',
-    fn () => false
+bind(ApiGatewayContract::class)->to(InternalApiGateway::class);
+bind(ApiGatewayContract::class)->method(
+    'performRequest',
+    fn () => true
 );
 
-$service = call(ServiceInterface::class);
+$apiGateway = call(ApiGatewayContract::class);
 
-$call = $service->externalApiRequestReturnsFalse();
+$request = $apiGateway->performRequest();
 
-$this->assertFalse($call);
+$this->assertTrue($request);
+```
+
+Another example from the real-world app:
+```php
+function testData(array $params): Collection
+{
+    return collect([
+        'object'      => 'payment_intent',
+        'amount'      => $params['data']->money->getAmount(),
+        'description' => $params['data']->description,
+         ...
+    ]);
+}
+
+bind(StripePaymentProvider::class)->method()->charge(
+    fn ($service, $app, $params) => new Payment(
+        tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
+            testData($params)->each(fn ($value, $key) => $intent->offsetSet($key, $value));
+        })
+    )
+);
+
+$data = new StripePaymentData(
+    // DTO parameters.
+);
+
+call(StripePaymentProvider::class)->charge($data);
+// The data bound to the method from `testData` wrapped into PaymentIntent
+// object with arguments you passed to the real function call. 🔥
 ```
 
 Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
-If you rely on interfaces, the proxy will automatically resolve bound implementation for you, no need to do it manually.
-
-Optionally, if you want to easily wrap all your class constructor's dependencies to `CallProxy`, you can use `BootsCallProxies` trait and then call `$this->bootCallProxies()` in your constructor. It will bootstrap the `proxy` class property that utilizes Laravel's native `Fluent` object. What it would look like:
-
-```php
-use MichaelRubel\EnhancedContainer\Traits\BootsCallProxies;
-
-class AnyYourClass
-{
-    use BootsCallProxies;
-
-    public function __construct(protected ServiceInterface $service)
-    {
-        $this->bootCallProxies();
-    }
-
-    public function getProxiedClass(): object
-    {
-        return $this->proxy->service; // your proxied service
-    }
-
-    public function getOriginal(): object
-    {
-        return $this->service; // your original is still available
-    }
-}
-```
+If you rely on interfaces, proxy will automatically resolve bound implementation for you.
 
 [🔝 back to contents](#contents)
 
 ### Method forwarding
 This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met. You can enable this feature in the config.
 
-Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to just fetch the data without any additional operations.
+Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to fetching the data without any additional operations. The same applies if you don't know where to place the method (will it be only a database query, or might contain additional business logic).
 
-Turn `forwarding_enabled` option on and set the class names that fits your application structure.
+Turn `forwarding_enabled` option on and set the class names that fit your application structure.
 
 Assuming your structure is:
 ```php
 Logic:
 - App/Services/Users/UserService
-Queries: 
+Queries:
 - App/Repositories/Users/UserRepository
 ```
 
@@ -268,26 +257,9 @@ runWithoutForwarding(
     fn () => call(Service::class)->yourMethod(100)
 );
 
-// executes the closure without forwarding
-
 runWithForwarding(
-    fn () => call(Service::class)->yourMethod(100)
+    fn () => call(Service::class)->yourMethod(150)
 );
-
-// executes the closure with forwarding
-```
-
-You can disable or enable the forwarding globally in your code:
-```php
-enableMethodForwarding();
-
-// sets the config key to true
-```
-
-```php
-disableMethodForwarding();
-
-// sets the config key to false
 ```
 
 [🔝 back to contents](#contents)
