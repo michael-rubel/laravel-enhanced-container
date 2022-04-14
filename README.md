@@ -175,6 +175,9 @@ $this->assertTrue($request);
 
 Another example from the real-world app:
 ```php
+//
+// 🧪 In tests:
+//
 function testData(array $params): Collection
 {
     return collect([
@@ -193,6 +196,9 @@ bind(StripePaymentProvider::class)->method()->charge(
     )
 );
 
+//
+// ⚙️ In the service class:
+//
 $data = new StripePaymentData(
     // DTO parameters.
 );
