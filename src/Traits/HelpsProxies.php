@@ -63,6 +63,14 @@ trait HelpsProxies
     public function getDependencies(string $class, array $dependencies = []): array
     {
         if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
+            if (! class_exists($class)) {
+                $class = (
+                    new \ReflectionFunction(
+                        app()->getBindings()[$class]['concrete']
+                    )
+                )->getStaticVariables()['concrete'];
+            }
+
             /** @var class-string $class */
             $constructor = (new \ReflectionClass($class))->getConstructor();
 
