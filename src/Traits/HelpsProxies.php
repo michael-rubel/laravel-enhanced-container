@@ -52,6 +52,8 @@ trait HelpsProxies
     }
 
     /**
+     * Try to get binding concrete.
+     *
      * @param string $class
      *
      * @return string
