@@ -52,6 +52,21 @@ trait HelpsProxies
     }
 
     /**
+     * @param string $class
+     *
+     * @return string
+     * @throws \ReflectionException
+     */
+    public function getBindingConcrete(string $class): string
+    {
+        return (
+           new \ReflectionFunction(
+               app()->getBindings()[$class]['concrete']
+           )
+       )->getStaticVariables()['concrete'];
+    }
+
+    /**
      * Resolve class dependencies.
      *
      * @param string $class
@@ -64,11 +79,7 @@ trait HelpsProxies
     {
         if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
             if (! class_exists($class)) {
-                $class = (
-                    new \ReflectionFunction(
-                        app()->getBindings()[$class]['concrete']
-                    )
-                )->getStaticVariables()['concrete'];
+                $class = $this->getBindingConcrete($class);
             }
 
             /** @var class-string $class */
