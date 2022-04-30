@@ -65,7 +65,7 @@ trait HelpsProxies
            new \ReflectionFunction(
                app()->getBindings()[$class]['concrete']
            )
-       )->getStaticVariables()['concrete'];
+        )->getStaticVariables()['concrete'];
     }
 
     /**
