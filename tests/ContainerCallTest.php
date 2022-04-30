@@ -4,7 +4,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
-use MichaelRubel\EnhancedContainer\Exceptions\PropertyNotFoundException;
+use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
@@ -242,5 +242,15 @@ class ContainerCallTest extends TestCase
         );
 
         $this->assertSame('FirstSecondThird', $response);
+    }
+
+    /** @test */
+    public function testSupportsStringBindingsWithDependencies()
+    {
+        bind('test')->to(BoilerplateService::class);
+
+        $response = call('test', ['dependency']);
+
+        $this->assertInstanceOf(BoilerplateService::class, $response->getInternal(Call::INSTANCE));
     }
 }

@@ -52,6 +52,23 @@ trait HelpsProxies
     }
 
     /**
+     * Try to get binding concrete.
+     *
+     * @param string $class
+     *
+     * @return string
+     * @throws \ReflectionException
+     */
+    public function getBindingConcrete(string $class): string
+    {
+        return (
+           new \ReflectionFunction(
+               app()->getBindings()[$class]['concrete']
+           )
+        )->getStaticVariables()['concrete'];
+    }
+
+    /**
      * Resolve class dependencies.
      *
      * @param string $class
@@ -63,6 +80,10 @@ trait HelpsProxies
     public function getDependencies(string $class, array $dependencies = []): array
     {
         if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
+            if (! class_exists($class)) {
+                $class = $this->getBindingConcrete($class);
+            }
+
             /** @var class-string $class */
             $constructor = (new \ReflectionClass($class))->getConstructor();
 
@@ -87,11 +108,7 @@ trait HelpsProxies
      */
     public function getPassedParameters(object $class, string $method, array $parameters): array
     {
-        if (empty($parameters)) {
-            return $parameters;
-        }
-
-        if (Arr::isAssoc($parameters)) {
+        if (empty($parameters) || Arr::isAssoc($parameters)) {
             return $parameters;
         }
 
@@ -117,18 +134,14 @@ trait HelpsProxies
             return $base;
         }
 
-        $reflectionParameters = $this->sliceParameters($reflectionParameters, $methodParameters);
-        $methodParameters     = $this->sliceParameters($methodParameters, $reflectionParameters);
-
-        return collect($reflectionParameters)
-            ->map
-            ->getName()
-            ->combine($methodParameters)
+        return collect($this->sliceParameters($reflectionParameters, $methodParameters))
+            ->map->getName()
+            ->combine($this->sliceParameters($methodParameters, $reflectionParameters))
             ->all();
     }
 
     /**
-     * Determine if the container can handle parameter order.
+     * Check if the container can handle the order of passed parameters.
      *
      * @param array $base
      * @param array $reflectionParameters
@@ -138,7 +151,9 @@ trait HelpsProxies
      */
     public function isOrderable(mixed $base, array $reflectionParameters, array $methodParameters): bool
     {
-        return is_array($base) && Arr::isAssoc($base) && single($methodParameters) <=> single($reflectionParameters);
+        return is_array($base)
+            && Arr::isAssoc($base)
+            && single($methodParameters) <=> single($reflectionParameters);
     }
 
     /**
