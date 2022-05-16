@@ -30,22 +30,22 @@ class CallProxy implements Call
      * @param string|null   $context
      */
     public function __construct(
-        private object | string $class,
-        private array $dependencies = [],
-        private ?string $context = null
+        object | string $class,
+        array $dependencies = [],
+        ?string $context = null
     ) {
         $this->instance = ! is_object($class)
             ? $this->resolvePassedClass(
-                $this->class,
-                $this->dependencies,
-                $this->context
+                $class,
+                $dependencies,
+                $context
             )
             : $class;
 
         if (isForwardingEnabled()) {
             $this->forwardsTo = app(MethodForwarder::class, [
-                'class'        => $this->class,
-                'dependencies' => $this->dependencies,
+                'class'        => $class,
+                'dependencies' => $dependencies,
             ])->getClass();
         }
     }
