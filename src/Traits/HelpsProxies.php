@@ -128,32 +128,10 @@ trait HelpsProxies
      */
     public function makeContainerParameters(array $reflectionParameters, array $methodParameters): array
     {
-        $base = current($methodParameters);
-
-        if ($this->isOrderable($base, $reflectionParameters, $methodParameters)) {
-            return $base;
-        }
-
         return collect($this->sliceParameters($reflectionParameters, $methodParameters))
             ->map->getName()
             ->combine($this->sliceParameters($methodParameters, $reflectionParameters))
             ->all();
-    }
-
-    /**
-     * Check if the container can handle the order of passed parameters.
-     *
-     * @param array $base
-     * @param array $reflectionParameters
-     * @param array $methodParameters
-     *
-     * @return bool
-     */
-    public function isOrderable(mixed $base, array $reflectionParameters, array $methodParameters): bool
-    {
-        return is_array($base)
-            && Arr::isAssoc($base)
-            && single($methodParameters) <=> single($reflectionParameters);
     }
 
     /**
