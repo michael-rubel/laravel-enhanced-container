@@ -8,6 +8,7 @@ use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\ParameterOrderBoilerplate;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
@@ -222,5 +223,19 @@ class ContainerCallTest extends TestCase
         $response = call('test', ['dependency']);
 
         $this->assertInstanceOf(BoilerplateService::class, $response->getInternal(Call::INSTANCE));
+    }
+
+    /** @test */
+    public function testArrayParams()
+    {
+        bind('test')->to(BoilerplateServiceWithConstructorPrimitive::class);
+
+        $response = call('test', [
+            'param'     => false,
+            'nextParam' => 'testString',
+        ]);
+
+        $this->assertFalse($response->getParam());
+        $this->assertStringContainsString('testString', $response->getNextParam());
     }
 }

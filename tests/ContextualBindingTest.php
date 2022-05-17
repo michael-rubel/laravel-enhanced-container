@@ -116,9 +116,8 @@ class ContextualBindingTest extends TestCase
             ->contextual(false)
             ->for(BoilerplateServiceWithConstructor::class);
 
-        $test = call(
-            BoilerplateServiceWithConstructor::class
-        )->getParam();
+        $test = call(BoilerplateServiceWithConstructor::class)
+            ->getParam();
 
         $this->assertFalse($test);
 
@@ -126,11 +125,19 @@ class ContextualBindingTest extends TestCase
             ->contextual(true)
             ->for(BoilerplateServiceWithConstructorPrimitive::class);
 
-        $test = call(
-            BoilerplateServiceWithConstructorPrimitive::class
-        )->getParam();
+        bind('$nextParam')
+            ->contextual('testString')
+            ->for(BoilerplateServiceWithConstructorPrimitive::class);
+
+        $test = call(BoilerplateServiceWithConstructorPrimitive::class)
+            ->getParam();
 
         $this->assertTrue($test);
+
+        $test = call(BoilerplateServiceWithConstructorPrimitive::class)
+            ->getNextParam();
+
+        $this->assertStringContainsString('testString', $test);
     }
 
     /** @test */
