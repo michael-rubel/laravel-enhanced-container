@@ -12,9 +12,9 @@ if (! function_exists('call')) {
      * @param array         $parameters
      * @param string|null   $context
      *
-     * @return mixed
+     * @return CallProxy
      */
-    function call(string|object $class, array $parameters = [], ?string $context = null): mixed
+    function call(string|object $class, array $parameters = [], ?string $context = null): CallProxy
     {
         return new CallProxy($class, $parameters, $context);
     }
