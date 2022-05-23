@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer;
 
-use MichaelRubel\EnhancedContainer\Core\CallProxy;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -22,23 +21,5 @@ class LecServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-enhanced-container')
             ->hasConfigFile();
-    }
-
-    /**
-     * Register any package services.
-     *
-     * @return void
-     */
-    public function packageBooted(): void
-    {
-        $this->app->bind(
-            Call::class,
-            fn ($app, $params)
-                => new CallProxy(
-                    current($params),
-                    next($params),
-                    end($params)
-                )
-        );
     }
 }

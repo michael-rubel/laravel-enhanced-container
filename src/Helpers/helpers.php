@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
+use MichaelRubel\EnhancedContainer\Core\CallProxy;
 
 if (! function_exists('call')) {
     /**
@@ -11,11 +12,11 @@ if (! function_exists('call')) {
      * @param array         $parameters
      * @param string|null   $context
      *
-     * @return mixed
+     * @return CallProxy
      */
-    function call(string|object $class, array $parameters = [], ?string $context = null): mixed
+    function call(string|object $class, array $parameters = [], ?string $context = null): CallProxy
     {
-        return app(Call::class, [$class, $parameters, $context]);
+        return new CallProxy($class, $parameters, $context);
     }
 }
 

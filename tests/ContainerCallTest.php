@@ -8,6 +8,7 @@ use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\ParameterOrderBoilerplate;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
@@ -203,36 +204,6 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testParametersOrderIsHandledByTheContainer()
-    {
-        $data = [
-            'second' => 'Second',
-            'third'  => 'Third',
-            'first'  => 'First',
-        ];
-
-        $response = call(ParameterOrderBoilerplate::class)->handle($data);
-        $this->assertSame('FirstSecondThird', $response);
-
-        $response = call(ParameterOrderBoilerplate::class)->handle();
-        $this->assertSame('123', $response);
-
-        $response = call(ParameterOrderBoilerplate::class)->getData($data);
-        $this->assertSame($data, $response);
-
-        $data = [
-            'second' => 'Second',
-            'first'  => 'First',
-        ];
-
-        $response = call(ParameterOrderBoilerplate::class)->handleTwo($data);
-        $this->assertSame('FirstSecond', $response);
-
-        $response = call(ParameterOrderBoilerplate::class)->getString('test', '-next');
-        $this->assertSame('test-next', $response);
-    }
-
-    /** @test */
     public function testSupportsNamedParameters()
     {
         $response = call(ParameterOrderBoilerplate::class)->handle(
@@ -252,5 +223,19 @@ class ContainerCallTest extends TestCase
         $response = call('test', ['dependency']);
 
         $this->assertInstanceOf(BoilerplateService::class, $response->getInternal(Call::INSTANCE));
+    }
+
+    /** @test */
+    public function testArrayParams()
+    {
+        bind('test')->to(BoilerplateServiceWithConstructorPrimitive::class);
+
+        $response = call('test', [
+            'param'     => false,
+            'nextParam' => 'testString',
+        ]);
+
+        $this->assertFalse($response->getParam());
+        $this->assertStringContainsString('testString', $response->getNextParam());
     }
 }
