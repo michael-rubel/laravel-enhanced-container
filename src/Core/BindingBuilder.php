@@ -163,13 +163,13 @@ class BindingBuilder implements Binding, Extending
      */
     protected function tryToResolveConcrete(): void
     {
-        $implementation = rescue(
+        $concrete = rescue(
             fn () => app($this->abstract),
             report: false
         );
 
-        if (! is_null($implementation)) {
-            $this->abstract = $this->convertToNamespace($implementation);
+        if (! is_null($concrete)) {
+            $this->abstract = $this->convertToNamespace($concrete);
         }
     }
 
