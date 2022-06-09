@@ -159,9 +159,9 @@ class BindingBuilder implements Binding, Extending
     /**
      * Try to resolve an implementation for this particular abstract type.
      *
-     * @return void
+     * @return mixed
      */
-    public function resolve(): void
+    public function resolve(): mixed
     {
         $concrete = rescue(
             fn () => app($this->abstract),
@@ -171,6 +171,8 @@ class BindingBuilder implements Binding, Extending
         if (! is_null($concrete)) {
             $this->abstract = $this->convertToNamespace($concrete);
         }
+
+        return $this->abstract;
     }
 
     /**
