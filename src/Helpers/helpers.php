@@ -16,7 +16,11 @@ if (! function_exists('call')) {
      */
     function call(string|object $class, array $parameters = [], ?string $context = null): CallProxy
     {
-        return new CallProxy($class, $parameters, $context);
+        return app(CallProxy::class, [
+            'class'        => $class,
+            'dependencies' => $parameters,
+            'context'      => $context,
+        ]);
     }
 }
 

@@ -211,6 +211,12 @@ call(StripePaymentProvider::class)->charge($data);
 Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
 If you rely on interfaces, proxy will automatically resolve bound implementation for you.
 
+#### Note for package creators
+If you want to use method binding in your own package, you need to make sure the [`LecServiceProvider`](https://github.com/michael-rubel/laravel-enhanced-container/blob/main/src/LecServiceProvider.php) registered before you use this feature.
+```php
+$this->app->register(LecServiceProvider::class);
+```
+
 [🔝 back to contents](#contents)
 
 ### Method forwarding
@@ -270,7 +276,7 @@ runWithForwarding(
 
 [🔝 back to contents](#contents)
 
-## Testing the package
+## Testing
 
 ```bash
 composer test

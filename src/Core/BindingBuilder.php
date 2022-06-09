@@ -42,8 +42,8 @@ class BindingBuilder implements Binding, Extending
      */
     public function method(string $method = null, \Closure $override = null): self|null
     {
-        // try to resolve implementation
-        // for actual abstract type
+        // Try to auto-resolve an implementation
+        // for this particular abstract type.
         $this->resolve();
 
         if (is_null($method) || is_null($override)) {
@@ -157,19 +157,22 @@ class BindingBuilder implements Binding, Extending
     }
 
     /**
-     * Try to resolve an abstract.
+     * Try to resolve an implementation for this particular abstract type.
      *
      * @return mixed
      */
     public function resolve(): mixed
     {
-        return rescue(
-            fn () => $this->abstract = $this->convertToNamespace(
-                resolve($this->abstract)
-            ),
-            null,
-            false
+        $concrete = rescue(
+            fn () => app($this->abstract),
+            report: false
         );
+
+        if (! is_null($concrete)) {
+            $this->abstract = $this->convertToNamespace($concrete);
+        }
+
+        return $this->abstract;
     }
 
     /**
@@ -198,9 +201,6 @@ class BindingBuilder implements Binding, Extending
      */
     public function __call(string $method, array $parameters): void
     {
-        app()->bindMethod([
-            $this->abstract,
-            $method,
-        ], current($parameters));
+        app()->bindMethod([$this->abstract, $method], current($parameters));
     }
 }

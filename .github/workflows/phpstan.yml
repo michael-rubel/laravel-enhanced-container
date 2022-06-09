@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  psalm:
+  phpstan:
     name: phpstan
     runs-on: ubuntu-latest
     steps:
