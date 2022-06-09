@@ -44,7 +44,7 @@ class BindingBuilder implements Binding, Extending
     {
         // Try to auto-resolve an implementation
         // for this particular abstract type.
-        $this->tryToResolveConcrete();
+        $this->resolve();
 
         if (is_null($method) || is_null($override)) {
             return $this;
@@ -161,7 +161,7 @@ class BindingBuilder implements Binding, Extending
      *
      * @return void
      */
-    protected function tryToResolveConcrete(): void
+    public function resolve(): void
     {
         $concrete = rescue(
             fn () => app($this->abstract),
