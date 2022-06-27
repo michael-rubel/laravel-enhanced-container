@@ -16,8 +16,8 @@ class MethodForwarder
     public const CLASS_SEPARATOR = '\\';
 
     /**
-     * @param object|string $class
-     * @param array         $dependencies
+     * @param  object|string  $class
+     * @param  array  $dependencies
      */
     public function __construct(
         private object | string $class,
@@ -101,7 +101,7 @@ class MethodForwarder
     /**
      * Get the instance's property.
      *
-     * @param string $name
+     * @param  string  $name
      *
      * @return mixed
      */
@@ -113,8 +113,8 @@ class MethodForwarder
     /**
      * Set the instance's property.
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param  string  $name
+     * @param  mixed  $value
      *
      * @return void
      */

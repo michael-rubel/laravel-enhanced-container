@@ -11,9 +11,9 @@ class BoilerplateWithBootedCallProxyWrongParams implements BoilerplateInterface
     use BootsCallProxies;
 
     /**
-     * @param string               $test
-     * @param bool                 $boolean
-     * @param BoilerplateInterface $boilerplateService
+     * @param  string  $test
+     * @param  bool  $boolean
+     * @param  BoilerplateInterface  $boilerplateService
      */
     public function __construct(
         private string $test,

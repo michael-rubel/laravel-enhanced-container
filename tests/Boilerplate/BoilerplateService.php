@@ -12,8 +12,8 @@ class BoilerplateService implements BoilerplateInterface
     public bool $testProperty = true;
 
     /**
-     * @param string $first
-     * @param int    $second
+     * @param  string  $first
+     * @param  int  $second
      *
      * @return bool
      */
@@ -23,7 +23,7 @@ class BoilerplateService implements BoilerplateInterface
     }
 
     /**
-     * @param int $count
+     * @param  int  $count
      *
      * @return int
      */

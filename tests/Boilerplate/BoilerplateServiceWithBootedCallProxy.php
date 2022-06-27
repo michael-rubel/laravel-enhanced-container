@@ -13,7 +13,7 @@ class BoilerplateServiceWithBootedCallProxy implements BoilerplateInterface
     use BootsCallProxies;
 
     /**
-     * @param BoilerplateInterface $boilerplateService
+     * @param  BoilerplateInterface  $boilerplateService
      */
     public function __construct(
         private BoilerplateInterface $boilerplateService
@@ -46,7 +46,7 @@ class BoilerplateServiceWithBootedCallProxy implements BoilerplateInterface
     }
 
     /**
-     * @param BestDomain $bestDomain
+     * @param  BestDomain  $bestDomain
      *
      * @return BestDomain
      */

@@ -25,9 +25,9 @@ class CallProxy implements Call
     /**
      * CallProxy constructor.
      *
-     * @param object|string $class
-     * @param array         $dependencies
-     * @param string|null   $context
+     * @param  object|string  $class
+     * @param  array  $dependencies
+     * @param  string|null  $context
      */
     public function __construct(
         object | string $class,
@@ -53,9 +53,9 @@ class CallProxy implements Call
     /**
      * Perform the container call.
      *
-     * @param object $service
-     * @param string $method
-     * @param array  $parameters
+     * @param  object  $service
+     * @param  string  $method
+     * @param  array  $parameters
      *
      * @return mixed
      * @throws \ReflectionException
@@ -83,7 +83,7 @@ class CallProxy implements Call
     /**
      * Gets the internal property by name.
      *
-     * @param string $property
+     * @param  string  $property
      *
      * @return mixed
      */
@@ -95,8 +95,8 @@ class CallProxy implements Call
     /**
      * Pass the call through container.
      *
-     * @param string $method
-     * @param array  $parameters
+     * @param  string  $method
+     * @param  array  $parameters
      *
      * @return mixed
      * @throws \ReflectionException
@@ -113,7 +113,7 @@ class CallProxy implements Call
     /**
      * Get the instance's property.
      *
-     * @param string $name
+     * @param  string  $name
      *
      * @return mixed
      */
@@ -129,8 +129,8 @@ class CallProxy implements Call
     /**
      * Set the instance's property.
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param  string  $name
+     * @param  mixed  $value
      */
     public function __set(string $name, mixed $value): void
     {

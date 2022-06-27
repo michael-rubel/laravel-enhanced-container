@@ -12,7 +12,7 @@ class BoilerplateServiceWithVariadicConstructor
     private mixed $boilerplates;
 
     /**
-     * @param BoilerplateInterface ...$boilerplates
+     * @param  BoilerplateInterface  ...$boilerplates
      */
     public function __construct(
         BoilerplateInterface ...$boilerplates

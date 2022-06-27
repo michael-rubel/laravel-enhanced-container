@@ -16,7 +16,7 @@ trait BootsCallProxies
     /**
      * Boots the fluent object of call proxies.
      *
-     * @param string|null $method
+     * @param  string|null  $method
      *
      * @return void
      */
@@ -46,8 +46,8 @@ trait BootsCallProxies
     /**
      * Determines which method to use.
      *
-     * @param string|null      $method
-     * @param \ReflectionClass $reflectionClass
+     * @param  string|null  $method
+     * @param  \ReflectionClass  $reflectionClass
      *
      * @return \ReflectionMethod|null
      */

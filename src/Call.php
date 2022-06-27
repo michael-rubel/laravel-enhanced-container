@@ -11,15 +11,16 @@ interface Call
      *
      * @const
      */
-    public const INSTANCE    = 'instance';
+    public const INSTANCE = 'instance';
+
     public const FORWARDS_TO = 'forwardsTo';
 
     /**
      * Perform the container call.
      *
-     * @param object $service
-     * @param string $method
-     * @param array  $parameters
+     * @param  object  $service
+     * @param  string  $method
+     * @param  array  $parameters
      *
      * @return mixed
      * @throws \ReflectionException
@@ -29,7 +30,7 @@ interface Call
     /**
      * Gets the internal property by name.
      *
-     * @param string $property
+     * @param  string  $property
      *
      * @return mixed
      */

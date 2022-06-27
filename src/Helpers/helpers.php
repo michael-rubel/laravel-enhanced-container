@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
 use MichaelRubel\EnhancedContainer\Core\CallProxy;
 
 if (! function_exists('call')) {
     /**
-     * @param string|object $class
-     * @param array         $parameters
-     * @param string|null   $context
+     * @param  string|object  $class
+     * @param  array  $parameters
+     * @param  string|null  $context
      *
      * @return CallProxy
      */
@@ -26,7 +25,7 @@ if (! function_exists('call')) {
 
 if (! function_exists('bind')) {
     /**
-     * @param string|object $abstract
+     * @param  string|object  $abstract
      *
      * @return BindingBuilder
      */
@@ -38,12 +37,12 @@ if (! function_exists('bind')) {
 
 if (! function_exists('singleton')) {
     /**
-     * @param string              $abstract
-     * @param Closure|string|null $concrete
+     * @param  string  $abstract
+     * @param  Closure|string|null  $concrete
      *
      * @return void
      */
-    function singleton(string $abstract, \Closure|string $concrete = null): void
+    function singleton(string $abstract, Closure|string $concrete = null): void
     {
         app()->singleton($abstract, $concrete);
     }
@@ -51,12 +50,12 @@ if (! function_exists('singleton')) {
 
 if (! function_exists('scoped')) {
     /**
-     * @param string              $abstract
-     * @param Closure|string|null $concrete
+     * @param  string  $abstract
+     * @param  Closure|string|null  $concrete
      *
      * @return void
      */
-    function scoped(string $abstract, \Closure|string $concrete = null): void
+    function scoped(string $abstract, Closure|string $concrete = null): void
     {
         app()->scoped($abstract, $concrete);
     }
@@ -64,12 +63,12 @@ if (! function_exists('scoped')) {
 
 if (! function_exists('extend')) {
     /**
-     * @param string  $abstract
-     * @param Closure $closure
+     * @param  string  $abstract
+     * @param  Closure  $closure
      *
      * @return void
      */
-    function extend(string $abstract, \Closure $closure): void
+    function extend(string $abstract, Closure $closure): void
     {
         app()->extend($abstract, $closure);
     }
@@ -77,8 +76,8 @@ if (! function_exists('extend')) {
 
 if (! function_exists('instance')) {
     /**
-     * @param string $abstract
-     * @param mixed  $instance
+     * @param  string  $abstract
+     * @param  mixed  $instance
      *
      * @return void
      */
@@ -120,11 +119,11 @@ if (! function_exists('disableMethodForwarding')) {
 
 if (! function_exists('runWithoutForwarding')) {
     /**
-     * @param Closure $closure
+     * @param  Closure  $closure
      *
      * @return mixed
      */
-    function runWithoutForwarding(\Closure $closure): mixed
+    function runWithoutForwarding(Closure $closure): mixed
     {
         disableMethodForwarding();
 
@@ -138,11 +137,11 @@ if (! function_exists('runWithoutForwarding')) {
 
 if (! function_exists('runWithForwarding')) {
     /**
-     * @param Closure $closure
+     * @param  Closure  $closure
      *
      * @return mixed
      */
-    function runWithForwarding(\Closure $closure): mixed
+    function runWithForwarding(Closure $closure): mixed
     {
         enableMethodForwarding();
 
@@ -158,7 +157,7 @@ if (! function_exists('single')) {
     /**
      * Checks if an array has only a single element.
      *
-     * @param mixed $params
+     * @param  mixed  $params
      *
      * @return bool
      */

@@ -7,7 +7,7 @@ interface Extending
     /**
      * Extend the abstract type.
      *
-     * @param \Closure $closure
+     * @param  \Closure  $closure
      *
      * @return self
      */

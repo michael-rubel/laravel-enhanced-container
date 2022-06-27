@@ -7,7 +7,7 @@ namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 class BoilerplateServiceWithConstructorClass
 {
     /**
-     * @param BoilerplateInterface $boilerplateService
+     * @param  BoilerplateInterface  $boilerplateService
      */
     public function __construct(
         private BoilerplateInterface $boilerplateService
