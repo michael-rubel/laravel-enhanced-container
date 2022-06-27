@@ -25,7 +25,7 @@ class BindingBuilder implements Binding, Extending
     /**
      * BindingBuilder constructor.
      *
-     * @param object|string $abstract
+     * @param  object|string  $abstract
      */
     public function __construct(object | string $abstract)
     {
@@ -35,8 +35,8 @@ class BindingBuilder implements Binding, Extending
     /**
      * Method binding.
      *
-     * @param string|null  $method
-     * @param \Closure|null $override
+     * @param  string|null  $method
+     * @param  \Closure|null  $override
      *
      * @return $this|null
      */
@@ -56,8 +56,8 @@ class BindingBuilder implements Binding, Extending
     /**
      * Basic "bind".
      *
-     * @param object|string|null $concrete
-     * @param bool               $shared
+     * @param  object|string|null  $concrete
+     * @param  bool  $shared
      *
      * @return $this
      */
@@ -81,7 +81,7 @@ class BindingBuilder implements Binding, Extending
     /**
      * Singleton.
      *
-     * @param object|string|null $concrete
+     * @param  object|string|null  $concrete
      *
      * @return void
      */
@@ -93,7 +93,7 @@ class BindingBuilder implements Binding, Extending
     /**
      * Scoped instance.
      *
-     * @param object|string|null $concrete
+     * @param  object|string|null  $concrete
      *
      * @return void
      */
@@ -117,7 +117,7 @@ class BindingBuilder implements Binding, Extending
     /**
      * Contextual binding.
      *
-     * @param array|string $concrete
+     * @param  array|string  $concrete
      *
      * @return void
      */
@@ -131,7 +131,7 @@ class BindingBuilder implements Binding, Extending
     /**
      * Extend the abstract type.
      *
-     * @param \Closure $closure
+     * @param  \Closure  $closure
      *
      * @return BindingBuilder
      */
@@ -145,7 +145,7 @@ class BindingBuilder implements Binding, Extending
     /**
      * Register an existing instance as shared in the container.
      *
-     * @param mixed $instance
+     * @param  mixed  $instance
      *
      * @return BindingBuilder
      */
@@ -178,7 +178,7 @@ class BindingBuilder implements Binding, Extending
     /**
      * Wrap an object to the closure if the type of the object differs.
      *
-     * @param object|string|null $concrete
+     * @param  object|string|null  $concrete
      *
      * @return \Closure|string
      */
@@ -194,8 +194,8 @@ class BindingBuilder implements Binding, Extending
     /**
      * Bind the method to the container.
      *
-     * @param string $method
-     * @param array  $parameters
+     * @param  string  $method
+     * @param  array  $parameters
      *
      * @return void
      */

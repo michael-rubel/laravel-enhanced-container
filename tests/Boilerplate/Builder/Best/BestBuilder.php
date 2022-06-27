@@ -7,7 +7,7 @@ use Illuminate\Database\Query\Builder;
 class BestBuilder
 {
     /**
-     * @param Builder $builder
+     * @param  Builder  $builder
      */
     public function __construct(
         public Builder $builder

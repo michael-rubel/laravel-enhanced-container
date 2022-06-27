@@ -8,7 +8,7 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository
 class TestService implements BoilerplateInterface
 {
     /**
-     * @param TestRepository $testRepository
+     * @param  TestRepository  $testRepository
      */
     public function __construct(
         public TestRepository $testRepository

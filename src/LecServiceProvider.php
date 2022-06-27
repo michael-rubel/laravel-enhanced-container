@@ -12,7 +12,7 @@ class LecServiceProvider extends PackageServiceProvider
     /**
      * Configure the package.
      *
-     * @param Package $package
+     * @param  Package  $package
      *
      * @return void
      */

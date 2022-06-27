@@ -8,7 +8,7 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestServiceInterfa
 class UserService implements TestServiceInterface
 {
     /**
-     * @param TestRepository $testRepository
+     * @param  TestRepository  $testRepository
      */
     public function __construct(
         public TestRepository $testRepository
@@ -24,7 +24,7 @@ class UserService implements TestServiceInterface
     }
 
     /**
-     * @param string $param
+     * @param  string  $param
      *
      * @return bool
      */
@@ -34,9 +34,9 @@ class UserService implements TestServiceInterface
     }
 
     /**
-     * @param array  $params
-     * @param string $string
-     * @param int    $int
+     * @param  array  $params
+     * @param  string  $string
+     * @param  int  $int
      *
      * @return bool
      */

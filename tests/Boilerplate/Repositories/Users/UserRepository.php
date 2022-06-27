@@ -13,7 +13,7 @@ class UserRepository implements TestRepositoryInterface
     public bool $testProperty = true;
 
     /**
-     * @param Builder $builder
+     * @param  Builder  $builder
      */
     public function __construct(
         public Builder $builder
@@ -29,8 +29,8 @@ class UserRepository implements TestRepositoryInterface
     }
 
     /**
-     * @param array $params
-     * @param int   $int
+     * @param  array  $params
+     * @param  int  $int
      *
      * @return bool
      */

@@ -9,8 +9,8 @@ interface Binding
     /**
      * Method binding.
      *
-     * @param string|null  $method
-     * @param \Closure|null $override
+     * @param  string|null  $method
+     * @param  \Closure|null  $override
      *
      * @return self|null
      */
@@ -19,8 +19,8 @@ interface Binding
     /**
      * Basic "bind".
      *
-     * @param object|string|null $concrete
-     * @param bool                 $shared
+     * @param  object|string|null  $concrete
+     * @param  bool  $shared
      *
      * @return self
      */
@@ -36,7 +36,7 @@ interface Binding
     /**
      * Singleton.
      *
-     * @param object|string|null $concrete
+     * @param  object|string|null  $concrete
      *
      * @return void
      */
@@ -45,7 +45,7 @@ interface Binding
     /**
      * Scoped instance.
      *
-     * @param object|string|null $concrete
+     * @param  object|string|null  $concrete
      *
      * @return void
      */
@@ -54,7 +54,7 @@ interface Binding
     /**
      * Enables contextual binding.
      *
-     * @param \Closure|string|array $implementation
+     * @param  \Closure|string|array  $implementation
      *
      * @return self
      */
@@ -63,7 +63,7 @@ interface Binding
     /**
      * Contextual binding.
      *
-     * @param array|string $concrete
+     * @param  array|string  $concrete
      *
      * @return void
      */
@@ -72,7 +72,7 @@ interface Binding
     /**
      * Register an existing instance as shared in the container.
      *
-     * @param mixed $instance
+     * @param  mixed  $instance
      *
      * @return self
      */

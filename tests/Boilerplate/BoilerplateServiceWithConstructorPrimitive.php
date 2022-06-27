@@ -7,8 +7,8 @@ namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 class BoilerplateServiceWithConstructorPrimitive implements BoilerplateInterface
 {
     /**
-     * @param bool   $param
-     * @param string $nextParam
+     * @param  bool  $param
+     * @param  string  $nextParam
      */
     public function __construct(
         private bool $param,

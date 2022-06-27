@@ -5,9 +5,9 @@ namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 class ParameterOrderBoilerplate
 {
     /**
-     * @param string $first
-     * @param string $second
-     * @param string $third
+     * @param  string  $first
+     * @param  string  $second
+     * @param  string  $third
      *
      * @return string
      */
@@ -17,8 +17,8 @@ class ParameterOrderBoilerplate
     }
 
     /**
-     * @param string $first
-     * @param string $second
+     * @param  string  $first
+     * @param  string  $second
      *
      * @return string
      */
@@ -28,7 +28,7 @@ class ParameterOrderBoilerplate
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      *
      * @return array
      */
@@ -38,8 +38,8 @@ class ParameterOrderBoilerplate
     }
 
     /**
-     * @param string $test
-     * @param string $next
+     * @param  string  $test
+     * @param  string  $next
      *
      * @return string
      */

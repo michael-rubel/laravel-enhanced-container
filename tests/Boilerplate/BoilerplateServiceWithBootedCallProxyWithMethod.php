@@ -19,7 +19,7 @@ class BoilerplateServiceWithBootedCallProxyWithMethod
     }
 
     /**
-     * @param BestDomain $bestDomain
+     * @param  BestDomain  $bestDomain
      *
      * @return BestDomain
      */

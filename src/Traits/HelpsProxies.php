@@ -9,15 +9,15 @@ use Illuminate\Support\Arr;
 trait HelpsProxies
 {
     /**
-     * @param string      $class
-     * @param array       $dependencies
-     * @param string|null $context
+     * @param  string  $class
+     * @param  array  $dependencies
+     * @param  string|null  $context
      *
      * @return object
      */
     public function resolvePassedClass(string $class, array $dependencies = [], ?string $context = null): object
     {
-        $class        = $this->getClassForResolution($class, $context);
+        $class = $this->getClassForResolution($class, $context);
         $dependencies = $this->getDependencies($class, $dependencies);
 
         return resolve($class, $dependencies);
@@ -26,8 +26,8 @@ trait HelpsProxies
     /**
      * Get the class for resolution.
      *
-     * @param string      $class
-     * @param string|null $context
+     * @param  string  $class
+     * @param  string|null  $context
      *
      * @return string
      */
@@ -41,8 +41,8 @@ trait HelpsProxies
     /**
      * Try to get the contextual concrete.
      *
-     * @param string      $class
-     * @param string|null $context
+     * @param  string  $class
+     * @param  string|null  $context
      *
      * @return string
      */
@@ -54,7 +54,7 @@ trait HelpsProxies
     /**
      * Try to get binding concrete.
      *
-     * @param string $class
+     * @param  string  $class
      *
      * @return string
      * @throws \ReflectionException
@@ -71,8 +71,8 @@ trait HelpsProxies
     /**
      * Resolve class dependencies.
      *
-     * @param string $class
-     * @param array  $dependencies
+     * @param  string  $class
+     * @param  array  $dependencies
      *
      * @return array
      * @throws \ReflectionException
@@ -99,9 +99,9 @@ trait HelpsProxies
     }
 
     /**
-     * @param object $class
-     * @param string $method
-     * @param array  $parameters
+     * @param  object  $class
+     * @param  string  $method
+     * @param  array  $parameters
      *
      * @return array
      * @throws \ReflectionException
@@ -121,8 +121,8 @@ trait HelpsProxies
     /**
      * Combine parameters to make it container-readable.
      *
-     * @param array $reflectionParameters
-     * @param array $methodParameters
+     * @param  array  $reflectionParameters
+     * @param  array  $methodParameters
      *
      * @return array
      */
@@ -137,8 +137,8 @@ trait HelpsProxies
     /**
      * Slice an array to align the parameters.
      *
-     * @param array $parameters
-     * @param array $countable
+     * @param  array  $parameters
+     * @param  array  $countable
      *
      * @return array
      */
@@ -150,7 +150,7 @@ trait HelpsProxies
     /**
      * Convert the object to its namespace.
      *
-     * @param object|string $object
+     * @param  object|string  $object
      *
      * @return string
      */

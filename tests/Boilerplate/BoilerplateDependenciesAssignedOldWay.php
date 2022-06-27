@@ -16,7 +16,7 @@ class BoilerplateDependenciesAssignedOldWay implements BoilerplateInterface
     private ?BoilerplateInterface $boilerplateService = null;
 
     /**
-     * @param BoilerplateInterface $boilerplateService
+     * @param  BoilerplateInterface  $boilerplateService
      */
     public function __construct(BoilerplateInterface $boilerplateService)
     {
