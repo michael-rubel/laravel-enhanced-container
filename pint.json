@@ -4,6 +4,11 @@
     "Laravel/laravel_phpdoc_separation": false,
     "concat_space": {
       "spacing": "one"
+    },
+    "class_attributes_separation": {
+      "elements": {
+        "const": "only_if_meta"
+      }
     }
   },
   "exclude": [
