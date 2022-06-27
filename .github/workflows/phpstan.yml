@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  phpstan:
-    name: phpstan
+  larastan:
+    name: "Running Larastan check"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
