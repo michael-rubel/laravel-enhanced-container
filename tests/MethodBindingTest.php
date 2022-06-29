@@ -144,6 +144,11 @@ class MethodBindingTest extends TestCase
 
         $call = call(BoilerplateService::class)->yourMethod(200);
         $this->assertFalse($call);
+
+        bind(BoilerplateService::class)->method('yourMethod', function ($service, $app, $params) {
+            return $params['count'] + 1;
+        });
+        $this->assertSame(2, call(BoilerplateService::class)->yourMethod(1));
     }
 
     /** @test */
