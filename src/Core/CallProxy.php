@@ -74,6 +74,28 @@ class CallProxy implements Call
     }
 
     /**
+     * @return void
+     */
+    protected function findClass(): void
+    {
+        $classes = collect(
+            app($this->instance::class . 'forwardsTo')
+        );
+
+        $found = false;
+
+        $classes->when(! $found)->each(function ($class) use (&$found) {
+            $instance = app($class);
+
+            if (is_object($instance)) {
+                $this->instance = $instance;
+
+                $found = true;
+            }
+        });
+    }
+
+    /**
      * Pass the call through container.
      *
      * @param  string  $method
@@ -87,21 +109,7 @@ class CallProxy implements Call
             return $this->containerCall($this->instance, $method, $parameters);
         } catch (\Error $e) {
             if (Str::contains($e->getMessage(), 'Call to undefined method')) {
-                $classes = collect(
-                    app($this->instance::class . 'forwardsTo')
-                );
-
-                $found = false;
-
-                $classes->when(! $found)->each(function ($class) use (&$found) {
-                    $instance = app($class);
-
-                    if (is_object($instance)) {
-                        $this->instance = $instance;
-
-                        $found = true;
-                    }
-                });
+                $this->findClass();
 
                 return $this->containerCall($this->instance, $method, $parameters);
             }
@@ -119,6 +127,10 @@ class CallProxy implements Call
      */
     public function __get(string $name): mixed
     {
+        if (! property_exists($this->instance, $name)) {
+            $this->findClass();
+        }
+
         return $this->instance->{$name};
     }
 
@@ -130,6 +142,10 @@ class CallProxy implements Call
      */
     public function __set(string $name, mixed $value): void
     {
+        if (! property_exists($this->instance, $name)) {
+            $this->findClass();
+        }
+
         $this->instance->{$name} = $value;
     }
 }
