@@ -4,23 +4,20 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
 
 class CallProxy implements Call
 {
-    use HelpsProxies, ForwardsCalls;
+    use HelpsProxies, Conditionable, ForwardsCalls;
 
     /**
      * @var object
      */
     private object $instance;
-
-    /**
-     * @var object|null
-     */
-    private ?object $forwardsTo = null;
 
     /**
      * CallProxy constructor.
@@ -35,19 +32,8 @@ class CallProxy implements Call
         ?string $context = null
     ) {
         $this->instance = ! is_object($class)
-            ? $this->resolvePassedClass(
-                $class,
-                $dependencies,
-                $context
-            )
+            ? $this->resolvePassedClass($class, $dependencies, $context)
             : $class;
-
-        if (isForwardingEnabled()) {
-            $this->forwardsTo = app(MethodForwarder::class, [
-                'class'        => $class,
-                'dependencies' => $dependencies,
-            ])->getClass();
-        }
     }
 
     /**
@@ -58,7 +44,6 @@ class CallProxy implements Call
      * @param  array  $parameters
      *
      * @return mixed
-     * @throws \ReflectionException
      */
     public function containerCall(object $service, string $method, array $parameters): mixed
     {
@@ -71,12 +56,8 @@ class CallProxy implements Call
                     $parameters
                 )
             );
-        } catch (\ReflectionException $e) {
-            if (config('enhanced-container.manual_forwarding') ?? false) {
-                return $this->forwardCallTo($service, $method, $parameters);
-            }
-
-            throw $e;
+        } catch (\ReflectionException) {
+            return $this->forwardDecoratedCallTo($service, $method, $parameters);
         }
     }
 
@@ -99,15 +80,34 @@ class CallProxy implements Call
      * @param  array  $parameters
      *
      * @return mixed
-     * @throws \ReflectionException
      */
     public function __call(string $method, array $parameters): mixed
     {
-        if (! is_null($this->forwardsTo) && ! method_exists($this->instance, $method)) {
-            return $this->containerCall($this->forwardsTo, $method, $parameters);
-        }
+        try {
+            return $this->containerCall($this->instance, $method, $parameters);
+        } catch (\Error $e) {
+            if (Str::contains($e->getMessage(), 'Call to undefined method')) {
+                $classes = collect(
+                    app($this->instance::class . 'forwardsTo')
+                );
 
-        return $this->containerCall($this->instance, $method, $parameters);
+                $found = false;
+
+                $classes->when(! $found)->each(function ($class) use (&$found) {
+                    $instance = app($class);
+
+                    if (is_object($instance)) {
+                        $this->instance = $instance;
+
+                        $found = true;
+                    }
+                });
+
+                return $this->containerCall($this->instance, $method, $parameters);
+            }
+
+            throw $e;
+        }
     }
 
     /**
@@ -119,10 +119,6 @@ class CallProxy implements Call
      */
     public function __get(string $name): mixed
     {
-        if (! is_null($this->forwardsTo) && ! property_exists($this->instance, $name)) {
-            return $this->forwardsTo->{$name};
-        }
-
         return $this->instance->{$name};
     }
 
@@ -134,12 +130,6 @@ class CallProxy implements Call
      */
     public function __set(string $name, mixed $value): void
     {
-        if (! is_null($this->forwardsTo) && ! property_exists($this->instance, $name)) {
-            $this->forwardsTo->{$name} = $value;
-
-            return;
-        }
-
         $this->instance->{$name} = $value;
     }
 }
