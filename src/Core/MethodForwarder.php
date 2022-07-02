@@ -53,19 +53,19 @@ class MethodForwarder
     public function forwardsTo(): string
     {
         /** @var string */
-        $naming_from = config('enhanced-container.from.naming') ?? 'pluralStudly';
+        $naming_from = config('enhanced-container.from.naming', 'pluralStudly');
 
         /** @var string */
-        $naming_to = config('enhanced-container.to.naming') ?? 'pluralStudly';
+        $naming_to = config('enhanced-container.to.naming', 'pluralStudly');
 
         /** @var string */
-        $layer_from = config('enhanced-container.from.layer') ?? 'Service';
+        $layer_from = config('enhanced-container.from.layer', 'Service');
 
         /** @var string */
-        $layer_to = config('enhanced-container.to.layer') ?? 'Repository';
+        $layer_to = config('enhanced-container.to.layer', 'Repository');
 
         /** @var bool */
-        $postfix_to = config('enhanced-container.to.postfix') ?? true;
+        $postfix_to = config('enhanced-container.to.postfix', true);
 
         return collect(
             $this->convertToNamespace($this->class)
