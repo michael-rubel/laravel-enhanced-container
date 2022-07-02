@@ -1,124 +1,38 @@
 <?php
 
-namespace MichaelRubel\EnhancedContainer\Core;
+declare(strict_types=1);
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
+namespace MichaelRubel\EnhancedContainer\Core;
 
 class MethodForwarder
 {
-    use HelpsProxies;
-
     /**
-     * @const CLASS_SEPARATOR
+     * @param  string  $class
      */
-    public const CLASS_SEPARATOR = '\\';
-
-    /**
-     * @param  object|string  $class
-     * @param  array  $dependencies
-     */
-    public function __construct(
-        private object | string $class,
-        private array $dependencies = []
-    ) {
+    public function __construct(public string $class)
+    {
+        //
     }
 
     /**
-     * Forward the method.
+     * @param  string  $class
      *
-     * @return object|null
+     * @return static
      */
-    public function getClass(): ?object
+    public static function from(string $class): static
     {
-        $forwardsTo = $this->forwardsTo();
-
-        // Prevent initializing the object if
-        // the instance or path is the same.
-        if ($this->class === $forwardsTo || $this->class instanceof $forwardsTo) {
-            return null;
-        }
-
-        return class_exists($forwardsTo) || interface_exists($forwardsTo)
-            ? $this->resolvePassedClass($forwardsTo, $this->dependencies)
-            : null;
+        return new static($class);
     }
 
     /**
-     * Parse the class where to forward the call.
+     * @param  string|array  $destination
      *
-     * @return string
+     * @return $this
      */
-    public function forwardsTo(): string
+    public function to(string|array $destination): static
     {
-        /** @var string */
-        $naming_from = config('enhanced-container.from.naming', 'pluralStudly');
+        app()->singleton($this->class . 'forwardsTo', fn () => $destination);
 
-        /** @var string */
-        $naming_to = config('enhanced-container.to.naming', 'pluralStudly');
-
-        /** @var string */
-        $layer_from = config('enhanced-container.from.layer', 'Service');
-
-        /** @var string */
-        $layer_to = config('enhanced-container.to.layer', 'Repository');
-
-        /** @var bool */
-        $postfix_to = config('enhanced-container.to.postfix', true);
-
-        return collect($this->convertToNamespace($this->class))
-            ->pipe(
-                fn (Collection $class): Collection => collect(
-                    explode(self::CLASS_SEPARATOR, $class->first())
-                )
-            )->pipe(
-                fn (Collection $delimited): Collection => $delimited->map(
-                    fn ($item) => Str::replace(
-                        Str::{$naming_from}($layer_from),
-                        Str::{$naming_to}($layer_to),
-                        $item
-                    )
-                )
-            )->pipe(
-                fn (Collection $structure): string => implode(
-                    self::CLASS_SEPARATOR,
-                    $structure->put(
-                        $structure->keys()->last(),
-                        Str::replace(
-                            $layer_from,
-                            $postfix_to
-                                ? $layer_to
-                                : '',
-                            $structure->last() ?? ''
-                        )
-                )->all()
-            )
-        );
-    }
-
-    /**
-     * Get the instance's property.
-     *
-     * @param  string  $name
-     *
-     * @return mixed
-     */
-    public function __get(string $name): mixed
-    {
-        return $this->{$name};
-    }
-
-    /**
-     * Set the instance's property.
-     *
-     * @param  string  $name
-     * @param  mixed  $value
-     *
-     * @return void
-     */
-    public function __set(string $name, mixed $value): void
-    {
-        $this->{$name} = $value;
+        return $this;
     }
 }
