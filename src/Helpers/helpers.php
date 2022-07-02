@@ -86,19 +86,3 @@ if (! function_exists('instance')) {
         app()->instance($abstract, $instance);
     }
 }
-
-if (! function_exists('single')) {
-    /**
-     * Checks if an array has only a single element.
-     *
-     * @param  mixed  $params
-     *
-     * @return bool
-     */
-    function single(mixed $params): bool
-    {
-        return ! is_array($params) && ! $params instanceof \Countable
-            ? $params == 1
-            : count($params) === 1;
-    }
-}

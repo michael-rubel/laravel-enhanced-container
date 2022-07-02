@@ -122,43 +122,4 @@ class HelpersTest extends TestCase
 
         $this->assertTrue($call);
     }
-
-    /** @test */
-    public function testCanCheckIfArrayHasOnlySingleElement()
-    {
-        $parameters = [
-            0 => true,
-        ];
-
-        $this->assertTrue(
-            single($parameters)
-        );
-
-        $parameters = [
-            0 => true,
-            1 => false,
-        ];
-
-        $this->assertFalse(
-            single($parameters)
-        );
-
-        $parameters = '1';
-
-        $this->assertTrue(
-            single($parameters)
-        );
-
-        $parameters = 1;
-
-        $this->assertTrue(
-            single($parameters)
-        );
-
-        $parameters = 1.0;
-
-        $this->assertTrue(
-            single($parameters)
-        );
-    }
 }
