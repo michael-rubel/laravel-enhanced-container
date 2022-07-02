@@ -12,7 +12,6 @@ interface Call
      * @const
      */
     public const INSTANCE = 'instance';
-    public const FORWARDS_TO = 'forwardsTo';
 
     /**
      * Perform the container call.
