@@ -67,32 +67,31 @@ class MethodForwarder
         /** @var bool */
         $postfix_to = config('enhanced-container.to.postfix', true);
 
-        return collect(
-            $this->convertToNamespace($this->class)
-        )->pipe(
-            fn (Collection $class): Collection => collect(
-                explode(self::CLASS_SEPARATOR, $class->first())
-            )
-        )->pipe(
-            fn (Collection $delimited): Collection => $delimited->map(
-                fn ($item) => str_replace(
-                    Str::{$naming_from}($layer_from),
-                    Str::{$naming_to}($layer_to),
-                    $item
+        return collect($this->convertToNamespace($this->class))
+            ->pipe(
+                fn (Collection $class): Collection => collect(
+                    explode(self::CLASS_SEPARATOR, $class->first())
                 )
-            )
-        )->pipe(
-            fn (Collection $structure): string => implode(
-                self::CLASS_SEPARATOR,
-                $structure->put(
-                    $structure->keys()->last(),
-                    str_replace(
-                        $layer_from,
-                        $postfix_to
-                            ? $layer_to
-                            : '',
-                        $structure->last() ?? ''
+            )->pipe(
+                fn (Collection $delimited): Collection => $delimited->map(
+                    fn ($item) => Str::replace(
+                        Str::{$naming_from}($layer_from),
+                        Str::{$naming_to}($layer_to),
+                        $item
                     )
+                )
+            )->pipe(
+                fn (Collection $structure): string => implode(
+                    self::CLASS_SEPARATOR,
+                    $structure->put(
+                        $structure->keys()->last(),
+                        Str::replace(
+                            $layer_from,
+                            $postfix_to
+                                ? $layer_to
+                                : '',
+                            $structure->last() ?? ''
+                        )
                 )->all()
             )
         );
