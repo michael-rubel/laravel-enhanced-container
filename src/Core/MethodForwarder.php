@@ -6,22 +6,31 @@ namespace MichaelRubel\EnhancedContainer\Core;
 
 class MethodForwarder
 {
+    public const CONTAINER_KEY = '_forwarder';
+
     /**
-     * @param  string  $class
+     * @var string
      */
-    public function __construct(public string $class)
+    public string $pendingClass;
+
+    /**
+     * @return static
+     */
+    public static function enable(): static
     {
-        //
+        return new static();
     }
 
     /**
      * @param  string  $class
      *
-     * @return static
+     * @return $this
      */
-    public static function from(string $class): static
+    public function from(string $class): static
     {
-        return new static($class);
+        $this->pendingClass = $class;
+
+        return $this;
     }
 
     /**
@@ -31,7 +40,7 @@ class MethodForwarder
      */
     public function to(string|array $destination): static
     {
-        app()->singleton($this->class . 'forwardsTo', fn () => $destination);
+        app()->singleton($this->pendingClass . static::CONTAINER_KEY, fn () => $destination);
 
         return $this;
     }
