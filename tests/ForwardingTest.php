@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\Forwarding;
@@ -63,19 +64,27 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testSetsNonExistingPropertyWithForwarding()
     {
+        // Test without forwarding.
         $callProxy = call(UserService::class);
-        $callProxy->nonExistingProperty = true;
+        $callProxy->testRepository = app(TestRepository::class);
         $this->assertInstanceOf(UserService::class, $callProxy->getInternal(Call::INSTANCE));
-        $this->assertTrue($callProxy->getInternal(Call::INSTANCE)->nonExistingProperty);
+        $this->assertInstanceOf(TestRepository::class, $callProxy->testRepository);
 
+        // Now define it.
         Forwarding::enable()
             ->from(UserService::class)
             ->to(UserRepository::class);
 
+        // Initial state, because property exists.
         $callProxy = call(UserService::class);
-        $callProxy->nonExistingProperty = false;
+        $callProxy->testRepository = app(TestRepository::class);
+        $this->assertInstanceOf(TestRepository::class, $callProxy->testRepository);
+
+        // Now we're accessing non-existing property, so
+        // the instance is swapped to the new one from the forwarder.
+        $callProxy->nonExistingProperty = true;
         $this->assertInstanceOf(UserRepository::class, $callProxy->getInternal(Call::INSTANCE));
-        $this->assertFalse($callProxy->getInternal(Call::INSTANCE)->nonExistingProperty);
+        $this->assertTrue($callProxy->getInternal(Call::INSTANCE)->nonExistingProperty);
     }
 
     /** @test */
