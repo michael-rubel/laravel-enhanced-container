@@ -124,7 +124,6 @@ class ForwardingTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $object = resolve(UserService::class);
-
         call($object)->testMethodMultipleParamsInRepo([], '123test');
     }
 
