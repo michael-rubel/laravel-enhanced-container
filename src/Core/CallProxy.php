@@ -78,11 +78,9 @@ class CallProxy implements Call
 
         $instance = rescue(fn () => app($clue), report: false);
 
-        if (! $instance) {
-            return;
+        if (! is_null($instance)) {
+            $this->instance = $instance;
         }
-
-        $this->instance = $instance;
     }
 
     /**
