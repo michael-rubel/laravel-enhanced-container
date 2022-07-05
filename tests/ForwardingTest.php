@@ -101,16 +101,19 @@ class ForwardingTest extends TestCase
         $this->assertTrue($test);
     }
 
-//    /** @test */
-//    public function testMethodDoesntExist()
-//    {
-//        $this->expectException(\Error::class);
-//
-//        $object = resolve(UserService::class);
-//
-//        call($object)->doesntExistMethod();
-//    }
-//
+    /** @test */
+    public function testMethodDoesntExist()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $this->expectException(\Error::class);
+
+        $object = resolve(UserService::class);
+        call($object)->doesntExistMethod();
+    }
+
 //    /** @test */
 //    public function testFailsToCallMethodInRepo()
 //    {
