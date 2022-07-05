@@ -9,14 +9,18 @@ use Illuminate\Support\Arr;
 trait HelpsProxies
 {
     /**
-     * @param  string  $class
+     * @param  string|object  $class
      * @param  array  $dependencies
      * @param  string|null  $context
      *
      * @return object
      */
-    public function resolvePassedClass(string $class, array $dependencies = [], ?string $context = null): object
+    public function resolvePassedClass(string|object $class, array $dependencies = [], ?string $context = null): object
     {
+        if (is_object($class)) {
+            return $class;
+        }
+
         $class = $this->getClassForResolution($class, $context);
         $dependencies = $this->getDependencies($class, $dependencies);
 

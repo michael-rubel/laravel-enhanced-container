@@ -31,9 +31,7 @@ class CallProxy implements Call
         array $dependencies = [],
         ?string $context = null
     ) {
-        $this->instance = ! is_object($class)
-            ? $this->resolvePassedClass($class, $dependencies, $context)
-            : $class;
+        $this->instance = $this->resolvePassedClass($class, $dependencies, $context);
     }
 
     /**
