@@ -68,17 +68,15 @@ class ForwardingTest extends TestCase
         $this->assertInstanceOf(UserRepository::class, $callProxy->getInternal(Call::INSTANCE));
     }
 
-//    /** @test */
-//    public function testCanSetPropertiesWithoutForwarding()
-//    {
-//        runWithoutForwarding(function () {
-//            $callProxy = call(UserService::class);
-//            $callProxy->testProperty = false;
-//            $test = $callProxy->testProperty;
-//            $this->assertFalse($test);
-//        });
-//    }
-//
+    /** @test */
+    public function testCanSetPropertiesWithoutForwarding()
+    {
+        $callProxy = call(UserService::class);
+        $callProxy->testProperty = false;
+        $test = $callProxy->testProperty;
+        $this->assertFalse($test);
+    }
+
 //    /** @test */
 //    public function testThrowsErrorSettingNonExistingPropertyWithForwarding()
 //    {
