@@ -162,13 +162,6 @@ class ContainerCallTest extends TestCase
     {
         $this->expectException(QueryException::class);
 
-        // Set up forwarding and the layer to redirect.
-        config([
-            'enhanced-container.forwarding_enabled' => true,
-            'enhanced-container.manual_forwarding'  => true,
-            'enhanced-container.to.layer'           => 'Model',
-        ]);
-
         // TestService redirects to the model.
         // The container cannot call it, so we're forwarding the method manually.
         call(TestService::class)->find(1);
