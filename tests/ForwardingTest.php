@@ -158,16 +158,4 @@ class ForwardingTest extends TestCase
         $test = call($object)->testMethodMultipleParamsInRepo([], 123);
         $this->assertTrue($test);
     }
-
-//    /** @test */
-//    public function testForwarderReturnsNullIfTheSameObjectsFound()
-//    {
-//        $this->assertNull(
-//            call(new TestModel)->getInternal(Call::FORWARDS_TO)
-//        );
-//
-//        $this->assertNull(
-//            call(TestModel::class)->getInternal(Call::FORWARDS_TO)
-//        );
-//    }
 }
