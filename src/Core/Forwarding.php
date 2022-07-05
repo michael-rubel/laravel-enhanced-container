@@ -14,11 +14,11 @@ class Forwarding
     public string $pendingClass;
 
     /**
-     * @return static
+     * @return self
      */
-    public static function enable(): static
+    public static function enable(): self
     {
-        return new static();
+        return new self();
     }
 
     /**
