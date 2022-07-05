@@ -78,20 +78,12 @@ class CallProxy implements Call
      */
     protected function findClass(): void
     {
-        $classes = collect(
-            app($this->instance::class . 'forwardsTo')
-        );
+        $classes = app($this->instance::class . 'forwardsTo');
 
-        $found = false;
+        collect($classes)->each(function ($class) {
+            $instance = rescue(fn () => app($class));
 
-        $classes->when(! $found)->each(function ($class) use (&$found) {
-            $instance = app($class);
-
-            if (is_object($instance)) {
-                $this->instance = $instance;
-
-                $found = true;
-            }
+            transform($instance, fn ($instance) => $this->instance = $instance);
         });
     }
 
