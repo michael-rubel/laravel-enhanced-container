@@ -14,6 +14,8 @@ class Forwarding
     public string $pendingClass;
 
     /**
+     * Initialize the forwarding.
+     *
      * @return self
      */
     public static function enable(): self
