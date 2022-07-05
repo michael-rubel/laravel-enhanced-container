@@ -14,18 +14,6 @@ interface Call
     public const INSTANCE = 'instance';
 
     /**
-     * Perform the container call.
-     *
-     * @param  object  $service
-     * @param  string  $method
-     * @param  array  $parameters
-     *
-     * @return mixed
-     * @throws \ReflectionException
-     */
-    public function containerCall(object $service, string $method, array $parameters): mixed;
-
-    /**
      * Gets the internal property by name.
      *
      * @param  string  $property

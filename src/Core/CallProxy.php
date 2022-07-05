@@ -34,6 +34,18 @@ class CallProxy implements Call
     }
 
     /**
+     * Gets the internal property by name.
+     *
+     * @param  string  $property
+     *
+     * @return mixed
+     */
+    public function getInternal(string $property): mixed
+    {
+        return $this->{$property};
+    }
+
+    /**
      * Perform the container call.
      *
      * @param  object  $service
@@ -42,7 +54,7 @@ class CallProxy implements Call
      *
      * @return mixed
      */
-    public function containerCall(object $service, string $method, array $parameters): mixed
+    protected function containerCall(object $service, string $method, array $parameters): mixed
     {
         try {
             return app()->call(
@@ -56,18 +68,6 @@ class CallProxy implements Call
         } catch (\ReflectionException) {
             return $this->forwardCallTo($service, $method, $parameters);
         }
-    }
-
-    /**
-     * Gets the internal property by name.
-     *
-     * @param  string  $property
-     *
-     * @return mixed
-     */
-    public function getInternal(string $property): mixed
-    {
-        return $this->{$property};
     }
 
     /**
