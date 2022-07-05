@@ -114,16 +114,20 @@ class ForwardingTest extends TestCase
         call($object)->doesntExistMethod();
     }
 
-//    /** @test */
-//    public function testFailsToCallMethodInRepo()
-//    {
-//        $this->expectException(\TypeError::class);
-//
-//        $object = resolve(UserService::class);
-//
-//        call($object)->testMethodMultipleParamsInRepo([], '123test');
-//    }
-//
+    /** @test */
+    public function testFailsToCallMethodInRepo()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $this->expectException(\BadMethodCallException::class);
+
+        $object = resolve(UserService::class);
+
+        call($object)->testMethodMultipleParamsInRepo([], '123test');
+    }
+
 //    /** @test */
 //    public function testCanCallMethodWithMultipleParamsInRepo()
 //    {
