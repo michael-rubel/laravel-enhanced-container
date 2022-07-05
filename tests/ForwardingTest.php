@@ -139,16 +139,18 @@ class ForwardingTest extends TestCase
         $this->assertTrue($test);
     }
 
-//    /** @test */
-//    public function testCanCallRepoDirectlyWithMethodForwarding()
-//    {
-//        $object = resolve(UserRepository::class);
-//
-//        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
-//
-//        $this->assertTrue($test);
-//    }
-//
+    /** @test */
+    public function testCanCallRepoDirectlyWithMethodForwarding()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $object = resolve(UserRepository::class);
+        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
+        $this->assertTrue($test);
+    }
+
 //    /** @test */
 //    public function testCanCallRepoDirectlyWithoutForwarding()
 //    {
