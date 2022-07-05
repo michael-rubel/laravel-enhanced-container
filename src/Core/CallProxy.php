@@ -74,7 +74,7 @@ class CallProxy implements Call
     /**
      * @return void
      */
-    protected function findClassIfForwardingEnabled(): void
+    protected function findClassWhenForwardingEnabled(): void
     {
         $classes = app($this->instance::class . Forwarding::CONTAINER_KEY);
 
@@ -99,7 +99,7 @@ class CallProxy implements Call
             return $this->containerCall($this->instance, $method, $parameters);
         } catch (\Error $e) {
             if (Str::contains($e->getMessage(), 'Call to undefined method')) {
-                $this->findClassIfForwardingEnabled();
+                $this->findClassWhenForwardingEnabled();
 
                 return $this->containerCall($this->instance, $method, $parameters);
             }
@@ -118,7 +118,7 @@ class CallProxy implements Call
     public function __get(string $name): mixed
     {
         if (! property_exists($this->instance, $name)) {
-            $this->findClassIfForwardingEnabled();
+            $this->findClassWhenForwardingEnabled();
         }
 
         return $this->instance->{$name};
@@ -133,7 +133,7 @@ class CallProxy implements Call
     public function __set(string $name, mixed $value): void
     {
         if (! property_exists($this->instance, $name)) {
-            $this->findClassIfForwardingEnabled();
+            $this->findClassWhenForwardingEnabled();
         }
 
         $this->instance->{$name} = $value;
