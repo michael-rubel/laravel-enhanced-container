@@ -89,16 +89,18 @@ class ForwardingTest extends TestCase
         $this->assertFalse($callProxy->getInternal(Call::INSTANCE)->nonExistingProperty);
     }
 
-//    /** @test */
-//    public function testCanPassAnObjectWithMethodForwarding()
-//    {
-//        $object = resolve(UserService::class);
-//
-//        $test = call($object)->testMethod();
-//
-//        $this->assertTrue($test);
-//    }
-//
+    /** @test */
+    public function testCanPassAnObjectWithMethodForwarding()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $object = resolve(UserService::class);
+        $test = call($object)->testMethod();
+        $this->assertTrue($test);
+    }
+
 //    /** @test */
 //    public function testMethodDoesntExist()
 //    {
