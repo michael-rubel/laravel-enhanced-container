@@ -3,14 +3,12 @@
 namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\ParameterOrderBoilerplate;
-use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
 class ContainerCallTest extends TestCase

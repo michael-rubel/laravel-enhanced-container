@@ -5,8 +5,6 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\Forwarding;
-use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Builder\Best\BestBuilder;
-use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users\UserRepository;
