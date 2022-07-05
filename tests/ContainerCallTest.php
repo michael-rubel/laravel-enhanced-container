@@ -141,10 +141,9 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testFailsToCallMethodWithWrongParametersMultiple()
     {
-        $this->expectException(BindingResolutionException::class);
+        $this->expectException(\TypeError::class);
 
         $object = resolve(UserService::class);
-
         call($object)->testMethodWithMultipleParams(123, true);
     }
 
