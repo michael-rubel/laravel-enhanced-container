@@ -72,7 +72,7 @@ class CallProxy implements Call
     /**
      * @return void
      */
-    protected function findForwardedClass(): void
+    protected function findForwardedInstance(): void
     {
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
@@ -92,7 +92,7 @@ class CallProxy implements Call
     public function __call(string $method, array $parameters): mixed
     {
         if (! method_exists($this->instance, $method)) {
-            $this->findForwardedClass();
+            $this->findForwardedInstance();
         }
 
         return $this->containerCall($this->instance, $method, $parameters);
@@ -108,7 +108,7 @@ class CallProxy implements Call
     public function __get(string $name): mixed
     {
         if (! property_exists($this->instance, $name)) {
-            $this->findForwardedClass();
+            $this->findForwardedInstance();
         }
 
         return $this->instance->{$name};
@@ -123,7 +123,7 @@ class CallProxy implements Call
     public function __set(string $name, mixed $value): void
     {
         if (! property_exists($this->instance, $name)) {
-            $this->findForwardedClass();
+            $this->findForwardedInstance();
         }
 
         $this->instance->{$name} = $value;
