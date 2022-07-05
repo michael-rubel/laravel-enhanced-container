@@ -7,11 +7,11 @@ namespace MichaelRubel\EnhancedContainer\Core;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
-use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
+use MichaelRubel\EnhancedContainer\Traits\InteractsWithContainer;
 
 class CallProxy implements Call
 {
-    use HelpsProxies, Conditionable, ForwardsCalls;
+    use InteractsWithContainer, Conditionable, ForwardsCalls;
 
     /**
      * @var object

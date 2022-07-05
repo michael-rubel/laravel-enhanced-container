@@ -6,7 +6,7 @@ namespace MichaelRubel\EnhancedContainer\Traits;
 
 use Illuminate\Support\Arr;
 
-trait HelpsProxies
+trait InteractsWithContainer
 {
     /**
      * @param  string|object  $class

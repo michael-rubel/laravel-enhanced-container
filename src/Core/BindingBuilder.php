@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
-use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
+use MichaelRubel\EnhancedContainer\Traits\InteractsWithContainer;
 
 class BindingBuilder
 {
-    use HelpsProxies;
+    use InteractsWithContainer;
 
     /**
      * @var string
