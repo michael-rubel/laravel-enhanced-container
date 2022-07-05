@@ -108,7 +108,7 @@ class ForwardingTest extends TestCase
             ->from(UserService::class)
             ->to(UserRepository::class);
 
-        $this->expectException(\Error::class);
+        $this->expectException(\BadMethodCallException::class);
 
         $object = resolve(UserService::class);
         call($object)->doesntExistMethod();
