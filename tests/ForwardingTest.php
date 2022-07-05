@@ -36,35 +36,6 @@ class ForwardingTest extends TestCase
     }
 
     /** @test */
-    public function testCanForwardDomainToModelPassingMultipleClasses()
-    {
-        Forwarding::enable()
-            ->from(BestDomain::class)
-            ->to([
-                TestModel::class,
-                BestBuilder::class,
-            ]);
-
-        $this->expectException(QueryException::class);
-
-        $call = call(BestDomain::class)->find(1);
-        $this->assertTrue($call);
-    }
-
-    public function testCanForwardDomainToBuilderPassingMultipleClasses()
-    {
-        Forwarding::enable()
-            ->from(BestDomain::class)
-            ->to([
-                BestBuilder::class,
-                TestModel::class,
-            ]);
-
-        $call = call(BestDomain::class)->builderMethod();
-        $this->assertTrue($call);
-    }
-
-    /** @test */
     public function testCanGetAndSetPropertiesWithForwarding()
     {
         Forwarding::enable()

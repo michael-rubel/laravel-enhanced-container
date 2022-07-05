@@ -76,21 +76,9 @@ class CallProxy implements Call
     {
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
-        $classes = rescue(fn () => app($clue), report: false);
+        $instance = rescue(fn () => app($clue), report: false);
 
-        $found = false;
-
-        collect($classes)->each(function ($class) use (&$found) {
-            if (! $found) {
-                $instance = rescue(fn () => app($class), report: false);
-
-                transform($instance, function ($instance) use (&$found) {
-                    $this->instance = $instance;
-
-                    $found = true;
-                });
-            }
-        });
+        transform($instance, fn () => $this->instance = $instance);
     }
 
     /**

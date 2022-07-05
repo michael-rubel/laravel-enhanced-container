@@ -34,13 +34,13 @@ class Forwarding
     }
 
     /**
-     * @param  string|array  $destination
+     * @param  string  $destination
      *
      * @return $this
      */
-    public function to(string|array $destination): static
+    public function to(string $destination): static
     {
-        app()->singleton($this->pendingClass . static::CONTAINER_KEY, fn () => $destination);
+        app()->singleton($this->pendingClass . static::CONTAINER_KEY, $destination);
 
         return $this;
     }
