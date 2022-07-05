@@ -151,20 +151,14 @@ class ForwardingTest extends TestCase
         $this->assertTrue($test);
     }
 
-//    /** @test */
-//    public function testCanCallRepoDirectlyWithoutForwarding()
-//    {
-//        config([
-//            'enhanced-container.forwarding_enabled' => false,
-//        ]);
-//
-//        $object = resolve(UserRepository::class);
-//
-//        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
-//
-//        $this->assertTrue($test);
-//    }
-//
+    /** @test */
+    public function testCanCallRepoDirectlyWithoutForwarding()
+    {
+        $object = resolve(UserRepository::class);
+        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
+        $this->assertTrue($test);
+    }
+
 //    /** @test */
 //    public function testCanExtendMethodForwarder()
 //    {
