@@ -85,6 +85,7 @@ class ForwardingTest extends TestCase
 
         $callProxy = call(UserService::class);
         $callProxy->nonExistingProperty = false;
+        $this->assertInstanceOf(UserRepository::class, $callProxy->getInternal(Call::INSTANCE));
         $this->assertFalse($callProxy->getInternal(Call::INSTANCE)->nonExistingProperty);
     }
 
