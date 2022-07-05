@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
-use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Traits\InteractsWithContainer;
 
 class CallProxy implements Call
 {
-    use InteractsWithContainer, Conditionable, ForwardsCalls;
+    use InteractsWithContainer, ForwardsCalls;
 
     /**
      * @var object
