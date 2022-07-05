@@ -18,8 +18,6 @@ class LecServiceProvider extends PackageServiceProvider
      */
     public function configurePackage(Package $package): void
     {
-        $package
-            ->name('laravel-enhanced-container')
-            ->hasConfigFile();
+        $package->name('laravel-enhanced-container');
     }
 }
