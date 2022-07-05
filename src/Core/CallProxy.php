@@ -54,12 +54,8 @@ class CallProxy implements Call
                     $parameters
                 )
             );
-        } catch (\ReflectionException|\Error) {
-            $this->findClassWhenForwardingEnabled();
-
-            return $this->containerCall($this->instance, $method, $parameters);
-        } finally {
-            return $this->forwardDecoratedCallTo($this->instance, $method, $parameters);
+        } catch (\ReflectionException) {
+            return $this->forwardCallTo($service, $method, $parameters);
         }
     }
 
@@ -101,6 +97,10 @@ class CallProxy implements Call
      */
     public function __call(string $method, array $parameters): mixed
     {
+        if (! method_exists($this->instance, $method)) {
+            $this->findClassWhenForwardingEnabled();
+        }
+
         return $this->containerCall($this->instance, $method, $parameters);
     }
 

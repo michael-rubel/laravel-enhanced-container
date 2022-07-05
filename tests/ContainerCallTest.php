@@ -102,7 +102,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testMethodDoesntExist()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(\Error::class);
 
         $object = resolve(UserService::class);
         call($object)->doesntExistMethod();
@@ -111,7 +111,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testFailsToCallMethodWithWrongParameters()
     {
-        $this->expectException(\ArgumentCountError::class);
+        $this->expectException(BindingResolutionException::class);
 
         $object = resolve(UserService::class);
 
@@ -131,7 +131,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testFailsToCallMethodWithWrongParametersMultiple()
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(BindingResolutionException::class);
 
         $object = resolve(UserService::class);
         call($object)->testMethodWithMultipleParams(123, true);
