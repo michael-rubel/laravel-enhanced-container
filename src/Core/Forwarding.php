@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
-class MethodForwarder
+class Forwarding
 {
     public const CONTAINER_KEY = '_forwarder';
 

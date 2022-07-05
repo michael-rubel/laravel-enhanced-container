@@ -3,7 +3,7 @@
 namespace MichaelRubel\EnhancedContainer\Tests;
 
 use MichaelRubel\EnhancedContainer\Call;
-use MichaelRubel\EnhancedContainer\Core\MethodForwarder;
+use MichaelRubel\EnhancedContainer\Core\Forwarding;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Builder\Best\BestBuilder;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Domain\Best\BestDomain;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
@@ -25,7 +25,7 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testServiceForwardsToRepositoryWhenMethodDoesntExist()
     {
-        MethodForwarder::enable()
+        Forwarding::enable()
             ->from(TestService::class)
             ->to(TestRepository::class);
 
@@ -37,7 +37,7 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testCanForwardDomainToBuilderUsingMultipleClasses()
     {
-        MethodForwarder::enable()
+        Forwarding::enable()
             ->from(BestDomain::class)
             ->to([
                 TestModel::class,
@@ -52,7 +52,7 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testCanGetAndSetPropertiesWithForwarding()
     {
-        MethodForwarder::enable()
+        Forwarding::enable()
             ->from(UserService::class)
             ->to(UserRepository::class);
 
@@ -158,13 +158,13 @@ class ForwardingTest extends TestCase
 //    /** @test */
 //    public function testCanExtendMethodForwarder()
 //    {
-//        extend(MethodForwarder::class, function ($forwarder) {
+//        extend(Forwarding::class, function ($forwarder) {
 //            $forwarder->test = true;
 //
 //            return $forwarder;
 //        });
 //
-//        $forwarder = app(MethodForwarder::class, ['class' => BestDomain::class]);
+//        $forwarder = app(Forwarding::class, ['class' => BestDomain::class]);
 //
 //        $this->assertTrue($forwarder->test);
 //        $this->assertIsString($forwarder->class);
