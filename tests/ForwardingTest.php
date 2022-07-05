@@ -160,22 +160,6 @@ class ForwardingTest extends TestCase
     }
 
 //    /** @test */
-//    public function testCanExtendMethodForwarder()
-//    {
-//        extend(Forwarding::class, function ($forwarder) {
-//            $forwarder->test = true;
-//
-//            return $forwarder;
-//        });
-//
-//        $forwarder = app(Forwarding::class, ['class' => BestDomain::class]);
-//
-//        $this->assertTrue($forwarder->test);
-//        $this->assertIsString($forwarder->class);
-//        $this->assertIsArray($forwarder->dependencies);
-//    }
-//
-//    /** @test */
 //    public function testForwarderReturnsNullIfTheSameObjectsFound()
 //    {
 //        $this->assertNull(
