@@ -25,7 +25,9 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testServiceForwardsToRepositoryWhenMethodDoesntExist()
     {
-        MethodForwarder::from(TestService::class)->to(TestRepository::class);
+        MethodForwarder::enable()
+            ->from(TestService::class)
+            ->to(TestRepository::class);
 
         $call = call(TestService::class)->nonExistingMethod();
 
@@ -35,7 +37,8 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testCanForwardDomainToBuilderUsingMultipleClasses()
     {
-        MethodForwarder::from(BestDomain::class)
+        MethodForwarder::enable()
+            ->from(BestDomain::class)
             ->to([
                 TestModel::class,
                 BestBuilder::class,
@@ -49,7 +52,9 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testCanGetAndSetPropertiesWithForwarding()
     {
-        MethodForwarder::from(UserService::class)->to(UserRepository::class);
+        MethodForwarder::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
 
         $callProxy = call(UserService::class);
 
