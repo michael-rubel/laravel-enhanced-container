@@ -100,16 +100,6 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testThrowsErrorAccessingNonExistingPropertyWithoutForwarding()
-    {
-        $this->expectException(\ErrorException::class);
-
-        $callProxy = call(UserService::class);
-
-        $callProxy->testProperty;
-    }
-
-    /** @test */
     public function testMethodDoesntExist()
     {
         $this->expectException(\BadMethodCallException::class);
