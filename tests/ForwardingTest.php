@@ -2,7 +2,6 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
-use Illuminate\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\Forwarding;
