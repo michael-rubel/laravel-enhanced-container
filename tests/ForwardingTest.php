@@ -169,4 +169,35 @@ class ForwardingTest extends TestCase
 
         call(TestService::class)->find(1);
     }
+
+    /** @test */
+    public function testChainedForwarding()
+    {
+        // Define a chained forwarding.
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class)
+            ->from(UserRepository::class)
+            ->to(TestModel::class);
+
+        // Make the service through CallProxy.
+        $proxy = call(UserService::class);
+
+        // Call method directly on the service.
+        $test = $proxy->testMethod();
+        $this->assertTrue($test);
+        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
+
+        // Call method that exists in the repository
+        // assigned to the service in forwarding above.
+        $test = $proxy->nonExistingMethod();
+        $this->assertTrue($test);
+        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
+
+        // Call the method that only exists on the model,
+        // i.e. on the third element in the forwarding chain.
+        $this->expectException(QueryException::class);
+        $proxy->find(1);
+        $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::INSTANCE));
+    }
 }
