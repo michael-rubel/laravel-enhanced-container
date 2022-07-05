@@ -78,10 +78,18 @@ class CallProxy implements Call
 
         $classes = rescue(fn () => app($clue), report: false);
 
-        collect($classes)->each(function ($class) {
-            $instance = rescue(fn () => app($class), report: false);
+        $found = false;
 
-            transform($instance, fn ($instance) => $this->instance = $instance);
+        collect($classes)->each(function ($class) use (&$found) {
+            if (! $found) {
+                $instance = rescue(fn () => app($class), report: false);
+
+                transform($instance, function ($instance) use (&$found) {
+                    $this->instance = $instance;
+
+                    $found = true;
+                });
+            }
         });
     }
 
