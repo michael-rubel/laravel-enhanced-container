@@ -55,10 +55,12 @@ class ForwardingTest extends TestCase
 
         $test = $callProxy->testProperty;
         $this->assertTrue($test);
+        $this->assertInstanceOf(UserRepository::class, $callProxy->getInternal(Call::INSTANCE));
 
         $callProxy->testProperty = false;
         $test = $callProxy->testProperty;
         $this->assertFalse($test);
+        $this->assertInstanceOf(UserRepository::class, $callProxy->getInternal(Call::INSTANCE));
     }
 
 //    /** @test */
