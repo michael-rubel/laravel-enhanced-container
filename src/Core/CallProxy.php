@@ -17,7 +17,7 @@ class CallProxy implements Call
     /**
      * @var object
      */
-    private object $instance;
+    protected object $instance;
 
     /**
      * CallProxy constructor.
