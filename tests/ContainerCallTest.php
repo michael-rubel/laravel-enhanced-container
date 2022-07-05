@@ -121,7 +121,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testFailsToCallMethodWithWrongParameters()
     {
-        $this->expectException(BindingResolutionException::class);
+        $this->expectException(\ArgumentCountError::class);
 
         $object = resolve(UserService::class);
 
