@@ -20,15 +20,4 @@ return [
 
     'forwarding_enabled' => false,
 
-    /*
-     * This option activates manual forwarding in case if the
-     * CallProxy cannot perform the call through the Container.
-     *
-     * Pay attention that if you're accessing the method that doesn't exist
-     * in the class by inheritance, but uses magic methods to access, you'll
-     * be unable to use method binding on such methods.
-     */
-
-    'manual_forwarding' => true,
-
 ];
