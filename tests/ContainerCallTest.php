@@ -158,33 +158,6 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testContainerCallRedirectsManuallyIfCannotFindTheMethod()
-    {
-        $this->expectException(QueryException::class);
-
-        // TestService redirects to the model.
-        // The container cannot call it, so we're forwarding the method manually.
-        call(TestService::class)->find(1);
-
-        // The test throws the exception and it's excepted since we don't have
-        // any DB connection but it says the `find` method actually works.
-    }
-
-    /** @test */
-    public function testReflectionExceptionIsThrownWhenManualForwardingIsDisabled()
-    {
-        $this->expectException(\ReflectionException::class);
-
-        config([
-            'enhanced-container.forwarding_enabled' => true,
-            'enhanced-container.manual_forwarding'  => false,
-            'enhanced-container.to.layer'           => 'Model',
-        ]);
-
-        call(TestService::class)->find(1);
-    }
-
-    /** @test */
     public function testSupportsNamedParameters()
     {
         $response = call(ParameterOrderBoilerplate::class)->handle(

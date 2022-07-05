@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
+use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\Forwarding;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Builder\Best\BestBuilder;
@@ -157,5 +158,30 @@ class ForwardingTest extends TestCase
         $object = resolve(UserRepository::class);
         $test = call($object)->testMethodMultipleParamsInRepo([], 123);
         $this->assertTrue($test);
+    }
+
+    /** @test */
+    public function testContainerCallRedirectsManuallyIfCannotFindTheMethod()
+    {
+        Forwarding::enable()
+            ->from(TestService::class)
+            ->to(TestModel::class);
+
+        $this->expectException(QueryException::class);
+
+        // TestService redirects to the model.
+        // The container cannot call it, so we're forwarding the method manually.
+        call(TestService::class)->find(1);
+
+        // The test throws the exception and it's excepted since we don't have
+        // any DB connection but it says the `find` method actually works.
+    }
+
+    /** @test */
+    public function testReflectionExceptionIsThrownWhenManualForwardingIsDisabled()
+    {
+        $this->expectException(\BadMethodCallException::class);
+
+        call(TestService::class)->find(1);
     }
 }
