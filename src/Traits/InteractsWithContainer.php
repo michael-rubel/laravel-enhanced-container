@@ -160,8 +160,6 @@ trait InteractsWithContainer
      */
     public function convertToNamespace(object|string $object): string
     {
-        return is_string($object)
-            ? $object
-            : $object::class;
+        return is_string($object) ? $object : $object::class;
     }
 }
