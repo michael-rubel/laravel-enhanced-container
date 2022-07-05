@@ -61,8 +61,13 @@ class ForwardingTest extends TestCase
     }
 
     /** @test */
-    public function testThrowsErrorSettingNonExistingPropertyWithForwarding()
+    public function testSetsNonExistingPropertyWithForwarding()
     {
+        $callProxy = call(UserService::class);
+        $callProxy->nonExistingProperty = true;
+        $this->assertInstanceOf(UserService::class, $callProxy->getInternal(Call::INSTANCE));
+        $this->assertTrue($callProxy->getInternal(Call::INSTANCE)->nonExistingProperty);
+
         Forwarding::enable()
             ->from(UserService::class)
             ->to(UserRepository::class);
