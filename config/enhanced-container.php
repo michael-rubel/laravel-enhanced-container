@@ -31,37 +31,4 @@ return [
 
     'manual_forwarding' => true,
 
-    /*
-     | "From"
-     |
-     | The layer to forward from.
-     |
-     | Available naming options: plural, pluralStudly, singular, studly,
-     | any other string conversion from "Illuminate\Support\Str"
-     |
-     | Default: 'pluralStudly'
-     */
-
-    'from' => [
-        'layer'  => 'Service',
-        'naming' => 'pluralStudly',
-    ],
-
-    /*
-     | "To"
-     |
-     | The layer where the call is forwarded.
-     |
-     | Available naming options: plural, pluralStudly, singular, studly,
-     | any other string conversion from "Illuminate\Support\Str"
-     |
-     | Default: 'pluralStudly'
-     */
-
-    'to' => [
-        'layer'   => 'Repository',
-        'naming'  => 'pluralStudly',
-        'postfix' => true,
-    ],
-
 ];
