@@ -76,10 +76,12 @@ class CallProxy implements Call
      */
     protected function findClassWhenForwardingEnabled(): void
     {
-        $classes = app($this->instance::class . Forwarding::CONTAINER_KEY);
+        $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
+
+        $classes = rescue(fn () => app($clue), report: false);
 
         collect($classes)->each(function ($class) {
-            $instance = rescue(fn () => app($class));
+            $instance = rescue(fn () => app($class), report: false);
 
             transform($instance, fn ($instance) => $this->instance = $instance);
         });
