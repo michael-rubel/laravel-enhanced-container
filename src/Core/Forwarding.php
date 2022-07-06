@@ -57,6 +57,6 @@ class Forwarding
      */
     protected function resolve(string $class): string
     {
-        return interface_exists($class) ? app($class)::class : $class;
+        return ! interface_exists($class) ? $class : app($class)::class;
     }
 }
