@@ -183,7 +183,7 @@ class ContainerCallTest extends TestCase
         bind('test')->to(BoilerplateServiceWithConstructorPrimitive::class);
 
         $response = call('test', [
-            'param'     => false,
+            'param' => false,
             'nextParam' => 'testString',
         ]);
 
