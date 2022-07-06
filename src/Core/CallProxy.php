@@ -169,7 +169,17 @@ class CallProxy implements Call
             $this->setState($name, Call::GET);
         }
 
-        return $this->instance->{$name};
+        try {
+            return $this->instance->{$name};
+        } catch (\ErrorException $e) {
+            if (Str::contains($e->getMessage(), 'Undefined property')) {
+                $this->findForwardingInstance();
+
+                return $this->instance->{$name};
+            }
+
+            throw $e;
+        }
     }
 
     /**
