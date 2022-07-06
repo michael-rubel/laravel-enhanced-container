@@ -27,6 +27,18 @@ class ForwardingTest extends TestCase
     }
 
     /** @test */
+    public function testCanGetAndSetPropertyWithoutForwarding()
+    {
+        $proxy = call(TestService::class);
+        $proxy->test = true;
+        $this->assertTrue($proxy->test);
+
+        $proxy = call(TestService::class);
+        $proxy->test = false;
+        $this->assertFalse($proxy->test);
+    }
+
+    /** @test */
     public function testServiceForwardsToRepositoryWhenMethodDoesntExist()
     {
         Forwarding::enable()
