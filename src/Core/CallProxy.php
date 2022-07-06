@@ -58,11 +58,7 @@ class CallProxy implements Call
         try {
             return app()->call(
                 [$service, $method],
-                $this->getPassedParameters(
-                    $service,
-                    $method,
-                    $parameters
-                )
+                $this->getPassedParameters($service, $method, $parameters)
             );
         } catch (\ReflectionException) {
             return $this->forwardCallTo($service, $method, $parameters);
