@@ -262,6 +262,7 @@ class ForwardingTest extends TestCase
         // Swaps instance.
         $this->assertTrue($proxy->nonExistingMethod());
         $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::PREVIOUS));
         $this->assertTrue($proxy->methodInRepository());
 
         // Should throw an exception because we previously changed the state.
@@ -287,6 +288,7 @@ class ForwardingTest extends TestCase
 
         $this->assertTrue($proxy->nonExistingMethod());
         $this->assertInstanceOf(TestRepository::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertInstanceOf(TestService::class, $proxy->getInternal(Call::PREVIOUS));
         $this->assertTrue($proxy->methodInRepository());
     }
 }
