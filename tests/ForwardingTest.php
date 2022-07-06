@@ -17,11 +17,13 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 class ForwardingTest extends TestCase
 {
     /** @test */
-    public function testCanCallMethodWithoutForwardingToRepositoryIfMethodExistsInTheService()
+    public function testCanCallMethodWithoutForwarding()
     {
         $call = call(TestService::class)->testMethod();
-
         $this->assertFalse($call);
+
+        $this->expectException(\Error::class);
+        call(TestService::class)->nonExistingMethod();
     }
 
     /** @test */
