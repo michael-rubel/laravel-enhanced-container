@@ -174,22 +174,6 @@ class BindingBuilder
     }
 
     /**
-     * Wrap an object to the closure if the type of the object differs.
-     *
-     * @param  object|string|null  $concrete
-     *
-     * @return \Closure|string
-     */
-    protected function wrapToClosure(object|string|null $concrete): \Closure|string
-    {
-        if (! is_string($concrete) && ! $concrete instanceof \Closure) {
-            return fn () => $concrete;
-        }
-
-        return $concrete;
-    }
-
-    /**
      * Bind the method to the container.
      *
      * @param  string  $method
