@@ -55,7 +55,7 @@ class Forwarding
      *
      * @return string
      */
-    public function resolve(string $class): string
+    protected function resolve(string $class): string
     {
         return interface_exists($class) ? app($class)::class : $class;
     }
