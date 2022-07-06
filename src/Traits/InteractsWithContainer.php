@@ -15,7 +15,7 @@ trait InteractsWithContainer
      *
      * @return object
      */
-    public function resolvePassedClass(string|object $class, array $dependencies = [], ?string $context = null): object
+    public function getInstance(string|object $class, array $dependencies = [], ?string $context = null): object
     {
         if (is_object($class)) {
             return $class;
@@ -110,7 +110,7 @@ trait InteractsWithContainer
      * @return array
      * @throws \ReflectionException
      */
-    public function getPassedParameters(object $class, string $method, array $parameters): array
+    public function getParameters(object $class, string $method, array $parameters): array
     {
         if (empty($parameters) || Arr::isAssoc($parameters)) {
             return $parameters;

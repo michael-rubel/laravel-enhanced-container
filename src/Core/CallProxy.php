@@ -40,7 +40,7 @@ class CallProxy implements Call
         array $dependencies = [],
         ?string $context = null
     ) {
-        $this->instance = $this->resolvePassedClass($class, $dependencies, $context);
+        $this->instance = $this->getInstance($class, $dependencies, $context);
     }
 
     /**
@@ -69,7 +69,7 @@ class CallProxy implements Call
         try {
             return app()->call(
                 [$service, $method],
-                $this->getPassedParameters($service, $method, $parameters)
+                $this->getParameters($service, $method, $parameters)
             );
         } catch (\ReflectionException) {
             return $this->forwardCallTo($service, $method, $parameters);
