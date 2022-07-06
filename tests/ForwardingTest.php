@@ -198,7 +198,7 @@ class ForwardingTest extends TestCase
         $proxy = call(UserService::class);
 
         // Call method directly on the service.
-        $test = $proxy->testMethod();
+        $test = $proxy->existingMethod();
         $this->assertTrue($test);
         $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
 
