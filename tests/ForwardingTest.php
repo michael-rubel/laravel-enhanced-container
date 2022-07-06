@@ -269,6 +269,28 @@ class ForwardingTest extends TestCase
     }
 
     /** @test */
+    public function testFailsWhenTryingToNonExistingCallMethodAndInteractedPreviously()
+    {
+        // Define a chained forwarding.
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        // Make the service through CallProxy.
+        $proxy = call(UserService::class);
+
+        // Set property to base instance.
+        $proxy->nonExistingProperty = true;
+        $this->assertTrue($proxy->nonExistingProperty);
+
+        $proxy->nonExistingMethod();
+        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
+
+        $this->expectException(InstanceInteractionException::class);
+        $this->assertTrue($proxy->nonExistingProperty);
+    }
+
+    /** @test */
     public function testStateMachineForMethods()
     {
         // Define a chained forwarding.
