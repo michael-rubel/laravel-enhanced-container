@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Exceptions\InstanceInteractionException;
@@ -135,7 +136,17 @@ class CallProxy implements Call
 
         $this->setState($method, Call::METHOD);
 
-        return $this->containerCall($this->instance, $method, $parameters);
+        try {
+            return $this->containerCall($this->instance, $method, $parameters);
+        } catch (\Error $e) {
+            if (Str::contains($e->getMessage(), 'Call to undefined method')) {
+                $this->findForwardedInstance();
+
+                return $this->containerCall($this->instance, $method, $parameters);
+            }
+
+            throw $e;
+        }
     }
 
     /**
