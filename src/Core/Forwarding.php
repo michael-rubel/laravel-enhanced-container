@@ -30,7 +30,7 @@ class Forwarding
      */
     public function from(string $class): static
     {
-        $this->pendingClass = $class;
+        $this->pendingClass = $this->resolve($class);
 
         return $this;
     }
@@ -42,8 +42,21 @@ class Forwarding
      */
     public function to(string $destination): static
     {
-        app()->singleton($this->pendingClass . static::CONTAINER_KEY, $destination);
+        app()->singleton(
+            $this->pendingClass . static::CONTAINER_KEY,
+            $this->resolve($destination)
+        );
 
         return $this;
+    }
+
+    /**
+     * @param  string  $class
+     *
+     * @return string
+     */
+    public function resolve(string $class): string
+    {
+        return interface_exists($class) ? app($class)::class : $class;
     }
 }
