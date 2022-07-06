@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class TestModel extends Model
 {
-    //
+    /**
+     * @return bool
+     */
+    public function nonExistingInRepositoryMethod(): bool
+    {
+        return true;
+    }
 }

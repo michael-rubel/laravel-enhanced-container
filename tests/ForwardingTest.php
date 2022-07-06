@@ -223,9 +223,13 @@ class ForwardingTest extends TestCase
         $test = $proxy->nonExistingMethod();
         $this->assertTrue($test);
         $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::PREVIOUS));
 
         // Call the method that only exists on the model,
         // i.e. on the third element in the forwarding chain.
+        $this->assertTrue($proxy->nonExistingInRepositoryMethod());
+        $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
         $this->expectException(QueryException::class);
         $proxy->find(1);
     }
