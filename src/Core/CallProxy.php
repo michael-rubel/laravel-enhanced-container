@@ -116,13 +116,35 @@ class CallProxy implements Call
     }
 
     /**
+     * Handle the missing by error message.
+     *
+     * @param  \Closure  $callback
+     * @param  string  $by
+     *
+     * @return mixed
+     */
+    protected function handleMissing(\Closure $callback, string $by): mixed
+    {
+        try {
+            return $callback();
+        } catch (\Error|\ErrorException $e) {
+            if (Str::contains($e->getMessage(), $by)) {
+                $this->findForwardingInstance();
+
+                return $callback();
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
      * Pass the call through container.
      *
      * @param  string  $method
      * @param  array  $parameters
      *
      * @return mixed
-     * @throws InstanceInteractionException
      */
     public function __call(string $method, array $parameters): mixed
     {
@@ -136,17 +158,10 @@ class CallProxy implements Call
 
         $this->setState($method, Call::METHOD);
 
-        try {
-            return $this->containerCall($this->instance, $method, $parameters);
-        } catch (\Error $e) {
-            if (Str::contains($e->getMessage(), 'Call to undefined method')) {
-                $this->findForwardingInstance();
-
-                return $this->containerCall($this->instance, $method, $parameters);
-            }
-
-            throw $e;
-        }
+        return $this->handleMissing(
+            fn () => $this->containerCall($this->instance, $method, $parameters),
+            by: 'Call to undefined method'
+        );
     }
 
     /**
@@ -155,7 +170,6 @@ class CallProxy implements Call
      * @param  string  $name
      *
      * @return mixed
-     * @throws InstanceInteractionException
      */
     public function __get(string $name): mixed
     {
@@ -169,17 +183,10 @@ class CallProxy implements Call
             $this->setState($name, Call::GET);
         }
 
-        try {
-            return $this->instance->{$name};
-        } catch (\ErrorException $e) {
-            if (Str::contains($e->getMessage(), 'Undefined property')) {
-                $this->findForwardingInstance();
-
-                return $this->instance->{$name};
-            }
-
-            throw $e;
-        }
+        return $this->handleMissing(
+            fn () => $this->instance->{$name},
+            by: 'Undefined property'
+        );
     }
 
     /**
