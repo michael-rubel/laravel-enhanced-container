@@ -7,11 +7,24 @@ namespace MichaelRubel\EnhancedContainer;
 interface Call
 {
     /**
-     * Constants to use for referring internal properties.
-     *
      * @const
      */
     public const INSTANCE = 'instance';
+
+    /**
+     * @const
+     */
+    public const STATE = 'state';
+
+    /**
+     * @const
+     */
+    public const METHOD = 'methodCall';
+
+    /**
+     * @const
+     */
+    public const SET = 'setProperty';
 
     /**
      * Gets the internal property by name.
