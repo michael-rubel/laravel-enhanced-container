@@ -6,6 +6,9 @@ namespace MichaelRubel\EnhancedContainer\Core;
 
 class Forwarding
 {
+    /**
+     * @const
+     */
     public const CONTAINER_KEY = '_forwarding';
 
     /**
