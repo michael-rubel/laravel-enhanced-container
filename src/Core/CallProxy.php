@@ -6,6 +6,7 @@ namespace MichaelRubel\EnhancedContainer\Core;
 
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
+use MichaelRubel\EnhancedContainer\Exceptions\InstanceInteractionException;
 use MichaelRubel\EnhancedContainer\Traits\InteractsWithContainer;
 
 class CallProxy implements Call
@@ -16,6 +17,16 @@ class CallProxy implements Call
      * @var object
      */
     protected object $instance;
+
+    /**
+     * @var object
+     */
+    protected object $previous;
+
+    /**
+     * @var array
+     */
+    protected array $state = [];
 
     /**
      * CallProxy constructor.
@@ -72,11 +83,33 @@ class CallProxy implements Call
     {
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
-        $instance = rescue(fn () => app($clue), report: false);
+        $newInstance = rescue(fn () => app($clue), report: false);
 
-        if (! is_null($instance)) {
-            $this->instance = $instance;
+        if (! is_null($newInstance)) {
+            $this->previous = $this->instance;
+            $this->instance = $newInstance;
         }
+    }
+
+    /**
+     * @param  string  $name
+     * @param  string  $type
+     *
+     * @return void
+     */
+    protected function setState(string $name, string $type): void
+    {
+        $this->state[$name] = $type;
+    }
+
+    /**
+     * @param  string  $name
+     *
+     * @return bool
+     */
+    protected function stateChanged(string $name): bool
+    {
+        return isset($this->state[$name]) && isset($this->previous);
     }
 
     /**
@@ -86,12 +119,19 @@ class CallProxy implements Call
      * @param  array  $parameters
      *
      * @return mixed
+     * @throws InstanceInteractionException
      */
     public function __call(string $method, array $parameters): mixed
     {
         if (! method_exists($this->instance, $method)) {
+            if ($this->stateChanged($method)) {
+                throw new InstanceInteractionException;
+            }
+
             $this->findForwardedInstance();
         }
+
+        $this->setState($method, Call::METHOD);
 
         return $this->containerCall($this->instance, $method, $parameters);
     }
@@ -102,14 +142,19 @@ class CallProxy implements Call
      * @param  string  $name
      *
      * @return mixed
+     * @throws InstanceInteractionException
      */
     public function __get(string $name): mixed
     {
         if (! property_exists($this->instance, $name)) {
+            if ($this->stateChanged($name)) {
+                throw new InstanceInteractionException;
+            }
+
             $this->findForwardedInstance();
         }
 
-        return $this->instance->{$name};
+        return rescue(fn () => $this->instance->{$name});
     }
 
     /**
@@ -123,6 +168,8 @@ class CallProxy implements Call
         if (! property_exists($this->instance, $name)) {
             $this->findForwardedInstance();
         }
+
+        $this->setState($name, Call::SET);
 
         $this->instance->{$name} = $value;
     }
