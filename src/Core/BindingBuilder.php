@@ -159,7 +159,7 @@ class BindingBuilder
      *
      * @return mixed
      */
-    public function resolve(): mixed
+    protected function resolve(): mixed
     {
         $concrete = rescue(
             fn () => app($this->abstract),
