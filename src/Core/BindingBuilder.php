@@ -13,12 +13,12 @@ class BindingBuilder
     /**
      * @var string
      */
-    private string $abstract;
+    protected string $abstract;
 
     /**
      * @var \Closure|string|array
      */
-    private \Closure|string|array $contextualImplementation;
+    protected \Closure|string|array $contextualImplementation;
 
     /**
      * BindingBuilder constructor.
