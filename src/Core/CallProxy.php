@@ -197,10 +197,6 @@ class CallProxy implements Call
      */
     public function __set(string $name, mixed $value): void
     {
-        if (! property_exists($this->instance, $name)) {
-            $this->findForwardingInstance();
-        }
-
         $this->setState($name, Call::SET);
 
         $this->instance->{$name} = $value;
