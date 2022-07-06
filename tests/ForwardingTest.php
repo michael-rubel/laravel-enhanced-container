@@ -212,7 +212,6 @@ class ForwardingTest extends TestCase
         // i.e. on the third element in the forwarding chain.
         $this->expectException(QueryException::class);
         $proxy->find(1);
-        $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::INSTANCE));
     }
 
     /** @test */
