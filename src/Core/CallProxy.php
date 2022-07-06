@@ -152,9 +152,11 @@ class CallProxy implements Call
             }
 
             $this->findForwardedInstance();
+
+            $this->setState($name, Call::GET);
         }
 
-        return rescue(fn () => $this->instance->{$name});
+        return $this->instance->{$name};
     }
 
     /**

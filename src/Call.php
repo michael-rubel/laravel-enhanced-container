@@ -29,6 +29,11 @@ interface Call
     /**
      * @const
      */
+    public const GET = 'getProperty';
+
+    /**
+     * @const
+     */
     public const SET = 'setProperty';
 
     /**
