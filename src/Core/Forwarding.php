@@ -27,6 +27,8 @@ class Forwarding
     }
 
     /**
+     * Define the pending class.
+     *
      * @param  string  $class
      *
      * @return $this
@@ -39,6 +41,8 @@ class Forwarding
     }
 
     /**
+     * Define the forwarding for the pending class set previously.
+     *
      * @param  string  $destination
      *
      * @return $this
@@ -54,6 +58,8 @@ class Forwarding
     }
 
     /**
+     * Extract an implementation from the interface if passed.
+     *
      * @param  string  $class
      *
      * @return string
