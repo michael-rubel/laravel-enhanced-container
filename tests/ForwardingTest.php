@@ -69,40 +69,12 @@ class ForwardingTest extends TestCase
     }
 
     /** @test */
-    public function testCanSetPropertiesWithoutForwarding()
+    public function testSetsNonExistingProperty()
     {
         $callProxy = call(UserService::class);
-        $callProxy->testProperty = false;
-        $test = $callProxy->testProperty;
-        $this->assertFalse($test);
-    }
-
-    /** @test */
-    public function testSetsNonExistingPropertyWithForwarding()
-    {
-        // Test without forwarding.
-        $callProxy = call(UserService::class);
-        $callProxy->testRepository = app(TestRepository::class);
+        $callProxy->testProperty = true;
+        $this->assertTrue($callProxy->testProperty);
         $this->assertInstanceOf(UserService::class, $callProxy->getInternal(Call::INSTANCE));
-        $this->assertInstanceOf(TestRepository::class, $callProxy->testRepository);
-
-        // Now define it.
-        Forwarding::enable()
-            ->from(UserService::class)
-            ->to(UserRepository::class);
-
-        // Initial state, because property exists.
-        $callProxy = call(UserService::class);
-        $callProxy->testRepository = app(TestRepository::class);
-        $this->assertInstanceOf(TestRepository::class, $callProxy->testRepository);
-
-        // Now we're accessing non-existing property, so
-        // the instance is swapped to the new one from the forwarder.
-        $callProxy->nonExistingProperty = true;
-        $this->assertInstanceOf(UserRepository::class, $callProxy->getInternal(Call::INSTANCE));
-        $this->assertTrue($callProxy->getInternal(Call::INSTANCE)->nonExistingProperty);
-
-        // todo: keep a previous instance?
     }
 
     /** @test */
@@ -277,7 +249,7 @@ class ForwardingTest extends TestCase
     }
 
     /** @test */
-    public function testStateMachineForProperties()
+    public function testStatesForProperties()
     {
         // Define a chained forwarding.
         Forwarding::enable()
@@ -290,17 +262,10 @@ class ForwardingTest extends TestCase
         // Set property to base instance.
         $proxy->existingProperty = true;
         $this->assertTrue($proxy->existingProperty);
-        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertSame(Call::SET, $proxy->getInternal(Call::STATE)['existingProperty']);
-
-        // Swaps instance.
         $proxy->nonExistingProperty = true;
         $this->assertTrue($proxy->nonExistingProperty);
-        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
-
-        // Should throw an exception because we previously changed the state.
-        $this->expectException(InstanceInteractionException::class);
-        $this->assertTrue($proxy->existingProperty);
+        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertSame(Call::SET, $proxy->getInternal(Call::STATE)['existingProperty']);
     }
 
     /** @test */
