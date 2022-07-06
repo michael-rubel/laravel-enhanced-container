@@ -107,7 +107,7 @@ class CallProxy implements Call
      *
      * @return bool
      */
-    protected function stateChanged(string $name): bool
+    protected function hasPreviousState(string $name): bool
     {
         return isset($this->state[$name]) && isset($this->previous);
     }
@@ -124,7 +124,7 @@ class CallProxy implements Call
     public function __call(string $method, array $parameters): mixed
     {
         if (! method_exists($this->instance, $method)) {
-            if ($this->stateChanged($method)) {
+            if ($this->hasPreviousState($method)) {
                 throw new InstanceInteractionException;
             }
 
@@ -147,7 +147,7 @@ class CallProxy implements Call
     public function __get(string $name): mixed
     {
         if (! property_exists($this->instance, $name)) {
-            if ($this->stateChanged($name)) {
+            if ($this->hasPreviousState($name)) {
                 throw new InstanceInteractionException;
             }
 
