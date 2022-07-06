@@ -5,6 +5,7 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\Forwarding;
+use MichaelRubel\EnhancedContainer\Exceptions\InstanceInteractionException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users\UserRepository;
@@ -212,5 +213,58 @@ class ForwardingTest extends TestCase
         $this->expectException(QueryException::class);
         $proxy->find(1);
         $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::INSTANCE));
+    }
+
+    /** @test */
+    public function testStateMachineForProperties()
+    {
+        // Define a chained forwarding.
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        // Make the service through CallProxy.
+        $proxy = call(UserService::class);
+
+        // Set property to base instance.
+        $proxy->existingProperty = true;
+        $this->assertTrue($proxy->existingProperty);
+        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertSame(Call::SET, $proxy->getInternal(Call::STATE)['existingProperty']);
+
+        // Swaps instance.
+        $proxy->nonExistingProperty = true;
+        $this->assertTrue($proxy->nonExistingProperty);
+        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
+
+        // Should throw an exception because we previously changed the state.
+        $this->expectException(InstanceInteractionException::class);
+        $this->assertTrue($proxy->existingProperty);
+    }
+
+    /** @test */
+    public function testStateMachineForMethods()
+    {
+        // Define a chained forwarding.
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        // Make the service through CallProxy.
+        $proxy = call(UserService::class);
+
+        // Set property to base instance.
+        $this->assertTrue($proxy->existingMethod());
+        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertSame(Call::METHOD, $proxy->getInternal(Call::STATE)['existingMethod']);
+
+        // Swaps instance.
+        $this->assertTrue($proxy->nonExistingMethod());
+        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertTrue($proxy->methodInRepository());
+
+        // Should throw an exception because we previously changed the state.
+        $this->expectException(InstanceInteractionException::class);
+        $proxy->existingMethod();
     }
 }
