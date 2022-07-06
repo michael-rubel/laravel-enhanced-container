@@ -80,7 +80,7 @@ class CallProxy implements Call
     /**
      * @return void
      */
-    protected function findForwardedInstance(): void
+    protected function findForwardingInstance(): void
     {
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
@@ -131,7 +131,7 @@ class CallProxy implements Call
                 throw new InstanceInteractionException;
             }
 
-            $this->findForwardedInstance();
+            $this->findForwardingInstance();
         }
 
         $this->setState($method, Call::METHOD);
@@ -140,7 +140,7 @@ class CallProxy implements Call
             return $this->containerCall($this->instance, $method, $parameters);
         } catch (\Error $e) {
             if (Str::contains($e->getMessage(), 'Call to undefined method')) {
-                $this->findForwardedInstance();
+                $this->findForwardingInstance();
 
                 return $this->containerCall($this->instance, $method, $parameters);
             }
@@ -164,7 +164,7 @@ class CallProxy implements Call
                 throw new InstanceInteractionException;
             }
 
-            $this->findForwardedInstance();
+            $this->findForwardingInstance();
 
             $this->setState($name, Call::GET);
         }
@@ -181,7 +181,7 @@ class CallProxy implements Call
     public function __set(string $name, mixed $value): void
     {
         if (! property_exists($this->instance, $name)) {
-            $this->findForwardedInstance();
+            $this->findForwardingInstance();
         }
 
         $this->setState($name, Call::SET);
