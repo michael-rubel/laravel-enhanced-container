@@ -8,8 +8,10 @@ use MichaelRubel\EnhancedContainer\Core\Forwarding;
 use MichaelRubel\EnhancedContainer\Exceptions\InstanceInteractionException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepositoryInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users\UserRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestServiceInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
 class ForwardingTest extends TestCase
@@ -265,5 +267,26 @@ class ForwardingTest extends TestCase
         // Should throw an exception because we previously changed the state.
         $this->expectException(InstanceInteractionException::class);
         $proxy->existingMethod();
+    }
+
+    /** @test */
+    public function tesForwardingResolvesInterfaces()
+    {
+        bind(TestServiceInterface::class)->to(TestService::class);
+        bind(TestRepositoryInterface::class)->to(TestRepository::class);
+
+        Forwarding::enable()
+            ->from(TestServiceInterface::class)
+            ->to(TestRepositoryInterface::class);
+
+        $proxy = call(TestService::class);
+
+        $this->assertTrue($proxy->existingMethod());
+        $this->assertInstanceOf(TestService::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertSame(Call::METHOD, $proxy->getInternal(Call::STATE)['existingMethod']);
+
+        $this->assertTrue($proxy->nonExistingMethod());
+        $this->assertInstanceOf(TestRepository::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertTrue($proxy->methodInRepository());
     }
 }
