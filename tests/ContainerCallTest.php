@@ -52,10 +52,7 @@ class ContainerCallTest extends TestCase
     {
         $call = call(BoilerplateServiceWithConstructor::class, [true])->yourMethod(100);
 
-        $this->assertEquals(
-            101,
-            $call
-        );
+        $this->assertEquals(101, $call);
     }
 
     /** @test */
@@ -189,5 +186,12 @@ class ContainerCallTest extends TestCase
 
         $this->assertFalse($response->getParam());
         $this->assertStringContainsString('testString', $response->getNextParam());
+    }
+
+    /** @test */
+    public function testCanCheckIssetProperty()
+    {
+        $proxy = call(UserService::class);
+        $this->assertTrue(isset($proxy->existingProperty));
     }
 }
