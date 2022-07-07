@@ -6,6 +6,7 @@ use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Core\Forwarding;
 use MichaelRubel\EnhancedContainer\Exceptions\InstanceInteractionException;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Builder\Best\BestBuilder;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Models\TestModel;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepositoryInterface;
@@ -180,7 +181,9 @@ class ForwardingTest extends TestCase
             ->from(UserService::class)
             ->to(UserRepository::class)
             ->from(UserRepository::class)
-            ->to(TestModel::class);
+            ->to(TestModel::class)
+            ->from(TestModel::class)
+            ->to(BestBuilder::class);
 
         // Make the service through CallProxy.
         $proxy = call(UserService::class);
@@ -202,8 +205,14 @@ class ForwardingTest extends TestCase
         $this->assertTrue($proxy->nonExistingInRepositoryMethod());
         $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::INSTANCE));
         $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
+
+        // Call the method that only exists on the builder,
+        // i.e. on the fourth element in the forwarding chain.
+        $this->assertTrue($proxy->builderMethod());
+        $this->assertInstanceOf(BestBuilder::class, $proxy->getInternal(Call::INSTANCE));
+        $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::PREVIOUS));
         $this->expectException(QueryException::class);
-        $proxy->find(1);
+        $proxy->builder->find(1);
     }
 
     /** @test */
