@@ -30,17 +30,14 @@ class CallProxy implements Call
     protected array $state = [];
 
     /**
-     * CallProxy constructor.
+     * Initialize a new CallProxy.
      *
      * @param  object|string  $class
      * @param  array  $dependencies
      * @param  string|null  $context
      */
-    public function __construct(
-        object | string $class,
-        array $dependencies = [],
-        ?string $context = null
-    ) {
+    public function __construct(object|string $class, array $dependencies = [], ?string $context = null)
+    {
         $this->instance = $this->getInstance($class, $dependencies, $context);
     }
 
