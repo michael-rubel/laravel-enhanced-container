@@ -201,4 +201,16 @@ class CallProxy implements Call
 
         $this->instance->{$name} = $value;
     }
+
+    /**
+     * Check the property is set.
+     *
+     * @param  string  $name
+     *
+     * @return bool
+     */
+    public function __isset(string $name): bool
+    {
+        return isset($this->instance->{$name});
+    }
 }
