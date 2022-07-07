@@ -213,4 +213,16 @@ class CallProxy implements Call
     {
         return isset($this->instance->{$name});
     }
+
+    /**
+     * Unset the property.
+     *
+     * @param  string  $name
+     *
+     * @return void
+     */
+    public function __unset(string $name): void
+    {
+        unset($this->instance->{$name});
+    }
 }
