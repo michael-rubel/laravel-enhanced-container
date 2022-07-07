@@ -194,4 +194,14 @@ class ContainerCallTest extends TestCase
         $proxy = call(UserService::class);
         $this->assertTrue(isset($proxy->existingProperty));
     }
+
+    /** @test */
+    public function testCanUnsetProperty()
+    {
+        $proxy = call(UserService::class);
+        $this->assertFalse($proxy->existingProperty);
+        unset($proxy->existingProperty);
+        $this->expectException(\Error::class);
+        $this->assertNull($proxy->existingProperty);
+    }
 }
