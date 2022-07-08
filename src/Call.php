@@ -14,11 +14,6 @@ interface Call
     /**
      * @const
      */
-    public const PREVIOUS = 'previous';
-
-    /**
-     * @const
-     */
     public const STATE = 'state';
 
     /**

@@ -20,11 +20,6 @@ class CallProxy implements Call
     protected object $instance;
 
     /**
-     * @var object
-     */
-    protected object $previous;
-
-    /**
      * @var array
      */
     protected array $state = [];
@@ -85,7 +80,6 @@ class CallProxy implements Call
             $newInstance = rescue(fn () => app($clue), report: false);
 
             if (! is_null($newInstance)) {
-                $this->previous = $this->instance;
                 $this->instance = $newInstance;
             }
         }
@@ -109,7 +103,7 @@ class CallProxy implements Call
      */
     protected function hasPreviousState(string $name): bool
     {
-        return isset($this->state[$name]) && isset($this->previous);
+        return isset($this->state[$name]);
     }
 
     /**
