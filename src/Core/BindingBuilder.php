@@ -25,7 +25,7 @@ class BindingBuilder
      *
      * @param  object|string  $abstract
      */
-    public function __construct(object | string $abstract)
+    public function __construct(object|string $abstract)
     {
         $this->abstract = $this->convertToNamespace($abstract);
     }
