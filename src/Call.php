@@ -24,17 +24,27 @@ interface Call
     /**
      * @const
      */
-    public const METHOD = 'methodCall';
+    public const METHOD = '__call';
 
     /**
      * @const
      */
-    public const GET = 'getProperty';
+    public const GET = '__get';
 
     /**
      * @const
      */
-    public const SET = 'setProperty';
+    public const SET = '__set';
+
+    /**
+     * @const
+     */
+    public const ISSET = '__isset';
+
+    /**
+     * @const
+     */
+    public const UNSET = '__unset';
 
     /**
      * Gets the internal property by name.

@@ -215,6 +215,8 @@ class CallProxy implements Call
      */
     public function __isset(string $name): bool
     {
+        $this->interact($name, Call::ISSET);
+
         return isset($this->instance->{$name});
     }
 
@@ -227,6 +229,8 @@ class CallProxy implements Call
      */
     public function __unset(string $name): void
     {
+        $this->interact($name, Call::UNSET);
+
         unset($this->instance->{$name});
     }
 }
