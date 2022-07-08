@@ -183,9 +183,9 @@ class CallProxy implements Call
             }
 
             $this->findForwardingInstance();
-
-            $this->interact($name, Call::GET);
         }
+
+        $this->interact($name, Call::GET);
 
         return $this->handleMissing(
             fn () => $this->instance->{$name},
