@@ -21,7 +21,7 @@ trait InteractsWithContainer
             return $class;
         }
 
-        $class = $this->getClassForResolution($class, $context);
+        $class        = $this->getClassForResolution($class, $context);
         $dependencies = $this->getDependencies($class, $dependencies);
 
         return resolve($class, $dependencies);
