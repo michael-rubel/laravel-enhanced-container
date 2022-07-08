@@ -212,6 +212,8 @@ This feature automatically forwards the method when it doesn't exist in your cla
 
 You can define forwarding in your ServiceProvider:
 ```php
+use MichaelRubel\EnhancedContainer\Core\Forwarding;
+
 Forwarding::enable()
     ->from(Service::class)
     ->to(Repository::class);
