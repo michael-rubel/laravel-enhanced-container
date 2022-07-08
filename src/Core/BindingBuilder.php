@@ -18,7 +18,7 @@ class BindingBuilder
     /**
      * @var \Closure|string|array
      */
-    protected \Closure|string|array $contextualImplementation;
+    protected \Closure|string|array $contextual;
 
     /**
      * BindingBuilder constructor.
@@ -107,7 +107,7 @@ class BindingBuilder
      */
     public function contextual(\Closure|string|array $implementation): self
     {
-        $this->contextualImplementation = $implementation;
+        $this->contextual = $implementation;
 
         return $this;
     }
@@ -123,7 +123,7 @@ class BindingBuilder
     {
         app()->when($concrete)
              ->needs($this->abstract)
-             ->give($this->contextualImplementation);
+             ->give($this->contextual);
     }
 
     /**
