@@ -75,6 +75,8 @@ class CallProxy implements Call
     }
 
     /**
+     * Find the forwarding instance if bound.
+     *
      * @return void
      */
     protected function findForwardingInstance(): void
@@ -92,6 +94,8 @@ class CallProxy implements Call
     }
 
     /**
+     * Save the interaction with proxy.
+     *
      * @param  string  $name
      * @param  string  $type
      *
@@ -103,6 +107,9 @@ class CallProxy implements Call
     }
 
     /**
+     * Check the proxy has previous interaction
+     * with the same method or property.
+     *
      * @param  string  $name
      *
      * @return bool
