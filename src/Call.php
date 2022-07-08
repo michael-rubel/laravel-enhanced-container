@@ -7,24 +7,44 @@ namespace MichaelRubel\EnhancedContainer;
 interface Call
 {
     /**
-     * Constants to use for referring internal properties.
-     *
      * @const
      */
     public const INSTANCE = 'instance';
-    public const FORWARDS_TO = 'forwardsTo';
 
     /**
-     * Perform the container call.
-     *
-     * @param  object  $service
-     * @param  string  $method
-     * @param  array  $parameters
-     *
-     * @return mixed
-     * @throws \ReflectionException
+     * @const
      */
-    public function containerCall(object $service, string $method, array $parameters): mixed;
+    public const PREVIOUS = 'previous';
+
+    /**
+     * @const
+     */
+    public const INTERACTIONS = 'interactions';
+
+    /**
+     * @const
+     */
+    public const METHOD = '__call';
+
+    /**
+     * @const
+     */
+    public const GET = '__get';
+
+    /**
+     * @const
+     */
+    public const SET = '__set';
+
+    /**
+     * @const
+     */
+    public const ISSET = '__isset';
+
+    /**
+     * @const
+     */
+    public const UNSET = '__unset';
 
     /**
      * Gets the internal property by name.
