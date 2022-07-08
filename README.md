@@ -8,9 +8,9 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests/main?style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 [![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan/main?style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
-> Improved Laravel Service Container features. This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the container. The bindings are defined in a new "fluent" way.
+This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the container.
 
-The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
+The package requires PHP `8.x` and Laravel `9.x`.
 
 ## #StandWithUkraine
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
@@ -30,20 +30,8 @@ The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
 ## Installation
 
 Install the package via composer:
-### Laravel 9
 ```bash
 composer require michael-rubel/laravel-enhanced-container
-```
-
-### Laravel 8
-```bash
-composer require michael-rubel/laravel-enhanced-container "^6.0"
-```
-
-### Config
-Publish the config if you want to customize package settings:
-```bash
-php artisan vendor:publish --tag="enhanced-container-config"
 ```
 
 ## Usage
@@ -156,7 +144,7 @@ call(ServiceInterface::class)->yourMethod(100);
 ```
 
 Override method behavior in any place of your app.
-You can add conditions in your method binding by intercepting parameters.
+You can add conditions in your method binding by catching parameters.
 
 For example in `tests`:
 ```php
@@ -220,59 +208,27 @@ $this->app->register(LecServiceProvider::class);
 [🔝 back to contents](#contents)
 
 ### Method forwarding
-This feature automatically forwards the method when it doesn't exist in your base class to another class, if the namespace/classname structure is met. You can enable this feature in the config.
+This feature automatically forwards the method when it doesn't exist in your class to another one.
 
-Usual use case: if you have some kind of `Service` or `Domain`, which contains business or application logic, then some kind of `Repository` or `Builder`, which contains your database queries, but you don't want your controllers (or `View/Livewire` components) to be dependent on the repositories directly, and don't want to write the "proxy" methods in the `Service` that references the `Repository` when it comes to fetching the data without any additional operations. The same applies if you don't know where to place the method (will it be only a database query, or might contain additional business logic).
-
-Turn `forwarding_enabled` option on and set the class names that fit your application structure.
-
-Assuming your structure is:
+You can define forwarding in your ServiceProvider:
 ```php
-Logic:
-- App/Services/Users/UserService
-Queries: 
-- App/Repositories/Users/UserRepository
+Forwarding::enable()
+    ->from(Service::class)
+    ->to(Repository::class);
 ```
 
-And your classes:
+You can as well use chained forwarding:
 ```php
-class UserService
-{
-    public function someMethod(): bool
-    {
-        return true;
-    }
-}
-
-class UserRepository
-{
-    public function yourUser(): bool
-    {
-        return true;
-    }
-}
+Forwarding::enable()
+    ->from(Service::class)
+    ->to(Repository::class)
+    ->from(Repository::class)
+    ->to(Model::class);
 ```
 
-Then call the method to fetch the user:
-```php
-call(UserService::class)->yourUser();
-```
-
-The result will be `true` despite the method is missing in `UserService`.
-If you put the same method in the `UserService`, it will fetch the result from the service itself.
-
-- Note: if you use `PHPStan/Larastan` you'll need to add the `@method` docblock to the service to make it static-analyzable, otherwise it will return an error that the method doesn't exist in the class.
-
-If the forwarding in your application is enabled globally but you want to execute something bypassing the scheme, you can run it in disabled mode or vice versa:
-```php
-runWithoutForwarding(
-    fn () => call(Service::class)->yourMethod(100)
-);
-
-runWithForwarding(
-    fn () => call(Service::class)->yourMethod(150)
-);
-```
+#### Important notes
+- Pay attention to which internal instance you're now working on in `CallProxy` when using forwarding. The instance may change without your awareness. If you interact with the same methods/properties on a different instance, the `InstanceInteractionException` will be thrown.
+- If you use `PHPStan/Larastan` you'll need to add the `@method` docblock to the service to make it static-analyzable, otherwise it will return an error that the method doesn't exist in the class.
 
 [🔝 back to contents](#contents)
 
