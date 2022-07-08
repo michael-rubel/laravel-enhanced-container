@@ -20,9 +20,9 @@ class CallProxy implements Call
     protected object $instance;
 
     /**
-     * @var object
+     * @var string
      */
-    protected object $previous;
+    protected string $previous;
 
     /**
      * @var array
@@ -85,7 +85,7 @@ class CallProxy implements Call
             $newInstance = rescue(fn () => app($clue), report: false);
 
             if (! is_null($newInstance)) {
-                $this->previous = $this->instance;
+                $this->previous = $this->instance::class;
                 $this->instance = $newInstance;
             }
         }

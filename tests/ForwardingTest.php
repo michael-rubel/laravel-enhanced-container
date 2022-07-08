@@ -198,19 +198,19 @@ class ForwardingTest extends TestCase
         $test = $proxy->nonExistingMethod();
         $this->assertTrue($test);
         $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::PREVIOUS));
+        $this->assertSame(UserService::class, $proxy->getInternal(Call::PREVIOUS));
 
         // Call the method that only exists on the model,
         // i.e. on the third element in the forwarding chain.
         $this->assertTrue($proxy->nonExistingInRepositoryMethod());
         $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
+        $this->assertSame(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
 
         // Call the method that only exists on the builder,
         // i.e. on the fourth element in the forwarding chain.
         $this->assertTrue($proxy->builderMethod());
         $this->assertInstanceOf(BestBuilder::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::PREVIOUS));
+        $this->assertSame(TestModel::class, $proxy->getInternal(Call::PREVIOUS));
         $this->expectException(QueryException::class);
         $proxy->builder->find(1);
     }
@@ -233,7 +233,7 @@ class ForwardingTest extends TestCase
         $test = $proxy->nonExistingInRepositoryMethod();
         $this->assertTrue($test);
         $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
+        $this->assertSame(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
     }
 
     /** @test */
@@ -254,7 +254,7 @@ class ForwardingTest extends TestCase
         $test = $proxy->nonInServiceExistingProperty;
         $this->assertTrue($test);
         $this->assertInstanceOf(TestModel::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
+        $this->assertSame(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
     }
 
     /** @test */
@@ -315,7 +315,7 @@ class ForwardingTest extends TestCase
         // Swaps instance.
         $this->assertTrue($proxy->nonExistingMethod());
         $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::PREVIOUS));
+        $this->assertSame(UserService::class, $proxy->getInternal(Call::PREVIOUS));
         $this->assertTrue($proxy->methodInRepository());
 
         // Should throw an exception because we previously changed the state.
@@ -341,7 +341,7 @@ class ForwardingTest extends TestCase
 
         $this->assertTrue($proxy->nonExistingMethod());
         $this->assertInstanceOf(TestRepository::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertInstanceOf(TestService::class, $proxy->getInternal(Call::PREVIOUS));
+        $this->assertSame(TestService::class, $proxy->getInternal(Call::PREVIOUS));
         $this->assertTrue($proxy->methodInRepository());
     }
 }
