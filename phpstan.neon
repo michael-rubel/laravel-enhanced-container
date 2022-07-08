@@ -16,14 +16,10 @@ parameters:
 
     ignoreErrors:
         - '#Parameter (\#)(\d) \$callback of method Illuminate\\Container\\Container::call\(\) expects \(callable\(\): (.*)#'
+        - '#Property MichaelRubel\\EnhancedContainer\\Exceptions\\InstanceInteractionException\:\:\$message has no type specified\.#'
         - '#Cannot call method pipe\(\) on mixed.#'
         - '#(.*)getDependencies\(\) expects class\-string, string given\.#'
         - '#(.*)resolvePassedClass\(\) expects string, object\|string given\.#'
-        - '#Unable to resolve the template type TKey in call to function collect#'
-        - '#Unable to resolve the template type TValue in call to function collect#'
-        - '#Parameter \#1 \$value of function collect expects Illuminate\\Contracts\\Support\\Arrayable\<\(int\|string\), mixed\>\|iterable\<\(int\|string\), mixed\>\|null, string given\.#'
-        - '#Parameter \#2 \$string of function explode expects string, string\|null given\.#'
-        - '#Parameter \#1 \$key of method Illuminate\\Support\\Collection\<\(int\|string\),\(array\|string\)\>\:\:put\(\) expects \(int\|string\), int\|string\|null given\.#'
 
     checkMissingIterableValueType: false
 

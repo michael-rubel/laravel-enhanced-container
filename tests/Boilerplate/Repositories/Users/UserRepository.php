@@ -23,6 +23,14 @@ class UserRepository implements TestRepositoryInterface
     /**
      * @return bool
      */
+    public function methodInRepository(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
     public function nonExistingMethod(): bool
     {
         return true;

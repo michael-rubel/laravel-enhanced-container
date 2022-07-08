@@ -9,10 +9,20 @@ class UserService implements TestServiceInterface
 {
     /**
      * @param  TestRepository  $testRepository
+     * @param  bool  $existingProperty
      */
     public function __construct(
-        public TestRepository $testRepository
+        public TestRepository $testRepository,
+        public bool $existingProperty = false
     ) {
+    }
+
+    /**
+     * @return bool
+     */
+    public function existingMethod(): bool
+    {
+        return true;
     }
 
     /**

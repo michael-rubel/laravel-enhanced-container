@@ -18,6 +18,14 @@ class TestService implements BoilerplateInterface
     /**
      * @return bool
      */
+    public function existingMethod(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
     public function testMethod(): bool
     {
         return false;

@@ -3,14 +3,12 @@
 namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Database\QueryException;
 use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\ParameterOrderBoilerplate;
-use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\TestService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
 class ContainerCallTest extends TestCase
@@ -54,10 +52,7 @@ class ContainerCallTest extends TestCase
     {
         $call = call(BoilerplateServiceWithConstructor::class, [true])->yourMethod(100);
 
-        $this->assertEquals(
-            101,
-            $call
-        );
+        $this->assertEquals(101, $call);
     }
 
     /** @test */
@@ -100,22 +95,11 @@ class ContainerCallTest extends TestCase
     }
 
     /** @test */
-    public function testThrowsErrorAccessingNonExistingPropertyWithoutForwarding()
-    {
-        $this->expectException(\ErrorException::class);
-
-        $callProxy = call(UserService::class);
-
-        $callProxy->testProperty;
-    }
-
-    /** @test */
     public function testMethodDoesntExist()
     {
         $this->expectException(\Error::class);
 
         $object = resolve(UserService::class);
-
         call($object)->doesntExistMethod();
     }
 
@@ -145,7 +129,6 @@ class ContainerCallTest extends TestCase
         $this->expectException(BindingResolutionException::class);
 
         $object = resolve(UserService::class);
-
         call($object)->testMethodWithMultipleParams(123, true);
     }
 
@@ -167,40 +150,6 @@ class ContainerCallTest extends TestCase
         $test = call($object)->testMethodWithMultipleParams([], true, 123, false);
 
         $this->assertTrue($test);
-    }
-
-    /** @test */
-    public function testContainerCallRedirectsManuallyIfCannotFindTheMethod()
-    {
-        $this->expectException(QueryException::class);
-
-        // Set up forwarding and the layer to redirect.
-        config([
-            'enhanced-container.forwarding_enabled' => true,
-            'enhanced-container.manual_forwarding'  => true,
-            'enhanced-container.to.layer'           => 'Model',
-        ]);
-
-        // TestService redirects to the model.
-        // The container cannot call it, so we're forwarding the method manually.
-        call(TestService::class)->find(1);
-
-        // The test throws the exception and it's excepted since we don't have
-        // any DB connection but it says the `find` method actually works.
-    }
-
-    /** @test */
-    public function testReflectionExceptionIsThrownWhenManualForwardingIsDisabled()
-    {
-        $this->expectException(\ReflectionException::class);
-
-        config([
-            'enhanced-container.forwarding_enabled' => true,
-            'enhanced-container.manual_forwarding'  => false,
-            'enhanced-container.to.layer'           => 'Model',
-        ]);
-
-        call(TestService::class)->find(1);
     }
 
     /** @test */
@@ -231,11 +180,28 @@ class ContainerCallTest extends TestCase
         bind('test')->to(BoilerplateServiceWithConstructorPrimitive::class);
 
         $response = call('test', [
-            'param'     => false,
+            'param' => false,
             'nextParam' => 'testString',
         ]);
 
         $this->assertFalse($response->getParam());
         $this->assertStringContainsString('testString', $response->getNextParam());
+    }
+
+    /** @test */
+    public function testCanCheckIssetProperty()
+    {
+        $proxy = call(UserService::class);
+        $this->assertTrue(isset($proxy->existingProperty));
+    }
+
+    /** @test */
+    public function testCanUnsetProperty()
+    {
+        $proxy = call(UserService::class);
+        $this->assertFalse($proxy->existingProperty);
+        unset($proxy->existingProperty);
+        $this->expectException(\Error::class);
+        $this->assertNull($proxy->existingProperty);
     }
 }

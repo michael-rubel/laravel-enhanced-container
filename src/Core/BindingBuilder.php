@@ -4,30 +4,28 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
-use MichaelRubel\EnhancedContainer\Binding;
-use MichaelRubel\EnhancedContainer\Extending;
-use MichaelRubel\EnhancedContainer\Traits\HelpsProxies;
+use MichaelRubel\EnhancedContainer\Traits\InteractsWithContainer;
 
-class BindingBuilder implements Binding, Extending
+class BindingBuilder
 {
-    use HelpsProxies;
+    use InteractsWithContainer;
 
     /**
      * @var string
      */
-    private string $abstract;
+    protected string $abstract;
 
     /**
      * @var \Closure|string|array
      */
-    private \Closure|string|array $contextualImplementation;
+    protected \Closure|string|array $contextual;
 
     /**
      * BindingBuilder constructor.
      *
      * @param  object|string  $abstract
      */
-    public function __construct(object | string $abstract)
+    public function __construct(object|string $abstract)
     {
         $this->abstract = $this->convertToNamespace($abstract);
     }
@@ -109,7 +107,7 @@ class BindingBuilder implements Binding, Extending
      */
     public function contextual(\Closure|string|array $implementation): self
     {
-        $this->contextualImplementation = $implementation;
+        $this->contextual = $implementation;
 
         return $this;
     }
@@ -125,7 +123,7 @@ class BindingBuilder implements Binding, Extending
     {
         app()->when($concrete)
              ->needs($this->abstract)
-             ->give($this->contextualImplementation);
+             ->give($this->contextual);
     }
 
     /**
@@ -161,7 +159,7 @@ class BindingBuilder implements Binding, Extending
      *
      * @return mixed
      */
-    public function resolve(): mixed
+    protected function resolve(): mixed
     {
         $concrete = rescue(
             fn () => app($this->abstract),
@@ -173,22 +171,6 @@ class BindingBuilder implements Binding, Extending
         }
 
         return $this->abstract;
-    }
-
-    /**
-     * Wrap an object to the closure if the type of the object differs.
-     *
-     * @param  object|string|null  $concrete
-     *
-     * @return \Closure|string
-     */
-    protected function wrapToClosure(object|string|null $concrete): \Closure|string
-    {
-        if (! is_string($concrete) && ! $concrete instanceof \Closure) {
-            return fn () => $concrete;
-        }
-
-        return $concrete;
     }
 
     /**

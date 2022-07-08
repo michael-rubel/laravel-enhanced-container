@@ -6,18 +6,22 @@ namespace MichaelRubel\EnhancedContainer\Traits;
 
 use Illuminate\Support\Arr;
 
-trait HelpsProxies
+trait InteractsWithContainer
 {
     /**
-     * @param  string  $class
+     * @param  string|object  $class
      * @param  array  $dependencies
      * @param  string|null  $context
      *
      * @return object
      */
-    public function resolvePassedClass(string $class, array $dependencies = [], ?string $context = null): object
+    public function getInstance(string|object $class, array $dependencies = [], ?string $context = null): object
     {
-        $class = $this->getClassForResolution($class, $context);
+        if (is_object($class)) {
+            return $class;
+        }
+
+        $class        = $this->getClassForResolution($class, $context);
         $dependencies = $this->getDependencies($class, $dependencies);
 
         return resolve($class, $dependencies);
@@ -106,7 +110,7 @@ trait HelpsProxies
      * @return array
      * @throws \ReflectionException
      */
-    public function getPassedParameters(object $class, string $method, array $parameters): array
+    public function getParameters(object $class, string $method, array $parameters): array
     {
         if (empty($parameters) || Arr::isAssoc($parameters)) {
             return $parameters;
@@ -156,8 +160,22 @@ trait HelpsProxies
      */
     public function convertToNamespace(object|string $object): string
     {
-        return is_string($object)
-            ? $object
-            : $object::class;
+        return is_string($object) ? $object : $object::class;
+    }
+
+    /**
+     * Wrap an object to the closure if the type of the object differs.
+     *
+     * @param  object|string|null  $concrete
+     *
+     * @return \Closure|string
+     */
+    protected function wrapToClosure(object|string|null $concrete): \Closure|string
+    {
+        if (! is_string($concrete) && ! $concrete instanceof \Closure) {
+            return fn () => $concrete;
+        }
+
+        return $concrete;
     }
 }
