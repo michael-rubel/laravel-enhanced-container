@@ -274,7 +274,7 @@ class ForwardingTest extends TestCase
         $proxy->nonExistingProperty = true;
         $this->assertTrue($proxy->nonExistingProperty);
         $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertSame(Call::SET, $proxy->getInternal(Call::STATE)['existingProperty']);
+        $this->assertSame(Call::SET, $proxy->getInternal(Call::INTERACTIONS)['existingProperty']);
     }
 
     /** @test */
@@ -310,7 +310,7 @@ class ForwardingTest extends TestCase
         // Set property to base instance.
         $this->assertTrue($proxy->existingMethod());
         $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertSame(Call::METHOD, $proxy->getInternal(Call::STATE)['existingMethod']);
+        $this->assertSame(Call::METHOD, $proxy->getInternal(Call::INTERACTIONS)['existingMethod']);
 
         // Swaps instance.
         $this->assertTrue($proxy->nonExistingMethod());
@@ -337,7 +337,7 @@ class ForwardingTest extends TestCase
 
         $this->assertTrue($proxy->existingMethod());
         $this->assertInstanceOf(TestService::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertSame(Call::METHOD, $proxy->getInternal(Call::STATE)['existingMethod']);
+        $this->assertSame(Call::METHOD, $proxy->getInternal(Call::INTERACTIONS)['existingMethod']);
 
         $this->assertTrue($proxy->nonExistingMethod());
         $this->assertInstanceOf(TestRepository::class, $proxy->getInternal(Call::INSTANCE));

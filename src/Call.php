@@ -19,7 +19,7 @@ interface Call
     /**
      * @const
      */
-    public const STATE = 'state';
+    public const INTERACTIONS = 'interactions';
 
     /**
      * @const

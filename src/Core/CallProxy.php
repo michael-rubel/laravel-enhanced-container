@@ -27,7 +27,7 @@ class CallProxy implements Call
     /**
      * @var array
      */
-    protected array $state = [];
+    protected array $interactions = [];
 
     /**
      * Initialize a new CallProxy.
@@ -101,9 +101,9 @@ class CallProxy implements Call
      *
      * @return void
      */
-    protected function setState(string $name, string $type): void
+    protected function interact(string $name, string $type): void
     {
-        $this->state[$name] = $type;
+        $this->interactions[$name] = $type;
     }
 
     /**
@@ -114,9 +114,9 @@ class CallProxy implements Call
      *
      * @return bool
      */
-    protected function hasPreviousState(string $name): bool
+    protected function hasPreviousInteraction(string $name): bool
     {
-        return isset($this->state[$name]) && isset($this->previous);
+        return isset($this->interactions[$name]) && isset($this->previous);
     }
 
     /**
@@ -153,14 +153,14 @@ class CallProxy implements Call
     public function __call(string $method, array $parameters): mixed
     {
         if (! method_exists($this->instance, $method)) {
-            if ($this->hasPreviousState($method)) {
+            if ($this->hasPreviousInteraction($method)) {
                 throw new InstanceInteractionException;
             }
 
             $this->findForwardingInstance();
         }
 
-        $this->setState($method, Call::METHOD);
+        $this->interact($method, Call::METHOD);
 
         return $this->handleMissing(
             fn () => $this->containerCall($this->instance, $method, $parameters),
@@ -178,13 +178,13 @@ class CallProxy implements Call
     public function __get(string $name): mixed
     {
         if (! property_exists($this->instance, $name)) {
-            if ($this->hasPreviousState($name)) {
+            if ($this->hasPreviousInteraction($name)) {
                 throw new InstanceInteractionException;
             }
 
             $this->findForwardingInstance();
 
-            $this->setState($name, Call::GET);
+            $this->interact($name, Call::GET);
         }
 
         return $this->handleMissing(
@@ -201,7 +201,7 @@ class CallProxy implements Call
      */
     public function __set(string $name, mixed $value): void
     {
-        $this->setState($name, Call::SET);
+        $this->interact($name, Call::SET);
 
         $this->instance->{$name} = $value;
     }
