@@ -144,7 +144,7 @@ call(ServiceInterface::class)->yourMethod(100);
 ```
 
 Override method behavior in any place of your app.
-You can add conditions in your method binding by intercepting parameters.
+You can add conditions in your method binding by catching parameters.
 
 For example in `tests`:
 ```php
