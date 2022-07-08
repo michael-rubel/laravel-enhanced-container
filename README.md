@@ -8,7 +8,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests/main?style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 [![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan/main?style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
-This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the Service Container.
+This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the [Service Container](https://laravel.com/docs/9.x/container).
 
 The package requires PHP `8.x` and Laravel `9.x`.
 
