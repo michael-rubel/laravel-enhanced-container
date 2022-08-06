@@ -65,11 +65,11 @@ scoped(Service::class);
 
 ### Binding instances
 ```php
-bind(ServiceInterface::class)->instance(new Service());
+bind(ServiceInterface::class)->instance(new Service);
 ```
 
 ```php
-instance(ServiceInterface::class, new Service())
+instance(ServiceInterface::class, new Service)
 ```
 
 ### Extending bindings
