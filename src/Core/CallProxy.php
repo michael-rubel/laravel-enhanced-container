@@ -69,15 +69,17 @@ class CallProxy implements Call
     /**
      * Sets the internal instance to previous one.
      *
-     * @return void
+     * @return static
      */
-    public function setPrevious(): void
+    public function setPrevious(): static
     {
         $oldInstance = $this->instance;
 
         $this->instance = $this->previous;
 
         $this->previous = $oldInstance;
+
+        return $this;
     }
 
     /**
@@ -143,7 +145,9 @@ class CallProxy implements Call
      */
     protected function hasPreviousInteraction(string $name): bool
     {
-        return isset($this->interactions[$name]) && isset($this->previous);
+        return $this->forwarding
+            && isset($this->interactions[$name])
+            && isset($this->previous);
     }
 
     /**
