@@ -83,6 +83,30 @@ class CallProxy implements Call
     }
 
     /**
+     * Disables the forwarding on the proxy level.
+     *
+     * @return CallProxy
+     */
+    public function disableForwarding(): static
+    {
+        $this->forwarding = false;
+
+        return $this;
+    }
+
+    /**
+     * Enables the forwarding on the proxy level.
+     *
+     * @return CallProxy
+     */
+    public function enableForwarding(): static
+    {
+        $this->forwarding = true;
+
+        return $this;
+    }
+
+    /**
      * Perform the container call.
      *
      * @param  object  $service
@@ -112,7 +136,7 @@ class CallProxy implements Call
     {
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
-        if (app()->bound($clue) && $this->forwarding) {
+        if ($this->forwarding && app()->bound($clue)) {
             $newInstance = rescue(fn () => app($clue), report: false);
 
             if (! is_null($newInstance)) {
