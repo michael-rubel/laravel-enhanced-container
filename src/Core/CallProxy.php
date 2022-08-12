@@ -15,16 +15,29 @@ class CallProxy implements Call
     use InteractsWithContainer, ForwardsCalls;
 
     /**
+     * Current proxy instance.
+     *
      * @var object
      */
     protected object $instance;
 
     /**
+     * Previous proxy instance.
+     *
      * @var object
      */
     protected object $previous;
 
     /**
+     * Determines if the forwarding is enabled in this proxy.
+     *
+     * @var bool
+     */
+    protected bool $forwarding = true;
+
+    /**
+     * Saves proxy interactions (method calls, property assignments, etc).
+     *
      * @var array
      */
     protected array $interactions = [];
