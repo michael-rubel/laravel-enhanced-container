@@ -15,16 +15,29 @@ class CallProxy implements Call
     use InteractsWithContainer, ForwardsCalls;
 
     /**
+     * Current proxy instance.
+     *
      * @var object
      */
     protected object $instance;
 
     /**
-     * @var string
+     * Previous proxy instance.
+     *
+     * @var object|null
      */
-    protected string $previous;
+    protected ?object $previous = null;
 
     /**
+     * Determines if the forwarding is enabled in this proxy.
+     *
+     * @var bool
+     */
+    protected bool $forwarding = true;
+
+    /**
+     * Saves proxy interactions (method calls, property assignments, etc).
+     *
      * @var array
      */
     protected array $interactions = [];
@@ -51,6 +64,48 @@ class CallProxy implements Call
     public function getInternal(string $property): mixed
     {
         return $this->{$property};
+    }
+
+    /**
+     * Sets the internal instance to previous one.
+     *
+     * @return static
+     */
+    public function setPrevious(): static
+    {
+        if ($this->previous) {
+            $oldInstance = $this->instance;
+
+            $this->instance = $this->previous;
+
+            $this->previous = $oldInstance;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Disables the forwarding on the proxy level.
+     *
+     * @return static
+     */
+    public function disableForwarding(): static
+    {
+        $this->forwarding = false;
+
+        return $this;
+    }
+
+    /**
+     * Enables the forwarding on the proxy level.
+     *
+     * @return static
+     */
+    public function enableForwarding(): static
+    {
+        $this->forwarding = true;
+
+        return $this;
     }
 
     /**
@@ -83,11 +138,11 @@ class CallProxy implements Call
     {
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
-        if (app()->bound($clue)) {
+        if ($this->forwarding && app()->bound($clue)) {
             $newInstance = rescue(fn () => app($clue), report: false);
 
             if (! is_null($newInstance)) {
-                $this->previous = $this->instance::class;
+                $this->previous = $this->instance;
                 $this->instance = $newInstance;
             }
         }
@@ -116,7 +171,7 @@ class CallProxy implements Call
      */
     protected function hasPreviousInteraction(string $name): bool
     {
-        return isset($this->interactions[$name]) && isset($this->previous);
+        return $this->forwarding && $this->previous && isset($this->interactions[$name]);
     }
 
     /**

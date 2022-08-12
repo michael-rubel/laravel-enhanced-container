@@ -19,6 +19,11 @@ interface Call
     /**
      * @const
      */
+    public const FORWARDING = 'forwarding';
+
+    /**
+     * @const
+     */
     public const INTERACTIONS = 'interactions';
 
     /**

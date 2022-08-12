@@ -15,7 +15,7 @@ trait InteractsWithContainer
      *
      * @return object
      */
-    public function getInstance(string|object $class, array $dependencies = [], ?string $context = null): object
+    protected function getInstance(string|object $class, array $dependencies = [], ?string $context = null): object
     {
         if (is_object($class)) {
             return $class;
@@ -35,7 +35,7 @@ trait InteractsWithContainer
      *
      * @return string
      */
-    public function getClassForResolution(string $class, ?string $context = null): string
+    protected function getClassForResolution(string $class, ?string $context = null): string
     {
         return ! is_null($context) && isset(app()->contextual[$context])
             ? $this->getContextualConcrete($class, $context)
@@ -50,7 +50,7 @@ trait InteractsWithContainer
      *
      * @return string
      */
-    public function getContextualConcrete(string $class, ?string $context = null): string
+    protected function getContextualConcrete(string $class, ?string $context = null): string
     {
         return app()->contextual[$context][$class] ?? $class;
     }
@@ -63,7 +63,7 @@ trait InteractsWithContainer
      * @return string
      * @throws \ReflectionException
      */
-    public function getBindingConcrete(string $class): string
+    protected function getBindingConcrete(string $class): string
     {
         return (
            new \ReflectionFunction(
@@ -81,7 +81,7 @@ trait InteractsWithContainer
      * @return array
      * @throws \ReflectionException
      */
-    public function getDependencies(string $class, array $dependencies = []): array
+    protected function getDependencies(string $class, array $dependencies = []): array
     {
         if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
             if (! class_exists($class)) {
@@ -110,7 +110,7 @@ trait InteractsWithContainer
      * @return array
      * @throws \ReflectionException
      */
-    public function getParameters(object $class, string $method, array $parameters): array
+    protected function getParameters(object $class, string $method, array $parameters): array
     {
         if (empty($parameters) || Arr::isAssoc($parameters)) {
             return $parameters;
@@ -130,7 +130,7 @@ trait InteractsWithContainer
      *
      * @return array
      */
-    public function makeContainerParameters(array $reflectionParameters, array $methodParameters): array
+    protected function makeContainerParameters(array $reflectionParameters, array $methodParameters): array
     {
         return collect($this->sliceParameters($reflectionParameters, $methodParameters))
             ->map->getName()
@@ -146,7 +146,7 @@ trait InteractsWithContainer
      *
      * @return array
      */
-    public function sliceParameters(array $parameters, array $countable): array
+    protected function sliceParameters(array $parameters, array $countable): array
     {
         return array_slice($parameters, 0, count($countable));
     }
@@ -158,7 +158,7 @@ trait InteractsWithContainer
      *
      * @return string
      */
-    public function convertToNamespace(object|string $object): string
+    protected function convertToNamespace(object|string $object): string
     {
         return is_string($object) ? $object : $object::class;
     }
