@@ -364,7 +364,7 @@ class ForwardingTest extends TestCase
         // Set property to base instance.
         $this->assertTrue($proxy->existingMethod());
         $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
-        $this->assertSame(Call::METHOD, $proxy->getInternal(Call::INTERACTIONS)['existingMethod']);
+        $this->assertNull($proxy->getInternal(Call::PREVIOUS));
 
         // Swaps instance.
         $this->assertTrue($proxy->nonExistingMethod());
@@ -375,5 +375,37 @@ class ForwardingTest extends TestCase
         $proxy->setPrevious();
         $this->assertInstanceOf(UserService::class, $proxy->getInternal(Call::INSTANCE));
         $this->assertInstanceOf(UserRepository::class, $proxy->getInternal(Call::PREVIOUS));
+    }
+
+    /** @test */
+    public function testCanDisableForwardingOnProxyLevel()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $proxy = call(UserService::class);
+
+        // Doesn't swap the instance because we manually turned out forwarding on this instance.
+        $proxy->disableForwarding();
+
+        $this->expectException(\Error::class);
+        $proxy->nonExistingMethod();
+    }
+
+    /** @test */
+    public function testCanEnableDisabledForwardingOnProxyLevel()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $proxy = call(UserService::class);
+
+        $proxy->disableForwarding();
+        $this->assertFalse($proxy->getInternal(Call::FORWARDING));
+
+        $proxy->enableForwarding();
+        $this->assertTrue($proxy->getInternal(Call::FORWARDING));
     }
 }
