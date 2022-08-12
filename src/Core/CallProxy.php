@@ -85,7 +85,7 @@ class CallProxy implements Call
     /**
      * Disables the forwarding on the proxy level.
      *
-     * @return CallProxy
+     * @return static
      */
     public function disableForwarding(): static
     {
@@ -97,7 +97,7 @@ class CallProxy implements Call
     /**
      * Enables the forwarding on the proxy level.
      *
-     * @return CallProxy
+     * @return static
      */
     public function enableForwarding(): static
     {
@@ -169,9 +169,7 @@ class CallProxy implements Call
      */
     protected function hasPreviousInteraction(string $name): bool
     {
-        return $this->forwarding
-            && isset($this->interactions[$name])
-            && isset($this->previous);
+        return $this->forwarding && isset($this->interactions[$name]) && isset($this->previous);
     }
 
     /**
