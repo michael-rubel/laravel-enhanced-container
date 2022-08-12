@@ -8,7 +8,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests/main?style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 [![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan/main?style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
-This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the container.
+This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the [Service Container](https://laravel.com/docs/9.x/container).
 
 The package requires PHP `8.x` and Laravel `9.x`.
 
@@ -65,11 +65,11 @@ scoped(Service::class);
 
 ### Binding instances
 ```php
-bind(ServiceInterface::class)->instance(new Service());
+bind(ServiceInterface::class)->instance(new Service);
 ```
 
 ```php
-instance(ServiceInterface::class, new Service())
+instance(ServiceInterface::class, new Service)
 ```
 
 ### Extending bindings
@@ -212,6 +212,8 @@ This feature automatically forwards the method when it doesn't exist in your cla
 
 You can define forwarding in your ServiceProvider:
 ```php
+use MichaelRubel\EnhancedContainer\Core\Forwarding;
+
 Forwarding::enable()
     ->from(Service::class)
     ->to(Repository::class);
