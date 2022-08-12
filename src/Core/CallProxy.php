@@ -24,9 +24,9 @@ class CallProxy implements Call
     /**
      * Previous proxy instance.
      *
-     * @var object
+     * @var object|null
      */
-    protected object $previous;
+    protected ?object $previous = null;
 
     /**
      * Determines if the forwarding is enabled in this proxy.
@@ -112,7 +112,7 @@ class CallProxy implements Call
     {
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
-        if (app()->bound($clue)) {
+        if (app()->bound($clue) && $this->forwarding) {
             $newInstance = rescue(fn () => app($clue), report: false);
 
             if (! is_null($newInstance)) {
