@@ -20,9 +20,9 @@ class CallProxy implements Call
     protected object $instance;
 
     /**
-     * @var string
+     * @var object
      */
-    protected string $previous;
+    protected object $previous;
 
     /**
      * @var array
@@ -51,6 +51,20 @@ class CallProxy implements Call
     public function getInternal(string $property): mixed
     {
         return $this->{$property};
+    }
+
+    /**
+     * Sets the internal instance to previous one.
+     *
+     * @return void
+     */
+    public function setPrevious(): void
+    {
+        $oldInstance = $this->instance;
+
+        $this->instance = $this->previous;
+
+        $this->previous = $oldInstance;
     }
 
     /**
@@ -87,7 +101,7 @@ class CallProxy implements Call
             $newInstance = rescue(fn () => app($clue), report: false);
 
             if (! is_null($newInstance)) {
-                $this->previous = $this->instance::class;
+                $this->previous = $this->instance;
                 $this->instance = $newInstance;
             }
         }
