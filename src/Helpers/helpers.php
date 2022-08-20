@@ -38,26 +38,26 @@ if (! function_exists('bind')) {
 if (! function_exists('singleton')) {
     /**
      * @param  string  $abstract
-     * @param  Closure|string|null  $concrete
+     * @param  string|object|null  $concrete
      *
      * @return void
      */
-    function singleton(string $abstract, Closure|string|null $concrete = null): void
+    function singleton(string $abstract, string|object|null $concrete = null): void
     {
-        app()->singleton($abstract, $concrete);
+        app(BindingBuilder::class, ['abstract' => $abstract])->singleton($concrete);
     }
 }
 
 if (! function_exists('scoped')) {
     /**
      * @param  string  $abstract
-     * @param  Closure|string|null  $concrete
+     * @param  string|object|null  $concrete
      *
      * @return void
      */
-    function scoped(string $abstract, Closure|string|null $concrete = null): void
+    function scoped(string $abstract, string|object|null $concrete = null): void
     {
-        app()->scoped($abstract, $concrete);
+        app(BindingBuilder::class, ['abstract' => $abstract])->scoped($concrete);
     }
 }
 
