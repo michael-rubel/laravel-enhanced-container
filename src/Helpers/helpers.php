@@ -25,11 +25,11 @@ if (! function_exists('call')) {
 
 if (! function_exists('bind')) {
     /**
-     * @param  string|object  $abstract
+     * @param  object|string  $abstract
      *
      * @return BindingBuilder
      */
-    function bind(string|object $abstract): BindingBuilder
+    function bind(object|string $abstract): BindingBuilder
     {
         return app(BindingBuilder::class, ['abstract' => $abstract]);
     }
@@ -38,11 +38,11 @@ if (! function_exists('bind')) {
 if (! function_exists('singleton')) {
     /**
      * @param  string  $abstract
-     * @param  string|object|null  $concrete
+     * @param  object|string|null  $concrete
      *
      * @return void
      */
-    function singleton(string $abstract, string|object|null $concrete = null): void
+    function singleton(string $abstract, object|string|null $concrete = null): void
     {
         app(BindingBuilder::class, ['abstract' => $abstract])->singleton($concrete);
     }
@@ -51,11 +51,11 @@ if (! function_exists('singleton')) {
 if (! function_exists('scoped')) {
     /**
      * @param  string  $abstract
-     * @param  string|object|null  $concrete
+     * @param  object|string|null  $concrete
      *
      * @return void
      */
-    function scoped(string $abstract, string|object|null $concrete = null): void
+    function scoped(string $abstract, object|string|null $concrete = null): void
     {
         app(BindingBuilder::class, ['abstract' => $abstract])->scoped($concrete);
     }
