@@ -42,7 +42,7 @@ if (! function_exists('singleton')) {
      *
      * @return void
      */
-    function singleton(string $abstract, Closure|string $concrete = null): void
+    function singleton(string $abstract, Closure|string|null $concrete = null): void
     {
         app()->singleton($abstract, $concrete);
     }
@@ -55,7 +55,7 @@ if (! function_exists('scoped')) {
      *
      * @return void
      */
-    function scoped(string $abstract, Closure|string $concrete = null): void
+    function scoped(string $abstract, Closure|string|null $concrete = null): void
     {
         app()->scoped($abstract, $concrete);
     }
