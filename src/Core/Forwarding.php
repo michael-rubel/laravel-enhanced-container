@@ -49,9 +49,9 @@ class Forwarding
      */
     public function to(string $destination): static
     {
-        app()->singleton(
-            $this->pendingClass . static::CONTAINER_KEY,
-            $this->resolve($destination)
+        app()->bind(
+            abstract: $this->pendingClass . static::CONTAINER_KEY,
+            concrete: $this->resolve($destination)
         );
 
         return $this;
