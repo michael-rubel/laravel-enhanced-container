@@ -89,7 +89,7 @@ class OriginalContainerTest extends TestCase
         $container->singletonIf('otherClass', function () {
             return new ContainerConcreteStub;
         });
-        $firstInstantiation = $container->make('otherClass');
+        $firstInstantiation  = $container->make('otherClass');
         $secondInstantiation = $container->make('otherClass');
         $this->assertSame($firstInstantiation, $secondInstantiation);
     }
@@ -100,7 +100,7 @@ class OriginalContainerTest extends TestCase
         $container->singleton('class', function () {
             return new stdClass;
         });
-        $firstInstantiation = $container->make('class');
+        $firstInstantiation  = $container->make('class');
         $secondInstantiation = $container->make('class');
         $this->assertSame($firstInstantiation, $secondInstantiation);
     }
@@ -111,7 +111,7 @@ class OriginalContainerTest extends TestCase
         $container->scoped('class', function () {
             return new stdClass;
         });
-        $firstInstantiation = $container->make('class');
+        $firstInstantiation  = $container->make('class');
         $secondInstantiation = $container->make('class');
         $this->assertSame($firstInstantiation, $secondInstantiation);
     }
@@ -224,7 +224,7 @@ class OriginalContainerTest extends TestCase
         $this->assertFalse(isset($container['something']));
 
         //test offsetSet when it's not instanceof Closure
-        $container = new Container;
+        $container              = new Container;
         $container['something'] = 'text';
         $this->assertTrue(isset($container['something']));
         $this->assertNotEmpty($container['something']);
@@ -235,7 +235,7 @@ class OriginalContainerTest extends TestCase
 
     public function testAliases()
     {
-        $container = new Container;
+        $container        = new Container;
         $container['foo'] = 'bar';
         $container->alias('foo', 'baz');
         $container->alias('baz', 'bat');
@@ -256,7 +256,7 @@ class OriginalContainerTest extends TestCase
 
     public function testBindingsCanBeOverridden()
     {
-        $container = new Container;
+        $container        = new Container;
         $container['foo'] = 'bar';
         $container['foo'] = 'baz';
         $this->assertSame('baz', $container['foo']);
@@ -266,7 +266,7 @@ class OriginalContainerTest extends TestCase
     {
         $container = new Container;
 
-        $bound = new stdClass;
+        $bound    = new stdClass;
         $resolved = $container->instance('foo', $bound);
 
         $this->assertSame($bound, $resolved);
@@ -275,7 +275,7 @@ class OriginalContainerTest extends TestCase
     public function testBindingAnInstanceAsShared()
     {
         $container = new Container;
-        $bound = new stdClass;
+        $bound     = new stdClass;
         $container->instance('foo', $bound);
         $object = $container->make('foo');
         $this->assertSame($bound, $object);
@@ -284,7 +284,7 @@ class OriginalContainerTest extends TestCase
     public function testResolutionOfDefaultParameters()
     {
         $container = new Container;
-        $instance = $container->make(ContainerDefaultValueStub::class);
+        $instance  = $container->make(ContainerDefaultValueStub::class);
         $this->assertInstanceOf(ContainerConcreteStub::class, $instance->stub);
         $this->assertSame('taylor', $instance->default);
     }
@@ -412,7 +412,7 @@ class OriginalContainerTest extends TestCase
 
     public function testForgetInstanceForgetsInstance()
     {
-        $container = new Container;
+        $container             = new Container;
         $containerConcreteStub = new ContainerConcreteStub;
         $container->instance(ContainerConcreteStub::class, $containerConcreteStub);
         $this->assertTrue($container->isShared(ContainerConcreteStub::class));
@@ -422,7 +422,7 @@ class OriginalContainerTest extends TestCase
 
     public function testForgetInstancesForgetsAllInstances()
     {
-        $container = new Container;
+        $container              = new Container;
         $containerConcreteStub1 = new ContainerConcreteStub;
         $containerConcreteStub2 = new ContainerConcreteStub;
         $containerConcreteStub3 = new ContainerConcreteStub;
@@ -532,7 +532,7 @@ class OriginalContainerTest extends TestCase
     public function testResolvingWithArrayOfParameters()
     {
         $container = new Container;
-        $instance = $container->make(ContainerDefaultValueStub::class, ['default' => 'adam']);
+        $instance  = $container->make(ContainerDefaultValueStub::class, ['default' => 'adam']);
         $this->assertSame('adam', $instance->default);
 
         $instance = $container->make(ContainerDefaultValueStub::class);
@@ -548,7 +548,7 @@ class OriginalContainerTest extends TestCase
     public function testResolvingWithArrayOfMixedParameters()
     {
         $container = new Container;
-        $instance = $container->make(ContainerMixedPrimitiveStub::class, ['first' => 1, 'last' => 2, 'third' => 3]);
+        $instance  = $container->make(ContainerMixedPrimitiveStub::class, ['first' => 1, 'last' => 2, 'third' => 3]);
         $this->assertSame(1, $instance->first);
         $this->assertInstanceOf(ContainerConcreteStub::class, $instance->stub);
         $this->assertSame(2, $instance->last);
@@ -660,7 +660,7 @@ class OriginalContainerTest extends TestCase
     public function testContainerCanResolveClasses()
     {
         $container = new Container;
-        $class = $container->get(ContainerConcreteStub::class);
+        $class     = $container->get(ContainerConcreteStub::class);
 
         $this->assertInstanceOf(ContainerConcreteStub::class, $class);
     }
@@ -675,7 +675,7 @@ class OriginalContainerTest extends TestCase
 
     public function testGetMethodBindings()
     {
-        $container = new Container;
+        $container      = new Container;
         $methodBindings = $container->getMethodBindings();
 
         $this->assertIsArray($methodBindings);
@@ -684,7 +684,7 @@ class OriginalContainerTest extends TestCase
     public function testMakeOr()
     {
         $container = new Container;
-        $callback = function ($app) {
+        $callback  = function ($app) {
             $app->bind('test', fn () => true);
 
             return false;
@@ -700,7 +700,7 @@ class OriginalContainerTest extends TestCase
     public function testMakeOrParametrized()
     {
         $container = new Container;
-        $callback = function ($app) {
+        $callback  = function ($app) {
             $app->bind('test', fn () => true);
 
             return false;
@@ -716,7 +716,7 @@ class OriginalContainerTest extends TestCase
     public function testMakeOrResolutionWithoutCallback()
     {
         $container = new Container;
-        $var = $container->makeOr(ContainerInjectVariableStub::class, ['something' => 'laravel']);
+        $var       = $container->makeOr(ContainerInjectVariableStub::class, ['something' => 'laravel']);
         $this->assertSame('laravel', $var->something);
     }
 
@@ -799,7 +799,7 @@ class ContainerDefaultValueStub
 
     public function __construct(ContainerConcreteStub $stub, $default = 'taylor')
     {
-        $this->stub = $stub;
+        $this->stub    = $stub;
         $this->default = $default;
     }
 }
@@ -812,8 +812,8 @@ class ContainerMixedPrimitiveStub
 
     public function __construct($first, ContainerConcreteStub $stub, $last)
     {
-        $this->stub = $stub;
-        $this->last = $last;
+        $this->stub  = $stub;
+        $this->last  = $last;
         $this->first = $first;
     }
 }
