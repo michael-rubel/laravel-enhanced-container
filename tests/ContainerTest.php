@@ -10,7 +10,7 @@ use Psr\Container\ContainerExceptionInterface;
 use stdClass;
 use TypeError;
 
-class OriginalContainerTest extends TestCase
+class ContainerTest extends TestCase
 {
     protected function tearDown(): void
     {
