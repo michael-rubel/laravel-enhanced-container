@@ -25,7 +25,7 @@ The package requires PHP `8.x` and Laravel `9.x`.
     + [Contextual binding resolution outside of constructor](#contextual-binding-resolution-outside-of-constructor)
     + [Method binding](#method-binding)
     + [Method forwarding](#method-forwarding)
-  * [Testing](#testing-the-package)
+  * [Testing](#testing)
 
 ## Installation
 
