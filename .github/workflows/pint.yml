@@ -1,4 +1,4 @@
-name: "Laravel Pint"
+name: pint
 on:
   push:
     branches: [ main ]
@@ -7,7 +7,7 @@ on:
 
 jobs:
   pint:
-    name: "Running Laravel Pint check"
+    name: "Running Laravel Pint"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
