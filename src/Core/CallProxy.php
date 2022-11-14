@@ -139,14 +139,10 @@ class CallProxy implements Call
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
         if ($this->forwarding && app()->bound($clue)) {
-            if (app()->bound($clue)) {
-                $newInstance = app($clue);
-            }
+            $newInstance = app($clue);
 
-            if (isset($newInstance)) {
-                $this->previous = $this->instance;
-                $this->instance = $newInstance;
-            }
+            $this->previous = $this->instance;
+            $this->instance = $newInstance;
         }
     }
 
