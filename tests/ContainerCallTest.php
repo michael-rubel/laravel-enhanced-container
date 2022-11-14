@@ -4,11 +4,15 @@ namespace MichaelRubel\EnhancedContainer\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use MichaelRubel\EnhancedContainer\Call;
+use MichaelRubel\EnhancedContainer\Core\CallProxy;
+use MichaelRubel\EnhancedContainer\Core\Forwarding;
+use MichaelRubel\EnhancedContainer\Exceptions\InstanceInteractionException;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\ParameterOrderBoilerplate;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users\UserRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
 class ContainerCallTest extends TestCase
@@ -203,5 +207,76 @@ class ContainerCallTest extends TestCase
         unset($proxy->existingProperty);
         $this->expectException(\Error::class);
         $this->assertNull($proxy->existingProperty);
+    }
+
+    /** @test */
+    public function testIssetPropertyWithForwarding()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $proxy = call(UserService::class);
+        $this->assertTrue(isset($proxy->existingProperty));
+        $this->assertTrue($proxy->testProperty);
+        $this->expectException(InstanceInteractionException::class);
+        $proxy->existingProperty;
+    }
+
+    /** @test */
+    public function testUnsetPropertyWithForwarding()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $proxy = call(UserService::class);
+        unset($proxy->existingProperty);
+        $this->assertTrue($proxy->testProperty);
+        $this->expectException(InstanceInteractionException::class);
+        $proxy->existingProperty;
+    }
+
+    /** @test */
+    public function testCanOverrideMethodsInCallProxy()
+    {
+        Forwarding::enable()
+            ->from(UserService::class)
+            ->to(UserRepository::class);
+
+        $call = new TestCallProxy(UserService::class);
+        $this->assertTrue($call->existingMethod());
+        $call->nonExistingMethod();
+    }
+}
+
+class TestCallProxy extends CallProxy
+{
+    public function __call(string $method, array $parameters): mixed
+    {
+        if (! method_exists($this->instance, $method)) {
+            if ($this->hasPreviousInteraction($method)) {
+                throw new InstanceInteractionException;
+            }
+
+            $this->findForwardingInstance();
+        }
+
+        $this->interact($method, Call::METHOD);
+
+        return $this->handleMissing(
+            fn () => $this->containerCall($this->instance, $method, $parameters),
+            by: 'Call to undefined method'
+        );
+    }
+
+    protected function findForwardingInstance(): void
+    {
+        parent::findForwardingInstance();
+    }
+
+    protected function containerCall(object $service, string $method, array $parameters): mixed
+    {
+        return parent::containerCall($service, $method, $parameters);
     }
 }
