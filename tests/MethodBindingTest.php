@@ -2,6 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
+use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 
@@ -194,5 +195,47 @@ class MethodBindingTest extends TestCase
         $this->assertTrue(
             app()->hasMethodBinding('test@test')
         );
+    }
+
+    /** @test */
+    public function testReturnsSelfWhenClosureIsNull()
+    {
+        $instance = bind('test')->method();
+        $this->assertInstanceOf(BindingBuilder::class, $instance);
+
+        $instance = bind('test')->method(null, fn () => true);
+        $this->assertInstanceOf(BindingBuilder::class, $instance);
+
+        $instance = bind('test')->method('test');
+        $this->assertInstanceOf(BindingBuilder::class, $instance);
+    }
+
+    /** @test */
+    public function testBindingBuilderExtension()
+    {
+        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+
+        $builder = new TestBindingBuilder(BoilerplateInterface::class);
+        $builder->method('test', fn () => 'test');
+        $this->assertFalse(app()->hasMethodBinding(BoilerplateInterface::class . '@test'));
+    }
+}
+
+class TestBindingBuilder extends BindingBuilder
+{
+    public function method(string $method = null, \Closure $override = null): self|null
+    {
+        $this->resolve();
+
+        if (is_null($method) || is_null($override)) {
+            return $this;
+        }
+
+        return $this->{$method}($override);
+    }
+
+    protected function resolve(): mixed
+    {
+        return parent::resolve();
     }
 }

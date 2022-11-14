@@ -13,12 +13,11 @@ class BaseBindingTest extends TestCase
     public function testCanBindAnAbstractToConcrete()
     {
         bind(BoilerplateInterface::class)->to(BoilerplateService::class);
-
-        app()->bound(BoilerplateInterface::class);
+        $this->assertTrue(app()->bound(BoilerplateInterface::class));
 
         $instance = resolve(BoilerplateInterface::class);
-
         $this->assertInstanceOf(BoilerplateService::class, $instance);
+        $this->assertFalse(app()->getBindings()[BoilerplateInterface::class]['shared']);
     }
 
     /** @test */
@@ -26,11 +25,10 @@ class BaseBindingTest extends TestCase
     {
         bind(BoilerplateInterface::class)->to(BoilerplateService::class, true);
 
-        app()->bound(BoilerplateInterface::class);
-
+        $this->assertTrue(app()->bound(BoilerplateInterface::class));
         $instance = resolve(BoilerplateInterface::class);
-
         $this->assertInstanceOf(BoilerplateService::class, $instance);
+        $this->assertTrue(app()->getBindings()[BoilerplateInterface::class]['shared']);
     }
 
     /** @test */
@@ -38,11 +36,10 @@ class BaseBindingTest extends TestCase
     {
         bind(BoilerplateInterface::class)->singleton(BoilerplateService::class);
 
-        app()->bound(BoilerplateInterface::class);
-
+        $this->assertTrue(app()->bound(BoilerplateInterface::class));
         $instance = resolve(BoilerplateInterface::class);
-
         $this->assertInstanceOf(BoilerplateService::class, $instance);
+        $this->assertTrue(app()->getBindings()[BoilerplateInterface::class]['shared']);
     }
 
     /** @test */
@@ -50,10 +47,8 @@ class BaseBindingTest extends TestCase
     {
         bind(BoilerplateInterface::class)->scoped(BoilerplateService::class);
 
-        app()->bound(BoilerplateInterface::class);
-
+        $this->assertTrue(app()->bound(BoilerplateInterface::class));
         $instance = resolve(BoilerplateInterface::class);
-
         $this->assertInstanceOf(BoilerplateService::class, $instance);
     }
 
@@ -91,5 +86,15 @@ class BaseBindingTest extends TestCase
 
         bind('string')->to(TestModel::class);
         $this->assertEquals($model, app('string'));
+    }
+
+    /** @test */
+    public function testBindsItSelf()
+    {
+        bind(BoilerplateService::class)->itself();
+
+        $this->assertTrue(app()->bound(BoilerplateService::class));
+        $instance = resolve(BoilerplateService::class);
+        $this->assertInstanceOf(BoilerplateService::class, $instance);
     }
 }
