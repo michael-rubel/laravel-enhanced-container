@@ -195,7 +195,7 @@ class CallProxy implements Call
                 return $callback();
             }
 
-            $e;
+            throw $e;
         }
     }
 

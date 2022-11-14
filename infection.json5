@@ -23,6 +23,11 @@
             "ignore": [
                 "MichaelRubel\\EnhancedContainer\\Traits\\InteractsWithContainer"
             ]
+        },
+        "Throw_": {
+            "ignore": [
+                "MichaelRubel\\EnhancedContainer\\Core\\CallProxy::handleMissing"
+            ]
         }
     }
 }
