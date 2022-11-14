@@ -227,15 +227,6 @@ class TestBindingBuilder extends BindingBuilder
     {
         $this->resolve();
 
-        if (is_null($method) || is_null($override)) {
-            return $this;
-        }
-
         return $this->{$method}($override);
-    }
-
-    protected function resolve(): mixed
-    {
-        return parent::resolve();
     }
 }

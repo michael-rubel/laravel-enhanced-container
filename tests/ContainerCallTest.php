@@ -269,14 +269,4 @@ class TestCallProxy extends CallProxy
             by: 'Call to undefined method'
         );
     }
-
-    protected function findForwardingInstance(): void
-    {
-        parent::findForwardingInstance();
-    }
-
-    protected function containerCall(object $service, string $method, array $parameters): mixed
-    {
-        return parent::containerCall($service, $method, $parameters);
-    }
 }
