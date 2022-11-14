@@ -37,7 +37,7 @@ trait InteractsWithContainer
      */
     protected function getClassForResolution(string $class, ?string $context = null): string
     {
-        return ! is_null($context) && isset(app()->contextual[$context])
+        return isset(app()->contextual[$context])
             ? $this->getContextualConcrete($class, $context)
             : $class;
     }
@@ -83,7 +83,7 @@ trait InteractsWithContainer
      */
     protected function getDependencies(string $class, array $dependencies = []): array
     {
-        if (! empty($dependencies) && ! Arr::isAssoc($dependencies)) {
+        if (! empty($dependencies)) {
             if (! class_exists($class)) {
                 $class = $this->getBindingConcrete($class);
             }

@@ -5,14 +5,24 @@
             "src"
         ]
     },
+//    "logs": {
+//        "text": "php://stderr",
+//        "github": true
+//    },
     "logs": {
-        "text": "php://stderr",
-        "github": true
+        "text": "infection.log"
     },
-    // "logs": {
-    //     "text": "infection.log"
-    // },
     "mutators": {
-        "@default": true
+        "@default": {
+            "ignore": [
+                "Illuminate\\Container\\Container",
+                "Illuminate\\Container\\BoundMethod"
+            ]
+        },
+        "ProtectedVisibility": {
+            "ignore": [
+                "MichaelRubel\\EnhancedContainer\\Traits\\InteractsWithContainer"
+            ]
+        }
     }
 }

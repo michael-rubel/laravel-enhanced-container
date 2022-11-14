@@ -252,6 +252,18 @@ class ContainerCallTest extends TestCase
 
 class TestCallProxy extends CallProxy
 {
+    protected function containerCall(object $service, string $method, array $parameters): mixed
+    {
+        try {
+            return app()->call(
+                [$service, $method],
+                $this->getParameters($service, $method, $parameters)
+            );
+        } catch (\ReflectionException) {
+            return $this->forwardCallTo($service, $method, $parameters);
+        }
+    }
+
     public function __call(string $method, array $parameters): mixed
     {
         if (! method_exists($this->instance, $method)) {

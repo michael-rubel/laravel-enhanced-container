@@ -213,9 +213,8 @@ class MethodBindingTest extends TestCase
     /** @test */
     public function testBindingBuilderExtension()
     {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
-
         $builder = new TestBindingBuilder(BoilerplateInterface::class);
+        $builder->to(BoilerplateService::class);
         $builder->method('test', fn () => 'test');
         $this->assertFalse(app()->hasMethodBinding(BoilerplateInterface::class . '@test'));
     }
@@ -223,10 +222,22 @@ class MethodBindingTest extends TestCase
 
 class TestBindingBuilder extends BindingBuilder
 {
+    public function __construct(object|string $abstract)
+    {
+        $this->abstract = $this->convertToNamespace($abstract);
+    }
+
     public function method(string $method = null, \Closure $override = null): self|null
     {
         $this->resolve();
 
         return $this->{$method}($override);
+    }
+
+    public function to(object|string $concrete = null, bool $shared = false): self
+    {
+        app()->bind($this->abstract, $this->wrapToClosure($concrete), $shared);
+
+        return $this;
     }
 }
