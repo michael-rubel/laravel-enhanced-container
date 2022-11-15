@@ -24,11 +24,12 @@
     "require-dev": {
         "brianium/paratest": "^6.3",
         "laravel/pint": "^0.2.1",
-        "nunomaduro/collision": "^5.11|^6.0",
+        "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^1.0",
-        "orchestra/testbench": "^6.6|^7.0",
+        "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.5",
-        "roave/backward-compatibility-check": "^7.0"
+        "roave/backward-compatibility-check": "^7.0|^8.0",
+        "roave/infection-static-analysis-plugin": "^1.25"
     },
     "autoload": {
         "psr-4": {
@@ -54,7 +55,10 @@
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
     },
     "extra": {
         "laravel": {

@@ -1,0 +1,38 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "php://stderr",
+        "github": true
+    },
+//    "logs": {
+//        "text": "infection.log"
+//    },
+    "mutators": {
+        "@default": {
+            "ignore": [
+                "Illuminate\\Container\\Container",
+                "Illuminate\\Container\\BoundMethod"
+            ]
+        },
+        "PublicVisibility": {
+            "ignore": [
+                "MichaelRubel\\EnhancedContainer\\Traits\\BootsCallProxies::bootCallProxies"
+            ]
+        },
+        "ProtectedVisibility": {
+            "ignore": [
+                "MichaelRubel\\EnhancedContainer\\Traits\\InteractsWithContainer"
+            ]
+        },
+        "Throw_": {
+            "ignore": [
+                "MichaelRubel\\EnhancedContainer\\Core\\CallProxy::handleMissing"
+            ]
+        }
+    }
+}

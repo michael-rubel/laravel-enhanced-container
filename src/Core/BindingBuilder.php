@@ -40,8 +40,6 @@ class BindingBuilder
      */
     public function method(string $method = null, \Closure $override = null): self|null
     {
-        // Try to auto-resolve an implementation
-        // for this particular abstract type.
         $this->resolve();
 
         if (is_null($method) || is_null($override)) {
@@ -161,12 +159,9 @@ class BindingBuilder
      */
     protected function resolve(): mixed
     {
-        $concrete = rescue(
-            fn () => app($this->abstract),
-            report: false
-        );
+        if (app()->bound($this->abstract)) {
+            $concrete = app($this->abstract);
 
-        if (! is_null($concrete)) {
             $this->abstract = $this->convertToNamespace($concrete);
         }
 

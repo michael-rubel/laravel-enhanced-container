@@ -139,12 +139,10 @@ class CallProxy implements Call
         $clue = $this->instance::class . Forwarding::CONTAINER_KEY;
 
         if ($this->forwarding && app()->bound($clue)) {
-            $newInstance = rescue(fn () => app($clue), report: false);
+            $newInstance = app($clue);
 
-            if (! is_null($newInstance)) {
-                $this->previous = $this->instance;
-                $this->instance = $newInstance;
-            }
+            $this->previous = $this->instance;
+            $this->instance = $newInstance;
         }
     }
 
@@ -171,7 +169,7 @@ class CallProxy implements Call
      */
     protected function hasPreviousInteraction(string $name): bool
     {
-        return $this->forwarding && $this->previous && isset($this->interactions[$name]);
+        return $this->previous && isset($this->interactions[$name]);
     }
 
     /**

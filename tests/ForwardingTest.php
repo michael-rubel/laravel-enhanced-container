@@ -408,4 +408,27 @@ class ForwardingTest extends TestCase
         $proxy->enableForwarding();
         $this->assertTrue($proxy->getInternal(Call::FORWARDING));
     }
+
+    /** @test */
+    public function testCanForwardingExtension()
+    {
+        $forwarding = new TestForwarding;
+        $forwarding->from(UserService::class)->to(UserRepository::class);
+
+        $proxy = call(UserService::class);
+        $this->assertTrue($proxy->getInternal(Call::FORWARDING));
+    }
+}
+
+class TestForwarding extends Forwarding
+{
+    public function to(string $destination): static
+    {
+        app()->bind(
+            abstract: $this->pendingClass . static::CONTAINER_KEY,
+            concrete: $this->resolve($destination)
+        );
+
+        return $this;
+    }
 }
