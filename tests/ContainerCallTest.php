@@ -254,14 +254,7 @@ class TestCallProxy extends CallProxy
 {
     protected function containerCall(object $service, string $method, array $parameters): mixed
     {
-        try {
-            return app()->call(
-                [$service, $method],
-                $this->getParameters($service, $method, $parameters)
-            );
-        } catch (\ReflectionException) {
-            return $this->forwardCallTo($service, $method, $parameters);
-        }
+        return parent::containerCall($service, $method, $parameters);
     }
 
     public function __call(string $method, array $parameters): mixed

@@ -5,18 +5,23 @@
             "src"
         ]
     },
-//    "logs": {
-//        "text": "php://stderr",
-//        "github": true
-//    },
     "logs": {
-        "text": "infection.log"
+        "text": "php://stderr",
+        "github": true
     },
+//    "logs": {
+//        "text": "infection.log"
+//    },
     "mutators": {
         "@default": {
             "ignore": [
                 "Illuminate\\Container\\Container",
                 "Illuminate\\Container\\BoundMethod"
+            ]
+        },
+        "PublicVisibility": {
+            "ignore": [
+                "MichaelRubel\\EnhancedContainer\\Traits\\BootsCallProxies::bootCallProxies"
             ]
         },
         "ProtectedVisibility": {
