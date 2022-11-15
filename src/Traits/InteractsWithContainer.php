@@ -83,7 +83,7 @@ trait InteractsWithContainer
      */
     protected function getDependencies(string $class, array $dependencies = []): array
     {
-        if (! empty($dependencies)) {
+        if (! Arr::isAssoc($dependencies)) {
             if (! class_exists($class)) {
                 $class = $this->getBindingConcrete($class);
             }
