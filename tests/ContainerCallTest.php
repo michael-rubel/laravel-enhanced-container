@@ -12,6 +12,7 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructor;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateServiceWithConstructorPrimitive;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\ParameterOrderBoilerplate;
+use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\Users\UserRepository;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users\UserService;
 
@@ -247,6 +248,15 @@ class ContainerCallTest extends TestCase
         $call = new TestCallProxy(UserService::class);
         $this->assertTrue($call->existingMethod());
         $call->nonExistingMethod();
+    }
+
+    /** @test */
+    public function testParsesNonAssociativeArraysWhenResolvingDependencies()
+    {
+        $repo = app(TestRepository::class);
+        $call = call(UserService::class, [0 => app(TestRepository::class), 1 => true]);
+        $this->assertEquals($call->testRepository, $repo);
+        $this->assertTrue($call->existingProperty);
     }
 }
 
