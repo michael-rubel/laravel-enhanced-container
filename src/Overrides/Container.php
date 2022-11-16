@@ -722,11 +722,10 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Bind the given type to the container with the results of the callback.
      *
-     * @param $abstract
-     * @param  Closure|null  $callback
+     * @param  string  $abstract
+     * @param  \Closure|null  $callback
      * @param  string  $type
-     *
-     * @return void
+     * @return mixed
      */
     public function remember($abstract, Closure $callback = null, $type = 'scoped')
     {
