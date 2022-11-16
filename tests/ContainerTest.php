@@ -726,6 +726,24 @@ class ContainerTest extends TestCase
         $container = new Container;
         $container->makeOr(ContainerInjectVariableStub::class);
     }
+
+    public function testRemember()
+    {
+        $container = new Container;
+        $callback  = function ($app) {
+            $app->bind('executed', fn () => 'once');
+
+            return true;
+        };
+
+        $var1 = $container->remember('test', $callback);
+        $this->assertTrue($var1);
+
+        $var2 = $container->remember('test', $callback);
+        $this->assertTrue($var2);
+
+        $this->assertSame('once', $container->make('executed'));
+    }
 }
 
 class CircularAStub
