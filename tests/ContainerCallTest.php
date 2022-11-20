@@ -65,10 +65,7 @@ class ContainerCallTest extends TestCase
     {
         $call = call(BoilerplateServiceWithConstructor::class, ['param' => true])->yourMethod(100);
 
-        $this->assertEquals(
-            101,
-            $call
-        );
+        $this->assertEquals(101, $call);
     }
 
     /** @test */
@@ -77,11 +74,9 @@ class ContainerCallTest extends TestCase
         $callProxy = call(BoilerplateServiceWithConstructor::class, ['param' => true]);
 
         $test = $callProxy->yourMethod(100);
-
         $this->assertEquals(101, $test);
 
         $test = $callProxy->test();
-
         $this->assertTrue($test);
     }
 
@@ -91,11 +86,9 @@ class ContainerCallTest extends TestCase
         $callProxy = call(BoilerplateService::class);
 
         $test = $callProxy->testProperty;
-
         $this->assertTrue($test);
 
         $test = $callProxy->testProperty = false;
-
         $this->assertFalse($test);
     }
 
@@ -172,7 +165,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testSupportsStringBindingsWithDependencies()
     {
-        bind('test')->to(BoilerplateService::class);
+        $this->app->bind('test', BoilerplateService::class);
 
         $response = call('test', ['dependency']);
 
@@ -182,7 +175,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testArrayParams()
     {
-        bind('test')->to(BoilerplateServiceWithConstructorPrimitive::class);
+        $this->app->bind('test', BoilerplateServiceWithConstructorPrimitive::class);
 
         $response = call('test', [
             'param' => false,

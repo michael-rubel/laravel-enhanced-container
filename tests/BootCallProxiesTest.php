@@ -17,7 +17,7 @@ class BootCallProxiesTest extends TestCase
     /** @test */
     public function testCanBootCallProxies()
     {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $this->app->bind(BoilerplateInterface::class, BoilerplateService::class);
         $call = call(BoilerplateServiceWithBootedCallProxy::class);
 
         $test = $call->getProxy();
@@ -33,7 +33,7 @@ class BootCallProxiesTest extends TestCase
     /** @test */
     public function testBootCallProxiesIgnoresParamsIfNotAClass()
     {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $this->app->bind(BoilerplateInterface::class, BoilerplateService::class);
         $call = call(BoilerplateWithBootedCallProxyWrongParams::class, ['test', true]);
 
         $test = $call->getProxy();
@@ -57,7 +57,7 @@ class BootCallProxiesTest extends TestCase
     /** @test */
     public function testBootCallProxiesWithUnassignedDependencies()
     {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $this->app->bind(BoilerplateInterface::class, BoilerplateService::class);
         $call = call(BoilerplateDependenciesAssignedOldWay::class);
 
         $test = $call->getProxy();
@@ -74,7 +74,7 @@ class BootCallProxiesTest extends TestCase
     /** @test */
     public function testBootCallProxiesFromAnyMethod()
     {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $this->app->bind(BoilerplateInterface::class, BoilerplateService::class);
         $call = call(BoilerplateServiceWithBootedCallProxyWithMethod::class);
 
         $bestDomain = $call->handle();
@@ -85,7 +85,7 @@ class BootCallProxiesTest extends TestCase
     /** @test */
     public function testBootCallProxiesPreventsOverlapping()
     {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $this->app->bind(BoilerplateInterface::class, BoilerplateService::class);
         $call = call(BoilerplateServiceWithBootedCallProxy::class);
 
         $bestDomain = $call->handle();
