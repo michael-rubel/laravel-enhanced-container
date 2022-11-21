@@ -87,6 +87,7 @@ class ForwardingTest extends TestCase
 
         $object = resolve(UserService::class);
         $test   = call($object)->testMethod();
+
         $this->assertTrue($test);
     }
 
@@ -125,6 +126,7 @@ class ForwardingTest extends TestCase
 
         $object = resolve(UserService::class);
         $test   = call($object)->testMethodMultipleParamsInRepo([], 123);
+
         $this->assertTrue($test);
     }
 
@@ -137,6 +139,7 @@ class ForwardingTest extends TestCase
 
         $object = resolve(UserRepository::class);
         $test   = call($object)->testMethodMultipleParamsInRepo([], 123);
+
         $this->assertTrue($test);
     }
 
@@ -145,6 +148,7 @@ class ForwardingTest extends TestCase
     {
         $object = resolve(UserRepository::class);
         $test   = call($object)->testMethodMultipleParamsInRepo([], 123);
+
         $this->assertTrue($test);
     }
 
@@ -161,8 +165,8 @@ class ForwardingTest extends TestCase
         // The container cannot call it, so we're forwarding the method manually.
         call(TestService::class)->find(1);
 
-        // The test throws the exception and it's excepted since we don't have
-        // any DB connection but it says the `find` method actually works.
+        // The test throws the exception, and it's excepted since we don't have
+        // any DB connection, but it says the `find` method actually works.
     }
 
     /** @test */
@@ -331,8 +335,8 @@ class ForwardingTest extends TestCase
     /** @test */
     public function tesForwardingResolvesInterfaces()
     {
-        bind(TestServiceInterface::class)->to(TestService::class);
-        bind(TestRepositoryInterface::class)->to(TestRepository::class);
+        $this->app->bind(TestServiceInterface::class, TestService::class);
+        $this->app->bind(TestRepositoryInterface::class, TestRepository::class);
 
         Forwarding::enable()
             ->from(TestServiceInterface::class)

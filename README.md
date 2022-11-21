@@ -8,7 +8,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests/main?style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 [![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan/main?style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
-This package provides enhanced contextual binding, method binding, method forwarding, and syntax sugar to operate on the [Service Container](https://laravel.com/docs/9.x/container).
+This package adds DX tweaks for Service Container in Laravel and provides method forwarding feature.
 
 The package requires PHP `8.x` and Laravel `9.x`.
 
@@ -18,11 +18,7 @@ The package requires PHP `8.x` and Laravel `9.x`.
 ## Contents
   * [Installation](#installation)
   * [Usage](#usage)
-    + [Basic binding](#basic-binding)
-    + [Binding instances](#binding-instances)
-    + [Extending bindings](#extending-bindings)
-    + [Contextual binding](#contextual-binding)
-    + [Contextual binding resolution outside of constructor](#contextual-binding-resolution-outside-of-constructor)
+    + [Resolve contextual binding outside of constructor](#resolve-contextual-binding-outside-of-constructor)
     + [Method binding](#method-binding)
     + [Method forwarding](#method-forwarding)
   * [Testing](#testing)
@@ -36,87 +32,13 @@ composer require michael-rubel/laravel-enhanced-container
 
 ## Usage
 
-### Basic binding
-```php
-bind(ServiceInterface::class)->to(Service::class);
-```
+### Resolve contextual binding outside of constructor
 
 ```php
-bind(Service::class)->itself();
-```
+call(ServiceInterface::class, context: static::class);
 
-As a singleton:
-```php
-bind(ServiceInterface::class)->singleton(Service::class);
-```
-
-```php
-singleton(Service::class);
-```
-
-As scoped singleton:
-```php
-bind(ServiceInterface::class)->scoped(Service::class);
-```
-
-```php
-scoped(Service::class);
-```
-
-### Binding instances
-```php
-bind(ServiceInterface::class)->instance(new Service);
-```
-
-```php
-instance(ServiceInterface::class, new Service)
-```
-
-### Extending bindings
-```php
-extend(ServiceInterface::class, function ($service) {
-    $service->testProperty = true;
-
-    return $service;
-})
-```
-
-[🔝 back to contents](#contents)
-
-### Contextual binding
-```php
-bind(ServiceInterface::class)
-   ->contextual(Service::class)
-   ->for(ClassWithTypeHintedInterface::class);
-```
-
-As a variadic dependency:
-```php
-bind(ServiceInterface::class)
-   ->contextual(
-       fn ($app) => [
-           $app->make(Service::class, ['param' => true]),
-           $app->make(AnotherServiceSharingTheSameInterface::class),
-       ]
-   )
-   ->for(ClassWithTypeHintedInterface::class);
-```
-
-As a primitive:
-```php
-bind('$param')
-   ->contextual(true)
-   ->for(ClassWithTypeHintedPrimitive::class);
-```
-
-### Contextual binding resolution outside of constructor
-
-```php
-call(class: ServiceInterface::class, context: static::class);
-
-// The call automatically resolves the implementation from an interface you passed.
-// If you pass context, proxy tries to resolve contextual binding instead of global one first.
-// Instead of static::class you may pass any class context for this particular abstract type.
+// The `call` method automatically resolves the implementation from the interface you passed.
+// If you pass the context, the proxy tries to resolve contextual binding instead of global binding first.
 ```
 
 [🔝 back to contents](#contents)
@@ -135,7 +57,7 @@ class Service
 
 Bind the service to an interface:
 ```php
-bind(ServiceInterface::class)->to(Service::class);
+$this->app->bind(ServiceInterface::class, Service::class);
 ```
 
 Call your service method through container:
@@ -146,58 +68,23 @@ call(ServiceInterface::class)->yourMethod(100);
 Override method behavior in any place of your app.
 You can add conditions in your method binding by catching parameters.
 
-For example in `tests`:
+For example in feature tests:
 ```php
-bind(ApiGatewayContract::class)->to(InternalApiGateway::class);
-bind(ApiGatewayContract::class)->method(
-    'performRequest',
-    fn () => true
-);
+$this->app->bind(ApiGatewayContract::class, InternalApiGateway::class);
+
+bind(ApiGatewayContract::class)->method('performRequest', function ($service, $app, $params) {
+    // Note: you can access `$params` passed to the method call.
+
+    return true;
+});
 
 $apiGateway = call(ApiGatewayContract::class);
-
 $request = $apiGateway->performRequest();
-
 $this->assertTrue($request);
 ```
 
-Another example from the real-world app:
-```php
-//
-// 🧪 In tests:
-//
-function testData(array $params): Collection
-{
-    return collect([
-        'object'      => 'payment_intent',
-        'amount'      => $params['data']->money->getAmount(),
-        'description' => $params['data']->description,
-         ...
-    ]);
-}
-
-bind(StripePaymentProvider::class)->method()->charge(
-    fn ($service, $app, $params) => new Payment(
-        tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
-            testData($params)->each(fn ($value, $key) => $intent->offsetSet($key, $value));
-        })
-    )
-);
-
-//
-// ⚙️ In the service class:
-//
-$data = new StripePaymentData(
-    // DTO parameters.
-);
-
-call(StripePaymentProvider::class)->charge($data);
-// The data bound to the method from `testData` wrapped into PaymentIntent
-// object with arguments you passed to the real function call. 🔥
-```
-
-Remember that you need to use `call()` to method binding to work. It returns the instance of `CallProxy`.
-If you rely on interfaces, proxy will automatically resolve bound implementation for you.
+Remember that you need to use `call` to method binding to work. It returns the instance of `CallProxy`.
+If you rely on interfaces, the proxy will automatically resolve bound implementation for you.
 
 #### Note for package creators
 If you want to use method binding in your own package, you need to make sure the [`LecServiceProvider`](https://github.com/michael-rubel/laravel-enhanced-container/blob/main/src/LecServiceProvider.php) registered before you use this feature.
@@ -208,7 +95,7 @@ $this->app->register(LecServiceProvider::class);
 [🔝 back to contents](#contents)
 
 ### Method forwarding
-This feature automatically forwards the method when it doesn't exist in your class to another one.
+This feature automatically forwards the method if it doesn't exist in your class to the second one defined in the forwarding configuration.
 
 You can define forwarding in your ServiceProvider:
 ```php

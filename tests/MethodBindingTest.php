@@ -2,7 +2,7 @@
 
 namespace MichaelRubel\EnhancedContainer\Tests;
 
-use MichaelRubel\EnhancedContainer\Core\BindingBuilder;
+use MichaelRubel\EnhancedContainer\Core\MethodBinder;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateInterface;
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\BoilerplateService;
 
@@ -21,62 +21,51 @@ class MethodBindingTest extends TestCase
     /** @test */
     public function testCanOverrideMethodAsObject()
     {
-        bind(new BoilerplateService())->method()->test(fn () => collect('illuminate'));
+        bind(new BoilerplateService)->method()->test(fn () => collect('illuminate'));
 
         $call = call(BoilerplateService::class)->test('test', 1);
 
-        $this->assertEquals(
-            collect('illuminate'),
-            $call
-        );
+        $this->assertEquals(collect('illuminate'), $call);
     }
 
     /** @test */
     public function testCanOverrideMethodUsingService()
     {
-        bind(new BoilerplateService())->method()->yourMethod(
+        bind(new BoilerplateService)->method()->yourMethod(
             fn ($service, $app) => $service->yourMethod(100) + 1
         );
 
         $call = call(BoilerplateService::class)->yourMethod(100);
 
-        $this->assertEquals(
-            101,
-            $call
-        );
+        $this->assertEquals(101, $call);
     }
 
     /** @test */
     public function testCanOverrideMethodUsingInterface()
     {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
+        $this->app->bind(BoilerplateInterface::class, BoilerplateService::class);
+
         bind(BoilerplateInterface::class)->method()->yourMethod(
             fn ($service, $app) => $service->yourMethod(100) + 1
         );
 
         $call = call(BoilerplateService::class)->yourMethod(100);
 
-        $this->assertEquals(
-            101,
-            $call
-        );
+        $this->assertEquals(101, $call);
     }
 
     /** @test */
     public function testCanOverrideMethodWithInterfaceAlternativeSyntax()
     {
-        bind(BoilerplateInterface::class)->to(BoilerplateService::class);
-        bind(BoilerplateInterface::class)->method(
-            'yourMethod',
+        $this->app->bind(BoilerplateInterface::class, BoilerplateService::class);
+
+        bind(BoilerplateInterface::class)->method('yourMethod',
             fn ($service, $app) => $service->yourMethod(100) + 1
         );
 
         $call = call(BoilerplateService::class)->yourMethod(100);
 
-        $this->assertEquals(
-            101,
-            $call
-        );
+        $this->assertEquals(101, $call);
     }
 
     /** @test */
@@ -108,10 +97,7 @@ class MethodBindingTest extends TestCase
 
         $call = call(BoilerplateService::class)->yourMethod(100);
 
-        $this->assertEquals(
-            101,
-            $call
-        );
+        $this->assertEquals(101, $call);
     }
 
     /** @test */
@@ -123,10 +109,7 @@ class MethodBindingTest extends TestCase
 
         $call = call(BoilerplateService::class)->yourMethod(100);
 
-        $this->assertEquals(
-            101,
-            $call
-        );
+        $this->assertEquals(101, $call);
     }
 
     /** @test */
@@ -157,21 +140,17 @@ class MethodBindingTest extends TestCase
     {
         $callProxy = call(BoilerplateService::class);
 
-        bind(BoilerplateService::class)
-            ->method()
-            ->yourMethod(
-                fn ($service, $app) => $service->yourMethod(100) + 1
-            );
+        bind(BoilerplateService::class)->method()->yourMethod(
+            fn ($service, $app) => $service->yourMethod(100) + 1
+        );
 
         $test = $callProxy->yourMethod(100);
 
         $this->assertEquals(101, $test);
 
-        bind(BoilerplateService::class)
-            ->method()
-            ->yourMethod(
-                fn ($service, $app) => true
-            );
+        bind(BoilerplateService::class)->method()->yourMethod(
+            fn ($service, $app) => true
+        );
 
         $test = $callProxy->yourMethod();
 
@@ -181,7 +160,7 @@ class MethodBindingTest extends TestCase
     /** @test */
     public function testCanResolveStringsInMethodBinding()
     {
-        bind('test')->to(BoilerplateService::class);
+        $this->app->bind('test', BoilerplateService::class);
         bind('test')->method('test', fn () => 'works');
 
         $this->assertEquals('works', call(BoilerplateService::class)->test());
@@ -201,43 +180,40 @@ class MethodBindingTest extends TestCase
     public function testReturnsSelfWhenClosureIsNull()
     {
         $instance = bind('test')->method();
-        $this->assertInstanceOf(BindingBuilder::class, $instance);
+        $this->assertInstanceOf(MethodBinder::class, $instance);
 
         $instance = bind('test')->method(null, fn () => true);
-        $this->assertInstanceOf(BindingBuilder::class, $instance);
+        $this->assertInstanceOf(MethodBinder::class, $instance);
 
         $instance = bind('test')->method('test');
-        $this->assertInstanceOf(BindingBuilder::class, $instance);
+        $this->assertInstanceOf(MethodBinder::class, $instance);
     }
 
     /** @test */
     public function testBindingBuilderExtension()
     {
-        $builder = new TestBindingBuilder(BoilerplateInterface::class);
-        $builder->to(BoilerplateService::class);
-        $builder->method('test', fn () => 'test');
-        $this->assertFalse(app()->hasMethodBinding(BoilerplateInterface::class . '@test'));
+        $this->app->bind(BoilerplateInterface::class, BoilerplateService::class);
+
+        $binder = new TestMethodBinder(BoilerplateInterface::class);
+        $binder->method('test', fn () => 'test');
+
+        $this->assertFalse(
+            app()->hasMethodBinding(BoilerplateInterface::class . '@test')
+        );
     }
 }
 
-class TestBindingBuilder extends BindingBuilder
+class TestMethodBinder extends MethodBinder
 {
     public function __construct(object|string $abstract)
     {
         $this->abstract = $this->convertToNamespace($abstract);
     }
 
-    public function method(string $method = null, \Closure $override = null): self|null
+    public function method(string $method = null, \Closure $override = null): ?static
     {
         $this->resolve();
 
         return $this->{$method}($override);
-    }
-
-    public function to(object|string $concrete = null, bool $shared = false): self
-    {
-        app()->bind($this->abstract, $this->wrapToClosure($concrete), $shared);
-
-        return $this;
     }
 }

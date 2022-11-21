@@ -33,6 +33,11 @@
             "ignore": [
                 "MichaelRubel\\EnhancedContainer\\Core\\CallProxy::handleMissing"
             ]
+        },
+        "ArrayItemRemoval": {
+            "ignore": [
+                "MichaelRubel\\EnhancedContainer\\Core\\CallProxy::containerCall::124"
+            ]
         }
     }
 }

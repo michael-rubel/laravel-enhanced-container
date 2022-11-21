@@ -24,7 +24,7 @@ trait InteractsWithContainer
         $class        = $this->getClassForResolution($class, $context);
         $dependencies = $this->getDependencies($class, $dependencies);
 
-        return resolve($class, $dependencies);
+        return app($class, $dependencies);
     }
 
     /**
@@ -161,21 +161,5 @@ trait InteractsWithContainer
     protected function convertToNamespace(object|string $object): string
     {
         return is_string($object) ? $object : $object::class;
-    }
-
-    /**
-     * Wrap an object to the closure if the type of the object differs.
-     *
-     * @param  object|string|null  $concrete
-     *
-     * @return \Closure|string
-     */
-    protected function wrapToClosure(object|string|null $concrete): \Closure|string
-    {
-        if (! is_string($concrete) && ! $concrete instanceof \Closure) {
-            return fn () => $concrete;
-        }
-
-        return $concrete;
     }
 }
