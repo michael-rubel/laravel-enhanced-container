@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use MichaelRubel\EnhancedContainer\Core\MethodBinder;
 use MichaelRubel\EnhancedContainer\Core\CallProxy;
+use MichaelRubel\EnhancedContainer\Core\MethodBinder;
 
 if (! function_exists('call')) {
     /**

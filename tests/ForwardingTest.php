@@ -30,11 +30,11 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testCanGetAndSetPropertyWithoutForwarding()
     {
-        $proxy = call(TestService::class);
+        $proxy       = call(TestService::class);
         $proxy->test = true;
         $this->assertTrue($proxy->test);
 
-        $proxy = call(TestService::class);
+        $proxy       = call(TestService::class);
         $proxy->test = false;
         $this->assertFalse($proxy->test);
     }
@@ -59,12 +59,12 @@ class ForwardingTest extends TestCase
             ->to(UserRepository::class);
 
         $callProxy = call(UserService::class);
-        $test = $callProxy->testProperty;
+        $test      = $callProxy->testProperty;
         $this->assertTrue($test);
         $this->assertInstanceOf(UserRepository::class, $callProxy->getInternal(Call::INSTANCE));
 
         $callProxy->testProperty = false;
-        $test = $callProxy->testProperty;
+        $test                    = $callProxy->testProperty;
         $this->assertFalse($test);
         $this->assertInstanceOf(UserRepository::class, $callProxy->getInternal(Call::INSTANCE));
     }
@@ -72,7 +72,7 @@ class ForwardingTest extends TestCase
     /** @test */
     public function testSetsNonExistingProperty()
     {
-        $callProxy = call(UserService::class);
+        $callProxy               = call(UserService::class);
         $callProxy->testProperty = true;
         $this->assertTrue($callProxy->testProperty);
         $this->assertInstanceOf(UserService::class, $callProxy->getInternal(Call::INSTANCE));
@@ -86,7 +86,7 @@ class ForwardingTest extends TestCase
             ->to(UserRepository::class);
 
         $object = resolve(UserService::class);
-        $test = call($object)->testMethod();
+        $test   = call($object)->testMethod();
 
         $this->assertTrue($test);
     }
@@ -125,7 +125,7 @@ class ForwardingTest extends TestCase
             ->to(UserRepository::class);
 
         $object = resolve(UserService::class);
-        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
+        $test   = call($object)->testMethodMultipleParamsInRepo([], 123);
 
         $this->assertTrue($test);
     }
@@ -138,7 +138,7 @@ class ForwardingTest extends TestCase
             ->to(UserRepository::class);
 
         $object = resolve(UserRepository::class);
-        $test = call($object)->testMethodMultipleParamsInRepo([], 123);
+        $test   = call($object)->testMethodMultipleParamsInRepo([], 123);
 
         $this->assertTrue($test);
     }
@@ -147,7 +147,7 @@ class ForwardingTest extends TestCase
     public function testCanCallRepoDirectlyWithoutForwarding()
     {
         $object = resolve(UserRepository::class);
-        $test  = call($object)->testMethodMultipleParamsInRepo([], 123);
+        $test   = call($object)->testMethodMultipleParamsInRepo([], 123);
 
         $this->assertTrue($test);
     }
