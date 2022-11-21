@@ -16,11 +16,6 @@ class MethodBinder
     protected string $abstract;
 
     /**
-     * @var \Closure|string|array
-     */
-    protected \Closure|string|array $contextual;
-
-    /**
      * MethodBinder constructor.
      *
      * @param  object|string  $abstract
@@ -36,9 +31,9 @@ class MethodBinder
      * @param  string|null  $method
      * @param  \Closure|null  $override
      *
-     * @return $this|null
+     * @return static|null
      */
-    public function method(string $method = null, \Closure $override = null): self|null
+    public function method(string $method = null, \Closure $override = null): ?static
     {
         $this->resolve();
 
