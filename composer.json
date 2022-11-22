@@ -1,6 +1,6 @@
 {
     "name": "michael-rubel/laravel-enhanced-container",
-    "description": "Improved Laravel service container features. Provides enhanced method binding, method forwarding, and syntax sugar to operate on the container.",
+    "description": "This package provides DX tweaks for Service Container in Laravel.",
     "keywords": [
         "michael-rubel",
         "laravel",

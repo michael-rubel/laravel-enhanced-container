@@ -8,7 +8,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/run-tests/main?style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 [![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-enhanced-container/phpstan/main?style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
-This package adds DX tweaks for Service Container in Laravel and provides method forwarding feature.
+This package provides DX tweaks for Service Container in Laravel.
 
 The package requires PHP `8.x` and Laravel `9.x`.
 
@@ -44,6 +44,8 @@ call(ServiceInterface::class, context: static::class);
 [🔝 back to contents](#contents)
 
 ### Method binding
+This feature makes it possible to override the behavior of methods accessed using the `call`.
+
 Assuming that is your function in the service class:
 ```php
 class Service
@@ -65,9 +67,6 @@ Call your service method through container:
 call(ServiceInterface::class)->yourMethod(100);
 ```
 
-Override method behavior in any place of your app.
-You can add conditions in your method binding by catching parameters.
-
 For example in feature tests:
 ```php
 $this->app->bind(ApiGatewayContract::class, InternalApiGateway::class);
@@ -83,8 +82,7 @@ $request = $apiGateway->performRequest();
 $this->assertTrue($request);
 ```
 
-Remember that you need to use `call` to method binding to work. It returns the instance of `CallProxy`.
-If you rely on interfaces, the proxy will automatically resolve bound implementation for you.
+Note: if you rely on interfaces, the proxy will automatically resolve bound implementation for you.
 
 #### Note for package creators
 If you want to use method binding in your own package, you need to make sure the [`LecServiceProvider`](https://github.com/michael-rubel/laravel-enhanced-container/blob/main/src/LecServiceProvider.php) registered before you use this feature.
