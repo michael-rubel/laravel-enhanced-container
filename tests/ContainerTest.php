@@ -744,6 +744,14 @@ class ContainerTest extends TestCase
 
         $this->assertSame('once', $container->make('executed'));
     }
+
+    public function testResolveVariadicPrimitive()
+    {
+        $container = new Container;
+        $parent = $container->make(VariadicPrimitive::class);
+
+        $this->assertSame($parent->params, []);
+    }
 }
 
 class CircularAStub
@@ -853,5 +861,18 @@ class ContainerInjectVariableStubWithInterfaceImplementation implements IContain
     public function __construct(ContainerConcreteStub $concrete, $something)
     {
         $this->something = $something;
+    }
+}
+
+class VariadicPrimitive
+{
+    /**
+     * @var array
+     */
+    public $params;
+
+    public function __construct(...$params)
+    {
+        $this->params = $params;
     }
 }
