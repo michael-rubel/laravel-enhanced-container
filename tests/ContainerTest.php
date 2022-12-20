@@ -748,7 +748,7 @@ class ContainerTest extends TestCase
     public function testResolveVariadicPrimitive()
     {
         $container = new Container;
-        $parent = $container->make(VariadicPrimitive::class);
+        $parent    = $container->make(VariadicPrimitive::class);
 
         $this->assertSame($parent->params, []);
     }
