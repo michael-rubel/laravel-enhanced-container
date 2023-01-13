@@ -15,9 +15,8 @@ parameters:
         - ./src/Overrides
 
     ignoreErrors:
-        - '#Parameter (\#)(\d) \$callback of method Illuminate\\Container\\Container::call\(\) expects \(callable\(\): (.*)#'
+        - '#Parameter \#2 \$callback of static method Illuminate\\Container\\BoundMethod\:\:call\(\) expects \(callable\(\)\: mixed\)\|string, array\{object, string\} given\.#'
         - '#Property MichaelRubel\\EnhancedContainer\\Exceptions\\InstanceInteractionException\:\:\$message has no type specified\.#'
-        - '#Cannot call method pipe\(\) on mixed.#'
         - '#(.*)getDependencies\(\) expects class\-string, string given\.#'
         - '#(.*)resolvePassedClass\(\) expects string, object\|string given\.#'
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MichaelRubel\EnhancedContainer\Core;
 
+use Illuminate\Container\BoundMethod;
+use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use MichaelRubel\EnhancedContainer\Call;
@@ -120,9 +122,8 @@ class CallProxy implements Call
     protected function containerCall(object $service, string $method, array $parameters): mixed
     {
         try {
-            return app()->call(
-                [$service, $method],
-                $this->getParameters($service, $method, $parameters)
+            return BoundMethod::call(
+                Container::getInstance(), [$service, $method], $this->getParameters($service, $method, $parameters)
             );
         } catch (\ReflectionException) {
             return $this->forwardCallTo($service, $method, $parameters);
