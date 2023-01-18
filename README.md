@@ -25,9 +25,14 @@ The package requires PHP `8.x` and Laravel `9.x`.
 
 ## Installation
 
-Install the package via composer:
+Install the package via composer (Laravel 10):
 ```bash
 composer require michael-rubel/laravel-enhanced-container
+```
+
+If you need the version for Laravel 9, use:
+```bash
+composer require michael-rubel/laravel-enhanced-container "^10.0"
 ```
 
 ## Usage
