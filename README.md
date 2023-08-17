@@ -1,4 +1,4 @@
-![Laravel Enhanced Container](https://user-images.githubusercontent.com/37669560/176382494-e20d9c49-b4d0-4b0d-a72e-4e82ffb3bd37.png)
+![Method binding with Service Container   Call Proxy](https://github.com/michael-rubel/laravel-enhanced-container/assets/37669560/f7f2b1d0-68cb-485b-bdc5-93ea109f7e1d)
 
 # Laravel Enhanced Container
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-enhanced-container.svg?style=flat-square)](https://packagist.org/packages/michael-rubel/laravel-enhanced-container)
@@ -21,7 +21,6 @@ The package requires PHP `^8.1` and Laravel `^10.x`.
     + [Resolve contextual binding outside of constructor](#resolve-contextual-binding-outside-of-constructor)
     + [Method binding](#method-binding)
     + [Method forwarding](#method-forwarding)
-  * [Testing](#testing)
 
 ## Installation
 
