@@ -8,7 +8,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/michael-rubel/laravel-enhanced-container/run-tests.yml?branch=main&style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 [![PHPStan](https://img.shields.io/github/actions/workflow/status/michael-rubel/laravel-enhanced-container/phpstan.yml?branch=main&style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-enhanced-container/actions)
 
-This package provides DX tweaks for Service Container in Laravel.
+This package provides additional features for Laravel's Service Container.
 
 The package requires PHP `^8.1` and Laravel `^10.x`.
 
