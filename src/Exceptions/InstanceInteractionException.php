@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MichaelRubel\EnhancedContainer\Exceptions;
 
 class InstanceInteractionException extends \Exception
