@@ -13,7 +13,8 @@
     "binary_operator_spaces": {
       "default": "single_space",
       "operators": {"=>": null, "=": "align_single_space_minimal"}
-    }
+    },
+    "declare_strict_types": true
   },
   "exclude": [
     "src/Overrides"

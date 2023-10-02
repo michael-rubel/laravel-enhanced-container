@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate\Services\Users;
 
 use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository;
