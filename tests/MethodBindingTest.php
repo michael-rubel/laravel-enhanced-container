@@ -212,7 +212,7 @@ class TestMethodBinder extends MethodBinder
         $this->abstract = $this->convertToNamespace($abstract);
     }
 
-    public function method(string $method = null, \Closure $override = null): ?static
+    public function method(?string $method = null, ?\Closure $override = null): ?static
     {
         $this->resolve();
 

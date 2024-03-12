@@ -6,20 +6,15 @@ namespace MichaelRubel\EnhancedContainer\Core;
 
 class Forwarding
 {
-    /**
-     * @const
-     */
     public const CONTAINER_KEY = '_forwarding';
 
     /**
-     * @var string
+     * @var class-string
      */
     public string $pendingClass;
 
     /**
      * Initialize the forwarding.
-     *
-     * @return self
      */
     public static function enable(): self
     {
@@ -28,10 +23,6 @@ class Forwarding
 
     /**
      * Define the pending class.
-     *
-     * @param  string  $class
-     *
-     * @return $this
      */
     public function from(string $class): static
     {
@@ -42,10 +33,6 @@ class Forwarding
 
     /**
      * Define the forwarding for the pending class set previously.
-     *
-     * @param  string  $destination
-     *
-     * @return $this
      */
     public function to(string $destination): static
     {
@@ -59,10 +46,6 @@ class Forwarding
 
     /**
      * Extract an implementation from the interface if passed.
-     *
-     * @param  string  $class
-     *
-     * @return string
      */
     protected function resolve(string $class): string
     {
