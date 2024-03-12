@@ -10,14 +10,8 @@ class BoilerplateDependenciesAssignedOldWay implements BoilerplateInterface
 {
     use BootsCallProxies;
 
-    /**
-     * @var BoilerplateInterface|null
-     */
     private ?BoilerplateInterface $boilerplateService = null;
 
-    /**
-     * @param  BoilerplateInterface  $boilerplateService
-     */
     public function __construct(BoilerplateInterface $boilerplateService)
     {
         // skip assigning dependency
@@ -25,17 +19,11 @@ class BoilerplateDependenciesAssignedOldWay implements BoilerplateInterface
         $this->bootCallProxies();
     }
 
-    /**
-     * @return object
-     */
     public function getProxy(): object
     {
         return $this->proxy;
     }
 
-    /**
-     * @return object
-     */
     public function getProxiedClass(): object
     {
         return $this->proxy->boilerplateService;

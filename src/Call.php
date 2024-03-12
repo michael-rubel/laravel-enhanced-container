@@ -53,10 +53,6 @@ interface Call
 
     /**
      * Gets the internal property by name.
-     *
-     * @param  string  $property
-     *
-     * @return mixed
      */
     public function getInternal(string $property): mixed;
 }

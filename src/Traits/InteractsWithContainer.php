@@ -9,11 +9,7 @@ use Illuminate\Support\Arr;
 trait InteractsWithContainer
 {
     /**
-     * @param  string|object  $class
-     * @param  array  $dependencies
-     * @param  string|null  $context
-     *
-     * @return object
+     * Get the class instance.
      */
     protected function getInstance(string|object $class, array $dependencies = [], ?string $context = null): object
     {
@@ -29,11 +25,6 @@ trait InteractsWithContainer
 
     /**
      * Get the class for resolution.
-     *
-     * @param  string  $class
-     * @param  string|null  $context
-     *
-     * @return string
      */
     protected function getClassForResolution(string $class, ?string $context = null): string
     {
@@ -44,11 +35,6 @@ trait InteractsWithContainer
 
     /**
      * Try to get the contextual concrete.
-     *
-     * @param  string  $class
-     * @param  string|null  $context
-     *
-     * @return string
      */
     protected function getContextualConcrete(string $class, ?string $context = null): string
     {
@@ -58,9 +44,7 @@ trait InteractsWithContainer
     /**
      * Try to get binding concrete.
      *
-     * @param  string  $class
      *
-     * @return string
      * @throws \ReflectionException
      */
     protected function getBindingConcrete(string $class): string
@@ -75,10 +59,7 @@ trait InteractsWithContainer
     /**
      * Resolve class dependencies.
      *
-     * @param  string  $class
-     * @param  array  $dependencies
      *
-     * @return array
      * @throws \ReflectionException
      */
     protected function getDependencies(string $class, array $dependencies = []): array
@@ -103,11 +84,6 @@ trait InteractsWithContainer
     }
 
     /**
-     * @param  object  $class
-     * @param  string  $method
-     * @param  array  $parameters
-     *
-     * @return array
      * @throws \ReflectionException
      */
     protected function getParameters(object $class, string $method, array $parameters): array
@@ -124,11 +100,6 @@ trait InteractsWithContainer
 
     /**
      * Combine parameters to make it container-readable.
-     *
-     * @param  array  $reflectionParameters
-     * @param  array  $methodParameters
-     *
-     * @return array
      */
     protected function makeContainerParameters(array $reflectionParameters, array $methodParameters): array
     {
@@ -140,11 +111,6 @@ trait InteractsWithContainer
 
     /**
      * Slice an array to align the parameters.
-     *
-     * @param  array  $parameters
-     * @param  array  $countable
-     *
-     * @return array
      */
     protected function sliceParameters(array $parameters, array $countable): array
     {
@@ -153,10 +119,6 @@ trait InteractsWithContainer
 
     /**
      * Convert the object to its namespace.
-     *
-     * @param  object|string  $object
-     *
-     * @return string
      */
     protected function convertToNamespace(object|string $object): string
     {

@@ -14,42 +14,30 @@ use MichaelRubel\EnhancedContainer\Traits\InteractsWithContainer;
 
 class CallProxy implements Call
 {
-    use InteractsWithContainer, ForwardsCalls;
+    use ForwardsCalls, InteractsWithContainer;
 
     /**
      * Current proxy instance.
-     *
-     * @var object
      */
     protected object $instance;
 
     /**
      * Previous proxy instance.
-     *
-     * @var object|null
      */
     protected ?object $previous = null;
 
     /**
      * Determines if the forwarding is enabled in this proxy.
-     *
-     * @var bool
      */
     protected bool $forwarding = true;
 
     /**
      * Saves proxy interactions (method calls, property assignments, etc).
-     *
-     * @var array
      */
     protected array $interactions = [];
 
     /**
      * Initialize a new CallProxy.
-     *
-     * @param  object|string  $class
-     * @param  array  $dependencies
-     * @param  string|null  $context
      */
     public function __construct(object|string $class, array $dependencies = [], ?string $context = null)
     {
@@ -58,10 +46,6 @@ class CallProxy implements Call
 
     /**
      * Gets the internal property by name.
-     *
-     * @param  string  $property
-     *
-     * @return mixed
      */
     public function getInternal(string $property): mixed
     {
@@ -70,8 +54,6 @@ class CallProxy implements Call
 
     /**
      * Sets the internal instance to previous one.
-     *
-     * @return static
      */
     public function setPrevious(): static
     {
@@ -88,8 +70,6 @@ class CallProxy implements Call
 
     /**
      * Disables the forwarding on the proxy level.
-     *
-     * @return static
      */
     public function disableForwarding(): static
     {
@@ -100,8 +80,6 @@ class CallProxy implements Call
 
     /**
      * Enables the forwarding on the proxy level.
-     *
-     * @return static
      */
     public function enableForwarding(): static
     {
@@ -112,12 +90,6 @@ class CallProxy implements Call
 
     /**
      * Perform the container call.
-     *
-     * @param  object  $service
-     * @param  string  $method
-     * @param  array  $parameters
-     *
-     * @return mixed
      */
     protected function containerCall(object $service, string $method, array $parameters): mixed
     {
@@ -132,8 +104,6 @@ class CallProxy implements Call
 
     /**
      * Find the forwarding instance if bound.
-     *
-     * @return void
      */
     protected function findForwardingInstance(): void
     {
@@ -149,11 +119,6 @@ class CallProxy implements Call
 
     /**
      * Save the interaction with proxy.
-     *
-     * @param  string  $name
-     * @param  string  $type
-     *
-     * @return void
      */
     protected function interact(string $name, string $type): void
     {
@@ -163,10 +128,6 @@ class CallProxy implements Call
     /**
      * Check the proxy has previous interaction
      * with the same method or property.
-     *
-     * @param  string  $name
-     *
-     * @return bool
      */
     protected function hasPreviousInteraction(string $name): bool
     {
@@ -175,11 +136,6 @@ class CallProxy implements Call
 
     /**
      * Handle the missing by error message.
-     *
-     * @param  \Closure  $callback
-     * @param  string  $by
-     *
-     * @return mixed
      */
     protected function handleMissing(\Closure $callback, string $by): mixed
     {
@@ -198,11 +154,6 @@ class CallProxy implements Call
 
     /**
      * Pass the call through container.
-     *
-     * @param  string  $method
-     * @param  array  $parameters
-     *
-     * @return mixed
      */
     public function __call(string $method, array $parameters): mixed
     {
@@ -224,10 +175,6 @@ class CallProxy implements Call
 
     /**
      * Get the instance's property.
-     *
-     * @param  string  $name
-     *
-     * @return mixed
      */
     public function __get(string $name): mixed
     {
@@ -249,9 +196,6 @@ class CallProxy implements Call
 
     /**
      * Set the instance's property.
-     *
-     * @param  string  $name
-     * @param  mixed  $value
      */
     public function __set(string $name, mixed $value): void
     {
@@ -262,10 +206,6 @@ class CallProxy implements Call
 
     /**
      * Check the property is set.
-     *
-     * @param  string  $name
-     *
-     * @return bool
      */
     public function __isset(string $name): bool
     {
@@ -276,10 +216,6 @@ class CallProxy implements Call
 
     /**
      * Unset the property.
-     *
-     * @param  string  $name
-     *
-     * @return void
      */
     public function __unset(string $name): void
     {

@@ -11,14 +11,12 @@ class MethodBinder
     use InteractsWithContainer;
 
     /**
-     * @var string
+     * @var class-string
      */
     protected string $abstract;
 
     /**
      * MethodBinder constructor.
-     *
-     * @param  object|string  $abstract
      */
     public function __construct(object|string $abstract)
     {
@@ -27,13 +25,8 @@ class MethodBinder
 
     /**
      * Method binding.
-     *
-     * @param  string|null  $method
-     * @param  \Closure|null  $override
-     *
-     * @return static|null
      */
-    public function method(string $method = null, \Closure $override = null): ?static
+    public function method(?string $method = null, ?\Closure $override = null): ?static
     {
         $this->resolve();
 
@@ -46,8 +39,6 @@ class MethodBinder
 
     /**
      * Try to resolve an implementation for this particular abstract type.
-     *
-     * @return mixed
      */
     protected function resolve(): mixed
     {
@@ -62,11 +53,6 @@ class MethodBinder
 
     /**
      * Bind the method to the container.
-     *
-     * @param  string  $method
-     * @param  array  $parameters
-     *
-     * @return void
      */
     public function __call(string $method, array $parameters): void
     {

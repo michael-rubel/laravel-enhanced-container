@@ -6,17 +6,11 @@ namespace MichaelRubel\EnhancedContainer\Tests\Boilerplate;
 
 class BoilerplateServiceWithWrongContext
 {
-    /**
-     * @param  BoilerplateInterface  $boilerplateService
-     */
     public function __construct(
         private BoilerplateInterface $boilerplateService
     ) {
     }
 
-    /**
-     * @return object
-     */
     public function test(): object
     {
         return $this->boilerplateService;

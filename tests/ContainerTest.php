@@ -518,13 +518,13 @@ class ContainerTest extends TestCase
     public function testMakeWithMethodIsAnAliasForMakeMethod()
     {
         $mock = $this->getMockBuilder(Container::class)
-                     ->onlyMethods(['make'])
-                     ->getMock();
+            ->onlyMethods(['make'])
+            ->getMock();
 
         $mock->expects($this->once())
-             ->method('make')
-             ->with(ContainerDefaultValueStub::class, ['default' => 'laurence'])
-             ->willReturn(new stdClass);
+            ->method('make')
+            ->with(ContainerDefaultValueStub::class, ['default' => 'laurence'])
+            ->willReturn(new stdClass);
 
         $result = $mock->makeWith(ContainerDefaultValueStub::class, ['default' => 'laurence']);
 
