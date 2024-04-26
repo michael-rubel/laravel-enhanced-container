@@ -10,8 +10,6 @@
 
 This package provides additional features for Laravel's Service Container.
 
-The package requires PHP `^8.1` and Laravel `^10.x`.
-
 ## #StandWithUkraine
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 
@@ -24,15 +22,12 @@ The package requires PHP `^8.1` and Laravel `^10.x`.
 
 ## Installation
 
-Install the package via composer (Laravel 10):
+Install the package via composer (Laravel 11):
 ```bash
 composer require michael-rubel/laravel-enhanced-container
 ```
 
-If you need the version for Laravel 9, use:
-```bash
-composer require michael-rubel/laravel-enhanced-container "^10.0"
-```
+If you need the package for older versions of Laravel, check [changelog](https://github.com/michael-rubel/laravel-enhanced-container/releases).
 
 ## Usage
 
