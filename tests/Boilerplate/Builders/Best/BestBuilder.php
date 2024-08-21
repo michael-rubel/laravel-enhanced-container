@@ -10,8 +10,7 @@ class BestBuilder
 {
     public function __construct(
         public Builder $builder
-    ) {
-    }
+    ) {}
 
     public function builderMethod(): bool
     {

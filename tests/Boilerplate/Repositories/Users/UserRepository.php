@@ -13,8 +13,7 @@ class UserRepository implements TestRepositoryInterface
 
     public function __construct(
         public Builder $builder
-    ) {
-    }
+    ) {}
 
     public function methodInRepository(): bool
     {

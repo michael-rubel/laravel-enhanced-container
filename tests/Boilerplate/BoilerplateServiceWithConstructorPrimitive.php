@@ -9,8 +9,7 @@ class BoilerplateServiceWithConstructorPrimitive implements BoilerplateInterface
     public function __construct(
         private bool $param,
         private string $nextParam
-    ) {
-    }
+    ) {}
 
     public function getParam(): bool
     {

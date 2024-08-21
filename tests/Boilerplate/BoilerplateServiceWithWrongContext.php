@@ -8,8 +8,7 @@ class BoilerplateServiceWithWrongContext
 {
     public function __construct(
         private BoilerplateInterface $boilerplateService
-    ) {
-    }
+    ) {}
 
     public function test(): object
     {

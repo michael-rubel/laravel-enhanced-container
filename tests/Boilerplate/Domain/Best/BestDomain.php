@@ -10,8 +10,7 @@ class BestDomain
 {
     public function __construct(
         public BestBuilder $testRepository
-    ) {
-    }
+    ) {}
 
     public function bestMethod(): bool
     {
