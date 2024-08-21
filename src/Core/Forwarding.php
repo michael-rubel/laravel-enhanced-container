@@ -18,7 +18,7 @@ class Forwarding
      */
     public static function enable(): self
     {
-        return new self();
+        return new self;
     }
 
     /**

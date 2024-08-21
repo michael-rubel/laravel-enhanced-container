@@ -9,9 +9,7 @@ use MichaelRubel\EnhancedContainer\Tests\Boilerplate\Repositories\TestRepository
 
 class BoilerplateServiceResolvesContextualInMethod implements BoilerplateInterface
 {
-    public function __construct(protected BoilerplateInterface $boilerplate)
-    {
-    }
+    public function __construct(protected BoilerplateInterface $boilerplate) {}
 
     public function constructorHasContextual(): object
     {

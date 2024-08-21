@@ -11,8 +11,7 @@ class TestService implements BoilerplateInterface
 {
     public function __construct(
         public TestRepository $testRepository
-    ) {
-    }
+    ) {}
 
     public function existingMethod(): bool
     {

@@ -12,8 +12,7 @@ class UserService implements TestServiceInterface
     public function __construct(
         public TestRepository $testRepository,
         public bool $existingProperty = false
-    ) {
-    }
+    ) {}
 
     public function existingMethod(): bool
     {

@@ -34,7 +34,7 @@ class ContainerCallTest extends TestCase
     /** @test */
     public function testCanCallTheServiceAsObject()
     {
-        $test = call(new BoilerplateService())->test('test', 1);
+        $test = call(new BoilerplateService)->test('test', 1);
 
         $this->assertTrue($test);
     }

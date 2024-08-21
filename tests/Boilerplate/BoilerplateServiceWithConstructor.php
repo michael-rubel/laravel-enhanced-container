@@ -8,8 +8,7 @@ class BoilerplateServiceWithConstructor implements BoilerplateInterface
 {
     public function __construct(
         private bool $param
-    ) {
-    }
+    ) {}
 
     public function test(string $first = '', int $second = 0): bool
     {
