@@ -635,9 +635,13 @@ class Container implements ArrayAccess, ContainerContract
      */
     protected function rebound($abstract)
     {
+        if (! $callbacks = $this->getReboundCallbacks($abstract)) {
+            return;
+        }
+
         $instance = $this->make($abstract);
 
-        foreach ($this->getReboundCallbacks($abstract) as $callback) {
+        foreach ($callbacks as $callback) {
             $callback($this, $instance);
         }
     }
@@ -882,7 +886,9 @@ class Container implements ArrayAccess, ContainerContract
         // Before returning, we will also set the resolved flag to "true" and pop off
         // the parameter overrides for this build. After those two things are done
         // we will be ready to return back the fully constructed class instance.
-        $this->resolved[$abstract] = true;
+        if (! $needsContextualBuild) {
+            $this->resolved[$abstract] = true;
+        }
 
         array_pop($this->with);
 
@@ -1133,6 +1139,10 @@ class Container implements ArrayAccess, ContainerContract
 
         if ($parameter->isVariadic()) {
             return [];
+        }
+
+        if ($parameter->hasType() && $parameter->allowsNull()) {
+            return null;
         }
 
         $this->unresolvablePrimitive($parameter);
@@ -1394,7 +1404,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Fire all of the after resolving attribute callbacks.
      *
-     * @param  \ReflectionAttribute[]  $abstract
+     * @param  \ReflectionAttribute[]  $attributes
      * @param  mixed  $object
      * @return void
      */
@@ -1576,11 +1586,7 @@ class Container implements ArrayAccess, ContainerContract
      */
     public static function getInstance()
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
+        return static::$instance ??= new static;
     }
 
     /**
