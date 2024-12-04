@@ -767,7 +767,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function makeOr($abstract, $parameters = [], Closure $callback = null)
+    public function makeOr($abstract, $parameters = [], ?Closure $callback = null)
     {
         try {
             if ($parameters instanceof Closure) {
@@ -790,7 +790,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $type
      * @return mixed
      */
-    public function remember($abstract, Closure $callback = null, $type = 'scoped')
+    public function remember($abstract, ?Closure $callback = null, $type = 'scoped')
     {
         return $this->makeOr($abstract, function () use ($abstract, $callback, $type) {
             $result = $callback($this);
